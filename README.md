@@ -31,6 +31,8 @@ cd c/build
 cmake ..
 make // or cmake --build .
 ```
+Then use dub to build the library.
+
 ## Some examples to show how it looks like:
 
 ```d
