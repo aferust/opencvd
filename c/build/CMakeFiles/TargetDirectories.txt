@@ -1,0 +1,6 @@
+/home/user/Desktop/opencv_d/c/build/CMakeFiles/rebuild_cache.dir
+/home/user/Desktop/opencv_d/c/build/CMakeFiles/opencvcapi.dir
+/home/user/Desktop/opencv_d/c/build/CMakeFiles/edit_cache.dir
+/home/user/Desktop/opencv_d/c/build/contrib/CMakeFiles/rebuild_cache.dir
+/home/user/Desktop/opencv_d/c/build/contrib/CMakeFiles/opencvcapi_contrib.dir
+/home/user/Desktop/opencv_d/c/build/contrib/CMakeFiles/edit_cache.dir

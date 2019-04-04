@@ -1,0 +1,27 @@
+{
+	"description": "OpenCV Wrapper for dlang",
+	"license": "Boost",
+	"authors": [
+		"Ferhat Kurtulmuş"
+	],
+	"copyright": "Copyright © 2019, Ferhat Kurtulmuş",
+	"name": "opencvd",
+	"version": "0.0.1",
+	"importPaths": ["source"],
+	"sourcePaths": ["source"],
+	"libs": ["opencv"],
+	"lflags": ["-L./c/build", "-L./c/build/contrib", "-lopencvcapi", "-lopencvcapi_contrib", "-lstdc++"],
+    "configurations": [
+        {
+            "name": "library",
+            "targetType": "library",
+            "sourcePaths": ["source"]
+        },
+        {
+            "name": "import",
+            "targetType": "sourceLibrary",
+            "sourceFiles-posix": ["libopencvd.a"],
+            "sourceFiles-windows": ["opencvd.lib"]
+        }
+    ]
+}

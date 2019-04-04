@@ -1,0 +1,2 @@
+/usr/bin/ar qc libopencvcapi_contrib.a  CMakeFiles/opencvcapi_contrib.dir/face.cpp.o CMakeFiles/opencvcapi_contrib.dir/img_hash.cpp.o CMakeFiles/opencvcapi_contrib.dir/xfeatures2d.cpp.o
+/usr/bin/ranlib libopencvcapi_contrib.a
