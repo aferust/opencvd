@@ -76,7 +76,7 @@ void main()
 
 ```
 
-Face detection with webcam:
+Face detection with webcam (translated from https://www.geeksforgeeks.org/opencv-c-program-face-detection/)
 ```d
 import std.stdio;
 
