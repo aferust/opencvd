@@ -20,7 +20,7 @@ Opencvd requires the following packeges to build:
 - Tested only on Ubuntu using ldc2 (I need help for windows builds)
 - There may be unwrapped opencv features yet.
 - No documentation yet.
-- Many functions has not been tested yet.
+- Most of the functionality has not been tested yet. (need help)
 - No unittests yet.
 - It may be better to rewrite somethings in a more D way (use d arrays etc.).
 
