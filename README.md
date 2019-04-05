@@ -38,7 +38,12 @@ Then use dub to build the library.
 ```d
 import std.stdio;
 
-import opencvd;
+import opencvd.cvcore;
+import opencvd.highgui;
+import opencvd.videoio;
+import opencvd.imgproc;
+import opencvd.objdetect;
+import opencvd.ocvversion;
 
 void main()
 {
@@ -80,7 +85,12 @@ Face detection with webcam (translated from https://www.geeksforgeeks.org/opencv
 ```d
 import std.stdio;
 
-import opencvd;
+import opencvd.cvcore;
+import opencvd.highgui;
+import opencvd.videoio;
+import opencvd.imgproc;
+import opencvd.objdetect;
+import opencvd.ocvversion;
 
 void main()
 {
