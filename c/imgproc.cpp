@@ -24,10 +24,12 @@ Contour ApproxPolyDP(Contour curve, double epsilon, bool closed) {
     Point* points = new Point[length];
 
     for (size_t i = 0; i < length; i++) {
-        points[i] = (Point){approxCurvePts[i].x, approxCurvePts[i].y};
+        Point p = {approxCurvePts[i].x, approxCurvePts[i].y};
+        points[i] = p;
     }
-
-    return (Contour){points, length};
+    
+    Contour c = {points, length};
+    return c;
 }
 
 void CvtColor(Mat src, Mat dst, int code) {
@@ -191,8 +193,9 @@ struct RotatedRect MinAreaRect(Points points){
     Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
     Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
     Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
-
-    RotatedRect retrect = {(Contour){rpts, 4}, r, centrpt, szsz, cvrect.angle};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
     return retrect;
 }
 
@@ -222,8 +225,9 @@ struct Contours FindContours(Mat src, int mode, int method) {
             Point pt = {contours[i][j].x, contours[i][j].y};
             pts[j] = pt;
         }
-
-        points[i] = (Contour){pts, (int)contours[i].size()};
+        
+        Contour c = {pts, (int)contours[i].size()};
+        points[i] = c;
     }
 
     Contours cons = {points, (int)contours.size()};
