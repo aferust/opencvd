@@ -1,4 +1,8 @@
 {
+    "copyFiles-posix": [
+		"c/build/*.a",
+        "c/build/contrib/*.a"
+	],
 	"description": "OpenCV Wrapper for dlang",
 	"license": "Boost",
 	"authors": [
@@ -9,8 +13,8 @@
 	"version": "0.0.1",
 	"importPaths": ["source"],
 	"sourcePaths": ["source"],
-	"libs": ["opencv"],
-	"lflags": ["-L./c/build", "-L./c/build/contrib", "-lopencvcapi", "-lopencvcapi_contrib", "-lstdc++"],
+	"libs": ["opencv", "opencvcapi", "opencvcapi_contrib"],
+	"lflags": [ "-lstdc++"],
     "configurations": [
         {
             "name": "library",
@@ -23,5 +27,6 @@
             "sourceFiles-posix": ["libopencvd.a"],
             "sourceFiles-windows": ["opencvd.lib"]
         }
+
     ]
 }
