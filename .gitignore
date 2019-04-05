@@ -19,3 +19,4 @@ opencvd-test-*
 classes/
 test_data/
 opencv_d.iml
+c/build/*

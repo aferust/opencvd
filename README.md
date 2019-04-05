@@ -33,6 +33,12 @@ make // or cmake --build .
 ```
 Then use dub to build the library.
 
+In your app's dub.json, you need to set linker flag like:
+```
+"lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
+```
+Your build experience may vary. I also need help for automating this.
+
 ## Some examples to show how it looks like:
 
 ```d
