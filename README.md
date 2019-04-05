@@ -45,6 +45,7 @@ Your build experience may vary. I also need help for automating this.
 import std.stdio;
 
 import opencvd.cvcore;
+import opencvd.imgcodecs;
 import opencvd.highgui;
 import opencvd.videoio;
 import opencvd.imgproc;
