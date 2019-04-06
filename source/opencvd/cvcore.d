@@ -200,12 +200,12 @@ struct _Mat {
         return Mat_DataPtr(&this);
     }
 
-    // retuns d array
-    ubyte[] array(){
-        ByteArray _barr = byteArray();
-        return _barr.data[0.._barr.length];
+    // retuns d array. use it like: double[] myarray = mat.array!double;
+    T[] array(T)(){
+        T* ret = cast(T*)Mat_DataPtrNoCast(&this);
+        return ret[0..byteArray().length];
     }
-
+    
     // can templates be used efficiently here?
     /* Setters */
     void setUCharAt(int row, int col, ubyte val){
@@ -399,7 +399,7 @@ private extern (C) {
     Mat Mat_NewFromBytes(int rows, int cols, int type, ByteArray buf);
     Mat Mat_FromPtr(Mat m, int rows, int cols, int type, int prows, int pcols);
     Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
-
+    
     int Mat_Rows(Mat m);
     int Mat_Cols(Mat m);
     int Mat_Type(Mat m);
@@ -409,6 +409,7 @@ private extern (C) {
     char* _type2str(int type);
 
     ByteArray Mat_DataPtr(Mat m);
+    void* Mat_DataPtrNoCast(Mat src);
 
     Mat Mat_Reshape(Mat m, int cn, int rows);
 

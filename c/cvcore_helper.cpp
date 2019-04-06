@@ -25,6 +25,10 @@ Mat Mat_OnesFromSize(Size _sz, int type){
     return new cv::Mat(out);
 }
 
+void* Mat_DataPtrNoCast(Mat src){
+    return src->data;
+}
+
 Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data){
     return new cv::Mat(rows, cols, type, data);
 }

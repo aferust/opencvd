@@ -15,6 +15,8 @@ void Mat_CompareWithScalar(Mat src1, Scalar src2, Mat dst, int ct);
 double Mat_Dot(Mat m1, Mat m2);
 Mat Mat_Diag(Mat src, int d);
 Mat Mat_EyeFromRC(int rows, int cols, int type);
+void* Mat_DataPtrNoCast(Mat src);
+
 #ifdef __cplusplus
 }
 #endif

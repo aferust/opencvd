@@ -65,6 +65,12 @@ void main()
 {
     Mat img = imread("test.png", 0);
     
+    ubyte[] my_ubyte_array = img.array!ubyte; // access flat array of Mat as ubyte
+    my_ubyte_array.writeln;
+    
+    double[] my_double_array = img.array!double; // as double
+    my_double_array.writeln;
+    
     namedWindow("res", 0);
     Mat imbin = newMat();
     
