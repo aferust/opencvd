@@ -55,7 +55,7 @@ import opencvd.ocvversion;
 
 void main()
 {
-	Mat img = imread("test.png", 0);
+    Mat img = imread("test.png", 0);
     
     namedWindow("res", 0);
     Mat imbin = newMat();
@@ -64,34 +64,34 @@ void main()
     
     imshow("res", imbin);
     
-	blur(img, img, Size(3, 3));
-	
-	foreach(int i; 100..200)
-		foreach(int j; 100..200)
-			img.setUCharAt(i, j, 125);
-	
-	writeln(img.type2str());
-	writeln(img.getSize());
-	writeln(img.type());
-	writeln(img.width);
-	writeln(img.channels);
-	writeln(img.step);
+    blur(img, img, Size(3, 3));
+    
+    foreach(int i; 100..200)
+        foreach(int j; 100..200)
+            img.setUCharAt(i, j, 125);
+    
+    writeln(img.type2str());
+    writeln(img.getSize());
+    writeln(img.type());
+    writeln(img.width);
+    writeln(img.channels);
+    writeln(img.step);
 
 
-	auto cnts = findContours(img, RETR_LIST, CHAIN_APPROX_SIMPLE);
-	writeln(cnts.contours[0].points[0]);
+    auto cnts = findContours(img, RETR_LIST, CHAIN_APPROX_SIMPLE);
+    writeln(cnts.contours[0].points[0]);
 
-	namedWindow("hello", 0);
-	imshow("hello", img);
+    namedWindow("hello", 0);
+    imshow("hello", img);
     waitKey(0);
 
-	writeln(img.isEmpty());
+    writeln(img.isEmpty());
 
-	auto m = newMat();
-	writeln(m.isEmpty());
+    auto m = newMat();
+    writeln(m.isEmpty());
     
-	Destroy(img);
-	
+    Destroy(img);
+    
 }
 
 ```
