@@ -112,6 +112,8 @@ private {
         CLAHE CLAHE_CreateWithParams(double clipLimit, Size tileGridSize);
         void CLAHE_Close(CLAHE c);
         void CLAHE_Apply(CLAHE c, Mat src, Mat dst);
+        
+        void Watershed(Mat src, Mat markers);
     }
 }
 double arcLength(Contour curve, bool is_closed){
@@ -295,6 +297,17 @@ void houghLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,
                         min_theta, max_theta, theta_step);
 }
 
+enum: int {
+    THRESH_BINARY,
+    THRESH_BINARY_INV,
+    THRESH_TRUNC,
+    THRESH_TOZERO,
+    THRESH_TOZERO_INV,
+    THRESH_MASK,
+    THRESH_OTSU,
+    THRESH_TRIANGLE
+}
+
 void threshold(Mat src, Mat dst, double thresh, double maxvalue, int typ){
     Threshold(src, dst, thresh, maxvalue, typ);
 }
@@ -402,6 +415,10 @@ void logPolar(Mat src, Mat dst, Point center, double m, int flags){
 
 void fitLine(Contour points, Mat line, int distType, double param, double reps, double aeps){
     FitLine(points, line, distType, param, reps, aeps);
+}
+
+void watershed(Mat src, Mat markers){
+    Watershed(src, markers);
 }
 
 // Contrast-limited adaptive histogram equalization
