@@ -542,6 +542,11 @@ private extern (C) {
 
     int64_t GetCVTickCount();
     double GetTickFrequency();
+    
+    Mat ZerosFromRC(int rows, int cols, int type);
+    Mat ZerosFromSize(Size sz, int type);
+    Mat OnesFromRC(int rows, int cols, int type);
+    Mat OnesFromSize(Size sz, int type);
 }
 
 
@@ -571,6 +576,21 @@ Mat newMatFromPtr(Mat m, int rows, int cols, int type, int prows, int pcols){
 
 Mat newMatFromArrayPtr(int rows, int cols, int type, void* data){
     return Mat_FromArrayPtr(rows, cols, type, data);
+}
+
+Mat zeros(int rows, int cols, int type){
+    return ZerosFromRC(rows, cols, type);
+}
+
+Mat zeros(Size sz, int type){
+    return ZerosFromSize(sz, type);
+}
+
+Mat ones(int rows, int cols, int type){
+    return OnesFromRC(rows, cols, type);
+}
+Mat ones(Size sz, int type){
+    return OnesFromSize(sz, type);
 }
 
 Size getSize(Mat m){

@@ -2,7 +2,28 @@
 #include "cvcore_helper.h"
 
 #include <string>
-#include <opencv2/core/core.hpp>
+
+Mat ZerosFromRC(int rows, int cols, int type){
+    auto out = cv::Mat::zeros(rows, cols, type);
+    return new cv::Mat(out);
+}
+
+Mat ZerosFromSize(Size _sz, int type){
+    cv::Size sz = {_sz.height, _sz.width};
+    auto out = cv::Mat::zeros(sz, type);
+    return new cv::Mat(out);
+}
+
+Mat OnesFromRC(int rows, int cols, int type){
+    auto out = cv::Mat::ones(rows, cols, type);
+    return new cv::Mat(out);
+}
+
+Mat OnesFromSize(Size _sz, int type){
+    cv::Size sz = {_sz.height, _sz.width};
+    auto out = cv::Mat::ones(sz, type);
+    return new cv::Mat(out);
+}
 
 Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data){
     return new cv::Mat(rows, cols, type, data);
