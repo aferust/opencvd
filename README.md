@@ -2,8 +2,8 @@
 
 ## Unofficial OpenCV binding for D programming language
 This is an initial attempt to create an opencv binding for dlang. C interfacing
-was taken from [![gocv](https://github.com/hybridgroup/gocv), and the implementation
-has been highly influenced by gocv.
+was taken from ![gocv](https://github.com/hybridgroup/gocv), and the implementation
+has been highly influenced by it.
 
 ## Disclaimer
 I don't describe myself as the most brillant d programmmer around. I am still learning.
@@ -17,8 +17,8 @@ Opencvd requires the following packeges to build:
 * cmake (version of 3.10.2 is installed in my system)
 
 ## Current limitations:
-- Tested only on Ubuntu using ldc2 (I need help for windows builds)
-- There may be unwrapped opencv features yet.
+- Tested only on Ubuntu (Ubuntu 18.04.2 LTS 64 bit) using ldc2-1.8.0 (I need help for windows builds)
+- There may be unwrapped opencv features.
 - No documentation yet.
 - Most of the functionality has not been tested yet. (need help)
 - No unittests yet.
@@ -27,13 +27,14 @@ Opencvd requires the following packeges to build:
 ## How to build
 First, you have to compile C/C++ interface files:
 ```
-cd c/build
+cd opencvd/c && mkdir build
+cd build
 cmake ..
 make // or cmake --build .
 ```
 Then use dub to build the library.
 
-In your app's dub.json, you need to set linker flag like:
+In your app's dub.json, you need to set linker flags like:
 ```
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
@@ -55,7 +56,14 @@ import opencvd.ocvversion;
 void main()
 {
 	Mat img = imread("test.png", 0);
-
+    
+    namedWindow("res", 0);
+    Mat imbin = newMat();
+    
+    compare(img, Scalar(200, 0, 0, 0), imbin, CMP_LT); // a way of manual thresholding
+    
+    imshow("res", imbin);
+    
 	blur(img, img, Size(3, 3));
 	
 	foreach(int i; 100..200)

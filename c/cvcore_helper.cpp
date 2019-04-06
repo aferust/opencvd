@@ -35,3 +35,7 @@ char* _type2str(int type){
 
 }
 
+void Mat_CompareWithScalar(Mat src1, Scalar src2, Mat dst, int ct) {
+    cv::Scalar c_value(src2.val1, src2.val2, src2.val3, src2.val4);
+    cv::compare(*src1, c_value, *dst, ct);
+}

@@ -476,6 +476,7 @@ private extern (C) {
     void Mat_BitwiseXor(Mat src1, Mat src2, Mat dst);
     void Mat_BitwiseXorWithMask(Mat src1, Mat src2, Mat dst, Mat mask);
     void Mat_Compare(Mat src1, Mat src2, Mat dst, int ct);
+    void Mat_CompareWithScalar(Mat src1, Scalar src2, Mat dst, int ct);
     void Mat_BatchDistance(Mat src1, Mat src2, Mat dist, int dtype, Mat nidx, int normType, int K, Mat mask, int update, bool crosscheck);
     int Mat_BorderInterpolate(int p, int len, int borderType);
     void Mat_CalcCovarMatrix(Mat samples, Mat covar, Mat mean, int flags, int ctype);
@@ -692,8 +693,22 @@ void bitwiseXorWithMask(Mat src1, Mat src2, Mat dst, Mat mask){
     Mat_BitwiseXorWithMask(src1, src2, dst, mask);
 }
 
+enum: int {
+    // enum cv::CmpTypes
+    CMP_EQ,
+    CMP_GT,
+    CMP_GE,
+    CMP_LT,
+    CMP_LE,
+    CMP_NE,
+}
+
 void compare(Mat src1, Mat src2, Mat dst, int ct){
     Mat_Compare(src1, src2, dst, ct);
+}
+
+void compare(Mat src1, Scalar src2, Mat dst, int ct){
+    Mat_CompareWithScalar(src1, src2, dst, ct);
 }
 
 void batchDistance(Mat src1, Mat src2, Mat dist, int dtype, Mat nidx, int normType, int K, Mat mask, int update, bool crosscheck){

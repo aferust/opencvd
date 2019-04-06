@@ -7,6 +7,7 @@ extern "C" {
 
 Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
 char* _type2str(int type);
+void Mat_CompareWithScalar(Mat src1, Scalar src2, Mat dst, int ct);
 
 #ifdef __cplusplus
 }
