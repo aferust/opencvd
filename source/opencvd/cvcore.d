@@ -543,10 +543,14 @@ private extern (C) {
     int64_t GetCVTickCount();
     double GetTickFrequency();
     
-    Mat ZerosFromRC(int rows, int cols, int type);
-    Mat ZerosFromSize(Size sz, int type);
-    Mat OnesFromRC(int rows, int cols, int type);
-    Mat OnesFromSize(Size sz, int type);
+    Mat Mat_ZerosFromRC(int rows, int cols, int type);
+    Mat Mat_ZerosFromSize(Size sz, int type);
+    Mat Mat_OnesFromRC(int rows, int cols, int type);
+    Mat Mat_OnesFromSize(Size sz, int type);
+    
+    double Mat_Dot(Mat m1, Mat m2);
+    Mat Mat_Diag(Mat src, int d);
+    Mat Mat_EyeFromRC(int rows, int cols, int type);
 }
 
 
@@ -579,18 +583,18 @@ Mat newMatFromArrayPtr(int rows, int cols, int type, void* data){
 }
 
 Mat zeros(int rows, int cols, int type){
-    return ZerosFromRC(rows, cols, type);
+    return Mat_ZerosFromRC(rows, cols, type);
 }
 
 Mat zeros(Size sz, int type){
-    return ZerosFromSize(sz, type);
+    return Mat_ZerosFromSize(sz, type);
 }
 
 Mat ones(int rows, int cols, int type){
-    return OnesFromRC(rows, cols, type);
+    return Mat_OnesFromRC(rows, cols, type);
 }
 Mat ones(Size sz, int type){
-    return OnesFromSize(sz, type);
+    return Mat_OnesFromSize(sz, type);
 }
 
 Size getSize(Mat m){
@@ -1042,4 +1046,20 @@ int64_t getCVTickCount(){
 
 double getTickFrequency(){
     return GetTickFrequency();
+}
+
+double dot(Mat m1, Mat m2){
+    return Mat_Dot(m1, m2);
+}
+
+Mat diag(Mat src, int d = 0){
+    return Mat_Diag(src, d);
+}
+
+Mat eye(int rows, int cols, int type){
+    return Mat_EyeFromRC(rows, cols, type);
+}
+
+Mat eye(Size sz, int type){
+    return Mat_EyeFromRC(sz.height, sz.width, type);
 }

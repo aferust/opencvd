@@ -3,23 +3,23 @@
 
 #include <string>
 
-Mat ZerosFromRC(int rows, int cols, int type){
+Mat Mat_ZerosFromRC(int rows, int cols, int type){
     auto out = cv::Mat::zeros(rows, cols, type);
     return new cv::Mat(out);
 }
 
-Mat ZerosFromSize(Size _sz, int type){
+Mat Mat_ZerosFromSize(Size _sz, int type){
     cv::Size sz = {_sz.height, _sz.width};
     auto out = cv::Mat::zeros(sz, type);
     return new cv::Mat(out);
 }
 
-Mat OnesFromRC(int rows, int cols, int type){
+Mat Mat_OnesFromRC(int rows, int cols, int type){
     auto out = cv::Mat::ones(rows, cols, type);
     return new cv::Mat(out);
 }
 
-Mat OnesFromSize(Size _sz, int type){
+Mat Mat_OnesFromSize(Size _sz, int type){
     cv::Size sz = {_sz.height, _sz.width};
     auto out = cv::Mat::ones(sz, type);
     return new cv::Mat(out);
@@ -59,4 +59,17 @@ char* _type2str(int type){
 void Mat_CompareWithScalar(Mat src1, Scalar src2, Mat dst, int ct) {
     cv::Scalar c_value(src2.val1, src2.val2, src2.val3, src2.val4);
     cv::compare(*src1, c_value, *dst, ct);
+}
+
+double Mat_Dot(Mat m1, Mat m2){
+    return m1->dot(*m2);
+}
+
+Mat Mat_Diag(Mat src, int d){
+    return new cv::Mat(src->diag(d));
+}
+
+Mat Mat_EyeFromRC(int rows, int cols, int type){
+    auto out = cv::Mat::eye(rows, cols, type);
+    return new cv::Mat(out);
 }
