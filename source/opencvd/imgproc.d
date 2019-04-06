@@ -114,6 +114,8 @@ private {
         void CLAHE_Apply(CLAHE c, Mat src, Mat dst);
         
         void Watershed(Mat src, Mat markers);
+        int FloodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
+                Rect rect, Scalar loDiff, Scalar upDiff, int flags);
     }
 }
 double arcLength(Contour curve, bool is_closed){
@@ -419,6 +421,11 @@ void fitLine(Contour points, Mat line, int distType, double param, double reps, 
 
 void watershed(Mat src, Mat markers){
     Watershed(src, markers);
+}
+
+int floodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
+                Rect rect, Scalar loDiff, Scalar upDiff, int flags){
+    return FloodFill(image, mask, seedPoint, newVal, rect, loDiff, upDiff, flags);
 }
 
 // Contrast-limited adaptive histogram equalization

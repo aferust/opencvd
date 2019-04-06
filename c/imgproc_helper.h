@@ -12,6 +12,16 @@ extern "C" {
 
 void Watershed(Mat src, Mat markers );
 
+int FloodFill(  Mat 	image,
+                Mat 	mask,
+                Point 	seedPoint,
+                Scalar 	newVal,
+                Rect 	rect,
+                Scalar 	loDiff,
+                Scalar 	upDiff,
+                int 	flags 
+                );
+
 #ifdef __cplusplus
 }
 #endif
