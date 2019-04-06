@@ -2,7 +2,7 @@
 
 ## Unofficial OpenCV binding for D programming language
 This is an initial attempt to create an opencv binding for dlang. C interfacing
-was taken from ![gocv](https://github.com/hybridgroup/gocv), and the implementation
+was taken from [gocv](https://github.com/hybridgroup/gocv), and the implementation
 has been highly influenced by it.
 
 ## Disclaimer
@@ -39,6 +39,14 @@ In your app's dub.json, you need to set linker flags like:
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
 Your build experience may vary. I also need help for automating this.
+
+## Some notes about C interface (C++ functions with C externs)
+Gocv does not wrap some important functionality of opencv.
+Opencvd will cover some of those wrapping them in c++ sources with
+appropriate naming such as core -> core_helper, imgproc -> imgproc_helper.
+Thus, differences from gocv can be tracked easily. This should be a
+temporary solution untill a clear roadmap of opencvd project was
+determined by its community.
 
 ## Some examples to show how it looks like:
 
