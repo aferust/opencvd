@@ -185,6 +185,8 @@ struct _Mat {
     int height() {return rows();}
     int width() {return cols();}
     int total() {return Mat_Total(&this);}
+    int flatLength() {return Mat_FlatLength(&this);}
+    void* rawDataPtr() {return Mat_DataPtrNoCast(&this);}
     Scalar mean() {return Mat_Mean(&this);}
     Mat sqrt() {return Mat_Sqrt(&this);}
 
@@ -202,8 +204,8 @@ struct _Mat {
 
     // retuns d array. use it like: double[] myarray = mat.array!double;
     T[] array(T)(){
-        T* ret = cast(T*)Mat_DataPtrNoCast(&this);
-        return ret[0..Mat_FlatLength(&this)];
+        T* ret = cast(T*)rawDataPtr();
+        return ret[0..flatLength()];
     }
     
     // can templates be used efficiently here?
