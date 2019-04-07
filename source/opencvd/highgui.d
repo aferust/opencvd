@@ -28,8 +28,9 @@ import std.string;
 
 import opencvd.cvcore;
 
-private {
-    extern (C){
+extern (C) alias TrackbarCallback = void function(int, void*);
+
+private extern (C){
     // Window
     void Window_New(const char* winname, int flags);
     void Window_Close(const char* winname);
@@ -44,13 +45,15 @@ private {
     Rects Window_SelectROIs(const char* winname, Mat img);
 
     // Trackbar
+    void Trackbar_CreateWithCallBack(const char* winname, const char* trackname, int* value, int count, TrackbarCallback on_trackbar, void* userdata);
+    
     void Trackbar_Create(const char* winname, const char* trackname, int max);
     int Trackbar_GetPos(const char* winname, const char* trackname);
     void Trackbar_SetPos(const char* winname, const char* trackname, int pos);
     void Trackbar_SetMin(const char* winname, const char* trackname, int pos);
     void Trackbar_SetMax(const char* winname, const char* trackname, int pos);
 }
-}
+
 
 
 void namedWindow(string winname, int flags = 0){
@@ -116,6 +119,13 @@ struct TrackBar {
        max = _max;
        
        Trackbar_Create(toStringz(winname), toStringz(name), _max);
+    }
+    
+    this(string _name, string _winname, int* value, int count, TrackbarCallback on_trackbar, void* userdata = null){
+        name = _name;
+        winname = _winname;
+        max = count;
+        Trackbar_CreateWithCallBack(toStringz(name), toStringz(winname), value, count, on_trackbar, userdata);
     }
     
     int getPos(){
