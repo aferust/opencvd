@@ -45,7 +45,7 @@ Gocv does not wrap some important functionality of opencv.
 Opencvd will cover some of those wrapping them in c++ sources with
 appropriate naming such as core -> core_helper, imgproc -> imgproc_helper.
 Thus, differences from gocv can be tracked easily. This should be a
-temporary solution untill a clear roadmap of opencvd project was
+temporary solution untill a clear roadmap of opencvd project is
 determined by its community.
 
 ## Some examples to show how it looks like:
