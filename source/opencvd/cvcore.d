@@ -212,6 +212,12 @@ struct _Mat {
     
     // can templates be used efficiently here?
     /* Setters */
+    
+    void setColorAt(Scalar color, int row, int col){
+        Mat_SetColorAt(&this, color, row, col);
+    }
+    
+    
     void setUCharAt(int row, int col, ubyte val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
         Mat_SetUChar(&this, row, col, val);
@@ -446,7 +452,8 @@ private extern (C) {
     int Mat_Total(Mat m);
     Scalar Mat_Mean(Mat m);
     Mat Mat_Sqrt(Mat m);
-
+    
+    void Mat_SetColorAt(Mat src, Scalar color, int row, int col);
     void Mat_SetTo(Mat m, Scalar value);
     void Mat_SetUChar(Mat m, int row, int col, uint8_t val);
     void Mat_SetUChar3(Mat m, int x, int y, int z, uint8_t val);

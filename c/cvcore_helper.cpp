@@ -87,3 +87,8 @@ Scalar Mat_ColorAt(Mat src, int row, int col){
     Scalar s = {(double)color[0], (double)color[1], (double)color[2], (double)color[3]};
     return s;
 }
+
+void Mat_SetColorAt(Mat src, Scalar color, int row, int col){
+    cv::Scalar c_value(color.val1, color.val2, color.val3, color.val4);
+    src->at<cv::Vec4b>(row, col) = c_value;
+}

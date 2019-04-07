@@ -73,7 +73,9 @@ void main()
     
     ubyte val = img.at!ubyte(50, 30);
     
-    Scalar color = img.at(20, 62);
+    Color color = img.at(20, 62);
+    
+    img.setColorAt(Color(25, 26, 27, 255), 150, 150);
     
     namedWindow("res", 0);
     Mat imbin = newMat();
