@@ -118,7 +118,7 @@ void main()
 Translation of [trackbar example](https://docs.opencv.org/4.0.0/dc/dbc/samples_2cpp_2tutorial_code_2HighGUI_2AddingImagesTrackbar_8cpp-example.html) in opencv docs:
 it is very similar to C++ version.
 
-```
+```d
 import std.stdio;
 import std.format;
 
