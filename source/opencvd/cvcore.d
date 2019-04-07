@@ -203,7 +203,7 @@ struct _Mat {
     // retuns d array. use it like: double[] myarray = mat.array!double;
     T[] array(T)(){
         T* ret = cast(T*)Mat_DataPtrNoCast(&this);
-        return ret[0..byteArray().length];
+        return ret[0..Mat_FlatLength(&this)];
     }
     
     // can templates be used efficiently here?
@@ -405,10 +405,11 @@ private extern (C) {
     int Mat_Type(Mat m);
     int Mat_Channels(Mat m);
     int Mat_Step(Mat m);
-
+    
     char* _type2str(int type);
 
     ByteArray Mat_DataPtr(Mat m);
+    int Mat_FlatLength(Mat src);
     void* Mat_DataPtrNoCast(Mat src);
 
     Mat Mat_Reshape(Mat m, int cn, int rows);

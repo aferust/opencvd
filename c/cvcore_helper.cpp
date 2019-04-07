@@ -25,6 +25,10 @@ Mat Mat_OnesFromSize(Size _sz, int type){
     return new cv::Mat(out);
 }
 
+int Mat_FlatLength(Mat src){
+    return static_cast<int>(src->total() * src->elemSize());
+}
+
 void* Mat_DataPtrNoCast(Mat src){
     return src->data;
 }
