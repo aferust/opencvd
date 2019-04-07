@@ -354,41 +354,41 @@ enum: int {
 }
 
 enum: int {
-    // MatTypeCV8U is a Mat of 8-bit unsigned int
-    MatTypeCV8U = 0,
+    // CV8U is a Mat of 8-bit unsigned int
+    CV8U = 0,
 
-    // MatTypeCV8S is a Mat of 8-bit signed int
-    MatTypeCV8S = 1,
+    // CV8S is a Mat of 8-bit signed int
+    CV8S = 1,
 
-    // MatTypeCV16U is a Mat of 16-bit unsigned int
-    MatTypeCV16U = 2,
+    // CV16U is a Mat of 16-bit unsigned int
+    CV16U = 2,
 
-    // MatTypeCV16S is a Mat of 16-bit signed int
-    MatTypeCV16S = 3,
+    // CV16S is a Mat of 16-bit signed int
+    CV16S = 3,
 
-    // MatTypeCV16SC2 is a Mat of 16-bit signed int with 2 channels
-    MatTypeCV16SC2 = MatTypeCV16S + MatChannels2,
+    // CV16SC2 is a Mat of 16-bit signed int with 2 channels
+    CV16SC2 = CV16S + MatChannels2,
 
-    // MatTypeCV32S is a Mat of 32-bit signed int
-    MatTypeCV32S = 4,
+    // CV32S is a Mat of 32-bit signed int
+    CV32S = 4,
 
-    // MatTypeCV32F is a Mat of 32-bit float
-    MatTypeCV32F = 5,
+    // CV32F is a Mat of 32-bit float
+    CV32F = 5,
 
-    // MatTypeCV64F is a Mat of 64-bit float
-    MatTypeCV64F = 6,
+    // CV64F is a Mat of 64-bit float
+    CV64F = 6,
 
-    // MatTypeCV8UC1 is a Mat of 8-bit unsigned int with a single channel
-    MatTypeCV8UC1 = MatTypeCV8U + MatChannels1,
+    // CV8UC1 is a Mat of 8-bit unsigned int with a single channel
+    CV8UC1 = CV8U + MatChannels1,
 
-    // MatTypeCV8UC2 is a Mat of 8-bit unsigned int with 2 channels
-    MatTypeCV8UC2 = MatTypeCV8U + MatChannels2,
+    // CV8UC2 is a Mat of 8-bit unsigned int with 2 channels
+    CV8UC2 = CV8U + MatChannels2,
 
     // MatTypeCV8UC3 is a Mat of 8-bit unsigned int with 3 channels
-    MatTypeCV8UC3 = MatTypeCV8U + MatChannels3,
+    CV8UC3 = CV8U + MatChannels3,
 
     // MatTypeCV8UC4 is a Mat of 8-bit unsigned int with 4 channels
-    MatTypeCV8UC4 = MatTypeCV8U + MatChannels4
+    CV8UC4 = CV8U + MatChannels4
 }
 
 alias MatType = int;
