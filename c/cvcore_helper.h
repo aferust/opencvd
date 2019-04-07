@@ -17,6 +17,7 @@ Mat Mat_Diag(Mat src, int d);
 Mat Mat_EyeFromRC(int rows, int cols, int type);
 int Mat_FlatLength(Mat src);
 void* Mat_DataPtrNoCast(Mat src);
+Scalar Mat_ColorAt(Mat src, int row, int col);
 
 #ifdef __cplusplus
 }

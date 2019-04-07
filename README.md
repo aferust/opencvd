@@ -71,6 +71,10 @@ void main()
     double[] my_double_array = img.array!double; // as double
     my_double_array.writeln;
     
+    ubyte val = img.at!ubyte(50, 30);
+    
+    Scalar color = img.at(20, 62);
+    
     namedWindow("res", 0);
     Mat imbin = newMat();
     

@@ -81,3 +81,9 @@ Mat Mat_EyeFromRC(int rows, int cols, int type){
     auto out = cv::Mat::eye(rows, cols, type);
     return new cv::Mat(out);
 }
+
+Scalar Mat_ColorAt(Mat src, int row, int col){
+    cv::Vec4b color = src->at<cv::Vec4b>(row, col);
+    Scalar s = {(double)color[0], (double)color[1], (double)color[2], (double)color[3]};
+    return s;
+}

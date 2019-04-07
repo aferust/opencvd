@@ -46,6 +46,8 @@ struct Scalar {
     double val4;
 }
 
+alias Color = Scalar;
+
 struct IntVector {
     int* val;
     int length;
@@ -266,6 +268,23 @@ struct _Mat {
     }
 
     /* Getters */
+    
+    T at(T)(int row, int col){
+        assert(channels() == 1, "only single channel Mats are supported for at");
+        T* ret = cast(T*)rawDataPtr();
+        return ret[row * cols() + col];
+    }
+    
+    T at(T)(int flatInd){
+        assert(channels() == 1, "only single channel Mats are supported for at");
+        T* ret = cast(T*)rawDataPtr();
+        return ret[flatInd];
+    }
+    
+    Color at(int row, int col){
+        return Mat_ColorAt(&this, row, col);
+    }
+    
     ubyte getUCharAt(int row, int col){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetUChar(&this, row, col);
@@ -413,7 +432,8 @@ private extern (C) {
     ByteArray Mat_DataPtr(Mat m);
     int Mat_FlatLength(Mat src);
     void* Mat_DataPtrNoCast(Mat src);
-
+    Scalar Mat_ColorAt(Mat src, int row, int col);
+    
     Mat Mat_Reshape(Mat m, int cn, int rows);
 
     void Mat_Close(Mat m);
