@@ -1,7 +1,7 @@
 # Opencvd
 
 ## Unofficial OpenCV binding for D programming language
-This is an initial attempt to create an opencv binding for dlang. C interfacing
+This is an initial attempt to create an opencv binding for dlang. The C interface
 was taken from [gocv](https://github.com/hybridgroup/gocv), and the implementation
 has been highly influenced by it.
 

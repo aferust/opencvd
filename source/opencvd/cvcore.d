@@ -196,7 +196,7 @@ struct _Mat {
         import std.conv;
         auto chr = _type2str(type());
         string stype = chr.to!string;
-        destroy(chr); // allocated on C++ side with new op. Is this the way to deallocate?
+        destroy(chr);
         return stype;
     }
 
@@ -349,12 +349,6 @@ struct _Mat {
         Mat_CopyToWithMask(m, dst, mask);
     }
 
-    /* compiler does not allow this?
-    ubyte opIndex( int row, int col){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
-        return array()[row * cols() + col];
-    }
-    */
 }
 
 alias Mat  = _Mat*;
