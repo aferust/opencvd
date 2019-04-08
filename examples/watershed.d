@@ -11,21 +11,24 @@ import opencvd.objdetect;
 import opencvd.ocvversion;
 import opencvd.contrib.ximgproc;
 
+// https://github.com/aferust/opencvd/blob/master/examples/watershed.d
 // there is a bug in mouse events. X axis is not recognized.
+// code does not work as expected for now.
 
 Mat markerMask, img;
 Point prevPt;
 
 static void onMouse( int event, int x, int y, int flags, void* )
 {
+    
     if( x < 0 || x >= img.cols || y < 0 || y >= img.rows )
         return;
     
-    if( event == EVENT_LBUTTONUP /*|| !(flags & EVENT_FLAG_LBUTTON)*/)
+    if( event == EVENT_LBUTTONUP || !(flags > 0) )
         prevPt = Point(-1,-1);
     else if( event == EVENT_LBUTTONDOWN )
         prevPt = Point(x,y);
-    else if( event == EVENT_MOUSEMOVE && (flags & EVENT_FLAG_LBUTTON) )
+    else if( event == EVENT_MOUSEMOVE && (flags >0))
     {
         Point pt= Point(x, y);
         if( prevPt.x < 0 )
@@ -57,6 +60,7 @@ int main( )
     markerMask.setTo(Scalar.all(0));
     imshow( "image", img );
     setMouseCallback( "image", cast(MouseCallback)(&onMouse), null );
+    
     for(;;)
     {
         char c = cast(char)waitKey(0);
@@ -87,9 +91,12 @@ int main( )
             int idx = 0;
             for( ; idx >= 0; idx = cast(int)hierarchy.scalars[idx].val1, compCount++ )
                 drawContours(markers, contours, idx, Scalar.all(compCount+1), -1);
+            
             if( compCount == 0 )
                 continue;
-            Colors colorTab = hierarchy;
+            
+            Scalar[] colorTab; colorTab.length = compCount;
+            
             auto rnd = Random(unpredictableSeed);
             
             for( i = 0; i < compCount; i++ )
@@ -97,11 +104,11 @@ int main( )
                 double b = uniform!"[]"(0, 255, rnd);
                 double g = uniform!"[]"(0, 255, rnd);
                 double r = uniform!"[]"(0, 255, rnd);
-                colorTab.scalars[i]= Scalar(b, g, r);
+                colorTab[i] = Scalar(b, g, r, 255);
             }
             double t = cast(double)getCVTickCount();
             watershed( img0, markers );
-            writeln("check");
+            
             t = cast(double)getCVTickCount() - t;
             writefln( "execution time = %gms", t*1000./getTickFrequency() );
             Mat wshed = newMatWithSize( markers.rows, markers.cols, CV8UC3 );
@@ -112,11 +119,11 @@ int main( )
                 {
                     int index = markers.at!int(i,j);
                     if( index == -1 )
-                        wshed.setColorAt(Color(255,255,255), i,j);
+                        wshed.setColorAt(Color(255,255,255,255), i,j);
                     else if( index <= 0 || index > compCount )
-                        wshed.setColorAt(Color(0,0,0), i,j);
+                        wshed.setColorAt(Color(0,0,0,0), i,j);
                     else
-                        wshed.setColorAt(colorTab.scalars[index -1], i,j);
+                        wshed.setColorAt(colorTab[index -1], i,j);
                 }
             
             multiplyDouble(wshed, 0.5);

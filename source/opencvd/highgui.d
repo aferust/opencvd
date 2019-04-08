@@ -31,7 +31,7 @@ import opencvd.cvcore;
 // function pointers
 extern (C) {
     alias TrackbarCallback = void function(int, void*);
-    alias MouseCallback = void function(int event, int x, int y, int flags, void *userdata);
+    alias MouseCallback = void function(int, int, int, int, void*);
 }
 
 enum: int {
