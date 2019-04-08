@@ -11,7 +11,7 @@ import opencvd.objdetect;
 import opencvd.ocvversion;
 import opencvd.contrib.ximgproc;
 
-// there is a bug in mouse events. Y axis is not recognized.
+// there is a bug in mouse events. X axis is not recognized.
 
 Mat markerMask, img;
 Point prevPt;
