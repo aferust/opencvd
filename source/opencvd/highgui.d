@@ -28,8 +28,35 @@ import std.string;
 
 import opencvd.cvcore;
 
-extern (C) alias TrackbarCallback = void function(int, void*);
+// function pointers
+extern (C) {
+    alias TrackbarCallback = void function(int, void*);
+    alias MouseCallback = void function(int event, int x, int y, int flags, void *userdata);
+}
 
+enum: int {
+    EVENT_MOUSEMOVE,
+    EVENT_LBUTTONDOWN,
+    EVENT_RBUTTONDOWN,
+    EVENT_MBUTTONDOWN,
+    EVENT_LBUTTONUP,
+    EVENT_RBUTTONUP,
+    EVENT_MBUTTONUP,
+    EVENT_LBUTTONDBLCLK,
+    EVENT_RBUTTONDBLCLK,
+    EVENT_MBUTTONDBLCLK,
+    EVENT_MOUSEWHEEL,
+    EVENT_MOUSEHWHEEL
+}
+
+enum: int {
+    EVENT_FLAG_LBUTTON,
+    EVENT_FLAG_RBUTTON,
+    EVENT_FLAG_MBUTTON,
+    EVENT_FLAG_CTRLKEY,
+    EVENT_FLAG_SHIFTKEY,
+    EVENT_FLAG_ALTKEY
+}
 private extern (C){
     // Window
     void Window_New(const char* winname, int flags);
@@ -52,6 +79,8 @@ private extern (C){
     void Trackbar_SetPos(const char* winname, const char* trackname, int pos);
     void Trackbar_SetMin(const char* winname, const char* trackname, int pos);
     void Trackbar_SetMax(const char* winname, const char* trackname, int pos);
+    
+    void Win_setMouseCallback(const	char* winname, MouseCallback onMouse, void *userdata);
 }
 
 
@@ -143,4 +172,8 @@ struct TrackBar {
     void setMax(int pos){
         Trackbar_SetMax(toStringz(winname), toStringz(name), pos);
     }
+}
+
+void setMouseCallback(string winname, MouseCallback onMouse, void *userdata = null){
+    Win_setMouseCallback(toStringz(winname), onMouse, userdata);
 }

@@ -20,6 +20,12 @@ void* Mat_DataPtrNoCast(Mat src);
 Scalar Mat_ColorAt(Mat src, int row, int col);
 void Mat_SetColorAt(Mat src, Scalar color, int row, int col);
 
+// wrapper for vector<Vec4i> hierarchy;
+typedef struct Hierarchy {
+    Scalar* scalars;
+    int length;
+} Hierarchy;
+
 #ifdef __cplusplus
 }
 #endif

@@ -100,7 +100,14 @@ void main()
 
     auto cnts = findContours(img, RETR_LIST, CHAIN_APPROX_SIMPLE);
     writeln(cnts.contours[0].points[0]);
-
+    // or :
+    Contours contours;
+    Hierarchy hierarchy;
+    auto c_h = findContoursWithHier(img, RETR_CCOMP, CHAIN_APPROX_SIMPLE);
+    contours = c_h[0];
+    hierarchy = c_h[1];
+    hierarchy.scalars[0].writeln;
+    
     namedWindow("hello", 0);
     imshow("hello", img);
     waitKey(0);

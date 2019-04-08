@@ -44,9 +44,20 @@ struct Scalar {
     double val2;
     double val3;
     double val4;
+    
+    static Scalar all(double val){
+        return Scalar(val,val,val,val);
+    }
 }
 
 alias Color = Scalar;
+
+struct Hierarchy {
+    Scalar* scalars;
+    int length;
+}
+
+alias Colors = Hierarchy;
 
 struct IntVector {
     int* val;

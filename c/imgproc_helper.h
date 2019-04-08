@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 #include "core.h"
-
+#include "cvcore_helper.h"
 
 void Watershed(Mat src, Mat markers );
 
@@ -21,6 +21,8 @@ int FloodFill(  Mat 	image,
                 Scalar 	upDiff,
                 int 	flags 
                 );
+
+struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, int method);
 
 #ifdef __cplusplus
 }

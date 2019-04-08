@@ -1,4 +1,5 @@
 #include "imgproc_helper.h"
+//#include <cstdlib>
 
 void Watershed(Mat src, Mat markers ){
     cv::watershed( *src, *markers );
@@ -20,4 +21,37 @@ int FloodFill(  Mat 	image,
     cv::Scalar up = {upDiff.val1, upDiff.val2, upDiff.val3, upDiff.val4};
     
     return cv::floodFill(*image, *mask, sp, nv, &r, lo, up, flags);
+}
+
+struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, int method) { 
+    std::vector<std::vector<cv::Point> > contours;
+    std::vector<cv::Vec4i> hierarchy;
+    
+    cv::findContours(*src, contours, hierarchy, mode, method);
+    
+    Scalar *scalars = new Scalar[hierarchy.size()]; //(Hierarchy*)malloc(sizeof(Hierarchy));
+    
+    for (size_t i = 0; i < hierarchy.size(); i++){
+        Scalar s = {(double)hierarchy[i][0], (double)hierarchy[i][1], (double)hierarchy[i][2], (double)hierarchy[i][3]};
+        scalars[i] = s;
+    }
+    Hierarchy retHie = {scalars, (int)hierarchy.size()};
+    *chierarchy = &retHie;
+    
+    Contour* points = new Contour[contours.size()];
+
+    for (size_t i = 0; i < contours.size(); i++) {
+        Point* pts = new Point[contours[i].size()];
+
+        for (size_t j = 0; j < contours[i].size(); j++) {
+            Point pt = {contours[i][j].x, contours[i][j].y};
+            pts[j] = pt;
+        }
+        
+        Contour c = {pts, (int)contours[i].size()};
+        points[i] = c;
+    }
+
+    Contours cons = {points, (int)contours.size()};
+    return cons;
 }

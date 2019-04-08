@@ -26,6 +26,8 @@ module opencvd.imgproc;
 
 import std.stdio;
 import std.string;
+import std.typecons;
+import core.stdc.stdlib;
 
 import opencvd.cvcore;
 
@@ -54,6 +56,7 @@ private {
         RotatedRect MinAreaRect(Points points);
         void MinEnclosingCircle(Points points, Point2f* center, float* radius);
         Contours FindContours(Mat src, int mode, int method);
+        Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, int method);
         int ConnectedComponents(Mat src, Mat dst, int connectivity, int ltype, int ccltype);
         int ConnectedComponentsWithStats(Mat src, Mat labels, Mat stats, Mat centroids, int connectivity, int ltype, int ccltype);
 
@@ -223,6 +226,15 @@ enum: int {
 
 Contours findContours(Mat src, int mode, int method){
     return FindContours(src, mode, method);
+}
+
+Tuple!(Contours, Hierarchy) findContoursWithHier(Mat src, int mode, int method){
+    Hierarchy *chier;// = null;
+    auto cntrs = FindContoursWithHier(src, &chier, mode, method);
+    //chier.scalars.writeln;
+    Hierarchy rethie = {scalars: chier.scalars, length: chier.length};
+    destroy(chier);
+    return tuple(cntrs, rethie);
 }
 
 int connectedComponents(Mat src, Mat dst, int connectivity, int ltype, int ccltype){
