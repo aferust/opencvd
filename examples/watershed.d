@@ -11,7 +11,7 @@ import opencvd.objdetect;
 import opencvd.ocvversion;
 import opencvd.contrib.ximgproc;
 
-// https://github.com/aferust/opencvd/blob/master/examples/watershed.d
+// https://docs.opencv.org/4.0.1/d4/d40/samples_2cpp_2watershed_8cpp-example.html
 // there is a bug in mouse events. X axis is not recognized.
 // code does not work as expected for now.
 
