@@ -20,15 +20,14 @@ Point prevPt;
 
 static void onMouse( int event, int x, int y, int flags, void* )
 {
-    
+    x.writeln; //??
     if( x < 0 || x >= img.cols || y < 0 || y >= img.rows )
         return;
-    
-    if( event == EVENT_LBUTTONUP || !(flags > 0) )
+    if( event == EVENT_LBUTTONUP || !(flags & EVENT_FLAG_LBUTTON) )
         prevPt = Point(-1,-1);
     else if( event == EVENT_LBUTTONDOWN )
         prevPt = Point(x,y);
-    else if( event == EVENT_MOUSEMOVE && (flags >0))
+    else if( event == EVENT_MOUSEMOVE && (flags & EVENT_FLAG_LBUTTON) )
     {
         Point pt= Point(x, y);
         if( prevPt.x < 0 )

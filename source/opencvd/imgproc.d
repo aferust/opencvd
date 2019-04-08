@@ -262,6 +262,17 @@ Mat getStructuringElement(int shape, Size ksize){
     return getStructuringElement(shape, ksize);
 }
 
+enum: int { // cv::MorphTypes
+    MORPH_ERODE,
+    MORPH_DILATE,
+    MORPH_OPEN,
+    MORPH_CLOSE,
+    MORPH_GRADIENT,
+    MORPH_TOPHAT,
+    MORPH_BLACKHAT,
+    MORPH_HITMISS
+}
+
 void morphologyEx(Mat src, Mat dst, int op, Mat kernel){
     MorphologyEx(src, dst, op, kernel);
 }

@@ -34,7 +34,7 @@ make // or cmake --build .
 ```
 Then use dub to build the library.
 
-In your app's dub.json, you need to set linker flags like:
+In your app's dub.json, you may need to set linker flags like:
 ```
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
@@ -78,9 +78,9 @@ void main()
     img.setColorAt(Color(25, 26, 27, 255), 150, 150);
     
     namedWindow("res", 0);
-    Mat imbin = newMat();
+    Mat imres = newMat();
     
-    compare(img, Scalar(200, 0, 0, 0), imbin, CMP_LT); // a way of manual thresholding
+    compare(img, Scalar(200, 0, 0, 0), imres, CMP_LT);
     
     imshow("res", imbin);
     
