@@ -83,7 +83,16 @@ private extern (C){
     void Win_setMouseCallback(const	char* winname, MouseCallback onMouse, void *userdata);
 }
 
-
+enum: int { // cv::WindowFlags
+    WINDOW_NORMAL,
+    WINDOW_AUTOSIZE,
+    WINDOW_OPENGL,
+    WINDOW_FULLSCREEN,
+    WINDOW_FREERATIO,
+    WINDOW_KEEPRATIO,
+    WINDOW_GUI_EXPANDED,
+    WINDOW_GUI_NORMAL
+}
 
 void namedWindow(string winname, int flags = 0){
     Window_New(toStringz(winname), flags);
