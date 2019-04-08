@@ -496,6 +496,7 @@ private extern (C) {
     void Mat_AddFloat(Mat m, float val);
     void Mat_SubtractFloat(Mat m, float val);
     void Mat_MultiplyFloat(Mat m, float val);
+    void Mat_MultiplyDouble(Mat m, double val);
     void Mat_DivideFloat(Mat m, float val);
 
     void LUT(Mat src, Mat lut, Mat dst);
@@ -699,6 +700,10 @@ void subtractFloat(Mat m, float val){
 
 void multiplyFloat(Mat m, float val){
     multiplyFloat(m, val);
+}
+
+void multiplyDouble(Mat m, double val){
+    Mat_MultiplyDouble(m, val);
 }
 
 void divideFloat(Mat m, float val){
