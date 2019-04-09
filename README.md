@@ -16,8 +16,11 @@ Opencvd requires the following packeges to build:
 * OpenCV ~>4.0 ( must be built with contrib repo)
 * cmake (version of 3.10.2 is installed in my system)
 
+## Tested Systems
+- Ubuntu 18.04.2 LTS 64 bit - ldc2-1.8.0 - Opencv 4.0.0 built from source
+- Windows 10 64 bit - ldc2-1.14.0-windows-x64 - OpenCV-master (4.10.0 AFAIK) - Visual Studio 2017 community Ed.
+
 ## Current limitations:
-- Tested only on Ubuntu (Ubuntu 18.04.2 LTS 64 bit) using ldc2-1.8.0 (I need help for windows builds)
 - There may be unwrapped opencv features.
 - No documentation yet.
 - Most of the functionality has not been tested yet. (need help)
@@ -25,6 +28,7 @@ Opencvd requires the following packeges to build:
 - It may be better to rewrite somethings in a more D way (use d arrays etc.).
 
 ## How to build
+### Ubuntu
 First, you have to compile C/C++ interface files:
 ```
 cd opencvd/c && mkdir build
@@ -39,6 +43,55 @@ In your app's dub.json, you may need to set linker flags like:
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
 Your build experience may vary. I also need help for automating this.
+
+### Windows 10 64 bit:
+- Build OpenCV from source following this guide: https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html
+- Open x64 Native Tools Command Prompt for VS 2017 or 2015. (I will assume you use 2017).
+If it is not on path already, add your ldc compiler's bin folder to path. And create an env-var to point your opencv build:
+```
+set PATH=%PATH%;C:\your-compilers-bin-folder\
+set OpenCV_DIR=C:\your-opencv-root-folder
+```
+your-opencv-root-folder must contain a file named OpenCVConfig.cmake.
+
+- cd into opencvd/c/, create a build folder, and run cmake:
+```
+cd opencvd/c
+mkdir build
+cd build
+cmake .. -G "Visual Studio 15 2017 Win64"
+```
+This will create Visual Studio solution files in opencvd/c/build. 
+- Open the solution with VS2007.
+- Go to: Configuration Properties -> C/C++ -> Code Generation -> Runtime Library
+- Change it from /MDd to /MT for both opencvcapi and opencvcapi_contrib (This is only working solution I've found so far).
+- Build opencvcapi and opencvcapi_contrib in Visual Studio, or go back to the command prompt and type:
+```
+cmake --build .
+```
+- And finally in the cmd prompt:
+```
+cd opencvd
+dub
+```
+Now you have *.lib files in opencvd folder.
+- Copy thoose lib files to your test app's root next to dub.json.
+- Add following to your dub.json of your test app:
+
+```
+"dependencies": {
+        "opencvd": "~>0.0.1"
+},
+"libs": [
+    "opencv_world410d",
+    "opencv_img_hash410d",
+    "opencvcapi",
+    "opencvcapi_contrib",
+    "opencvd"
+]
+```
+While compiling your test app, you must always run dub or ldc2 commands in x64 Native Tools Command Prompt for VS 2017.
+And note that we have built opencvd against shared libs of opencv4. So, Compiled executabled will need them in the PATH.
 
 ## Some notes about C interface (C++ functions with C externs)
 Gocv does not wrap some important functionality of opencv.
