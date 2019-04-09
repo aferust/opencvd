@@ -1,24 +1,29 @@
 {
     "copyFiles-posix": [
-		"c/build/*.a",
+        "c/build/*.a",
         "c/build/contrib/*.a"
-	],
+    ],
     "copyFiles-windows": [
-		"c/build/Debug/*.lib",
+        "c/build/Debug/*.lib",
         "c/build/contrib/Debug/*.lib"
-	],
-	"description": "OpenCV Wrapper for dlang",
-	"license": "Boost",
-	"authors": [
-		"Ferhat Kurtulmuş"
-	],
-	"copyright": "Copyright © 2019, Ferhat Kurtulmuş",
-	"name": "opencvd",
-	"version": "0.0.1",
-	"importPaths": ["source"],
-	"sourcePaths": ["source"],
-	"libs": ["opencv", "opencvcapi", "opencvcapi_contrib"],
-	"lflags": [ "-lstdc++"],
+    ],
+    "description": "OpenCV Wrapper for dlang",
+    "license": "Boost",
+    "authors": [
+        "Ferhat Kurtulmuş"
+    ],
+    "copyright": "Copyright © 2019, Ferhat Kurtulmuş",
+    "name": "opencvd",
+    "version": "0.0.1",
+    "importPaths": ["source"],
+    "sourcePaths": ["source"],
+    "libs-posix": ["opencv", "opencvcapi", "opencvcapi_contrib", "stdc++"],
+    "libs-windows": [
+        "opencv_world410d",
+        "opencv_img_hash410d",
+        "opencvcapi",
+        "opencvcapi_contrib",
+    ],
     "configurations": [
         {
             "name": "library",
