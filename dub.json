@@ -5,7 +5,9 @@
     ],
     "copyFiles-windows": [
         "c/build/Debug/*.lib",
-        "c/build/contrib/Debug/*.lib"
+        "c/build/contrib/Debug/*.lib",
+        "c/build/Debug/*.pdb",
+        "c/build/contrib/Debug/*.pdb"
     ],
     "description": "OpenCV Wrapper for dlang",
     "license": "Boost",
@@ -17,10 +19,12 @@
     "version": "0.0.1",
     "importPaths": ["source"],
     "sourcePaths": ["source"],
-    "libs-posix": ["opencv", "opencvcapi", "opencvcapi_contrib", "stdc++"],
+    "dflags-windows": ["-mtriple=x86_64-windows-msvc"],
+    "libs-posix": ["opencv", "opencvcapi", "opencvcapi_contrib"],
+    "lflags-posix": ["-lstdc++"],
     "libs-windows": [
-        "opencv_world410d",
-        "opencv_img_hash410d",
+        "opencv_world410",
+        "opencv_img_hash410",
         "opencvcapi",
         "opencvcapi_contrib",
     ],
