@@ -91,7 +91,7 @@ Now you have *.lib files in opencvd folder.
 ]
 ```
 While compiling your test app, you must always run dub or ldc2 commands in x64 Native Tools Command Prompt for VS 2017.
-And note that we have built opencvd against shared libs of opencv4. So, Compiled executabled will need them in the PATH.
+And note that we have built opencvd against shared libs of opencv4. So, Compiled executables will need them in the PATH.
 
 ## Some notes about C interface (C++ functions with C externs)
 Gocv does not wrap some important functionality of opencv.
