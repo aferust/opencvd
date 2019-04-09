@@ -83,8 +83,8 @@ Now you have *.lib files in opencvd folder.
         "opencvd": "~>0.0.1"
 },
 "libs": [
-    "opencv_world410d",
-    "opencv_img_hash410d",
+    "opencv_world410",
+    "opencv_img_hash410",
     "opencvcapi",
     "opencvcapi_contrib",
     "opencvd"
