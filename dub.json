@@ -3,6 +3,10 @@
 		"c/build/*.a",
         "c/build/contrib/*.a"
 	],
+    "copyFiles-windows": [
+		"c/build/Debug/*.lib",
+        "c/build/contrib/Debug/*.lib"
+	],
 	"description": "OpenCV Wrapper for dlang",
 	"license": "Boost",
 	"authors": [
