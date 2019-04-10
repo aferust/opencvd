@@ -6,7 +6,7 @@ was taken from [gocv](https://github.com/hybridgroup/gocv), and the implementati
 has been highly influenced by it.
 
 ## Disclaimer
-I don't describe myself as the most brillant d programmmer around. I am still learning.
+I don't describe myself as the most brillant d programmer around. I am still learning.
 Pull requests are welcome for growing and enhancing the binding. I am willing to add more
 contributors to the project. Let's make it a complete binding to opencv.
 
