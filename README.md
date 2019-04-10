@@ -64,7 +64,7 @@ cmake .. -G "Visual Studio 15 2017 Win64"
 This will create Visual Studio solution files in opencvd/c/build. 
 - Open the solution with VS2017.
 - Go to: Configuration Properties -> C/C++ -> Code Generation -> Runtime Library
-- Change it from /MDd to /MT for both opencvcapi and opencvcapi_contrib (This is only working solution I've found so far).
+- Change it from /MDd to /MT for both opencvcapi and opencvcapi_contrib (This is only working solution I've found so far). It looks like we cannot debug on windows yet.
 - Build opencvcapi and opencvcapi_contrib in Visual Studio, or go back to the command prompt and type:
 ```
 cmake --build .
