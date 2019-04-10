@@ -69,6 +69,7 @@ private {
         void MedianBlur(Mat src, Mat dst, int ksize);
         
         void Canny(Mat src, Mat edges, double t1, double t2);
+        void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient);
         void CornerSubPix(Mat img, Mat corners, Size winSize, Size zeroZone, TermCriteria criteria);
         void GoodFeaturesToTrack(Mat img, Mat corners, int maxCorners, double quality, double minDist);
         void HoughCircles(Mat src, Mat circles, int method, double dp, double minDist);
@@ -283,6 +284,10 @@ void medianBlur(Mat src, Mat dst, int ksize){
 
 void canny(Mat src, Mat edges, double t1, double t2){
     Canny(src, edges, t1, t2);
+}
+
+void canny(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient = false){
+    Canny2(dx, dy, edges, threshold1, threshold2, L2gradient);
 }
 
 void cornerSubPix(Mat img, Mat corners, Size winSize, Size zeroZone, TermCriteria criteria){

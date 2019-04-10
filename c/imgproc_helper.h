@@ -24,6 +24,8 @@ int FloodFill(  Mat 	image,
 
 struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, int method);
 
+void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient);
+
 #ifdef __cplusplus
 }
 #endif

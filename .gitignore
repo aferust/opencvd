@@ -14,6 +14,7 @@ opencvd-test-*
 *.lst
 *.a
 *.lib
+*.pdb
 *.geany
 .idea/
 classes/

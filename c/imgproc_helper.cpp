@@ -55,3 +55,7 @@ struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, 
     Contours cons = {points, (int)contours.size()};
     return cons;
 }
+
+void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient){
+    cv::Canny(*dx, *dy, *edges, threshold1, threshold2, L2gradient);
+}
