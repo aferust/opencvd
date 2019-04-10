@@ -356,10 +356,6 @@ struct _Mat {
         return Mat_GetDouble3(&this, x, y, z);
     }
 
-    void copyToWithMask(Mat m, Mat dst, Mat mask){
-        Mat_CopyToWithMask(m, dst, mask);
-    }
-
 }
 
 alias Mat  = _Mat*;
@@ -656,6 +652,10 @@ Mat clone(Mat m){
 
 void copyTo(Mat m, Mat dst){
     Mat_CopyTo(m, dst);
+}
+
+void copyToWithMask(Mat m, Mat dst, Mat mask){
+    Mat_CopyToWithMask(m, dst, mask);
 }
 
 void convertTo(Mat m, Mat dst, int type){
