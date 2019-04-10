@@ -59,3 +59,9 @@ struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, 
 void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient){
     cv::Canny(*dx, *dy, *edges, threshold1, threshold2, L2gradient);
 }
+
+Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor){
+    cv::Point p1(anchor.x, anchor.y);
+    cv::Size sz(ksize.width, ksize.height);
+    return new cv::Mat(cv::getStructuringElement(shape, sz, p1));
+}

@@ -26,6 +26,8 @@ struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, 
 
 void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient);
 
+Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor);
+
 #ifdef __cplusplus
 }
 #endif

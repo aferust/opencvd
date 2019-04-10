@@ -186,3 +186,7 @@ struct TrackBar {
 void setMouseCallback(string winname, MouseCallback onMouse, void *userdata = null){
     Win_setMouseCallback(toStringz(winname), onMouse, userdata);
 }
+
+void createTrackbar(string trackname, string winname, int* value, int count, TrackbarCallback on_trackbar, void* userdata = null){
+    Trackbar_CreateWithCallBack(toStringz(trackname), toStringz(winname), value, count, on_trackbar, userdata);
+}

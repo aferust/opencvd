@@ -65,6 +65,7 @@ private {
         void Scharr(Mat src, Mat dst, int dDepth, int dx, int dy, double scale, double delta,
                     int borderType);
         Mat GetStructuringElement(int shape, Size ksize);
+        Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor);
         void MorphologyEx(Mat src, Mat dst, int op, Mat kernel);
         void MedianBlur(Mat src, Mat dst, int ksize);
         
@@ -259,8 +260,18 @@ void scharr(Mat src, Mat dst, int dDepth, int dx, int dy, double scale, double d
     Scharr(src, dst, dDepth, dx, dy, scale, delta, borderType);
 }
 
+enum: int { // cv::MorphShapes
+    MORPH_RECT,
+    MORPH_CROSS,
+    MORPH_ELLIPSE
+}
+
 Mat getStructuringElement(int shape, Size ksize){
     return getStructuringElement(shape, ksize);
+}
+
+Mat getStructuringElement(int shape, Size ksize, Point anchor){
+    return GetStructuringElementWithAnchor(shape, ksize, anchor);
 }
 
 enum: int { // cv::MorphTypes
