@@ -35,27 +35,27 @@ extern (C) {
 }
 
 enum: int {
-    EVENT_MOUSEMOVE,
-    EVENT_LBUTTONDOWN,
-    EVENT_RBUTTONDOWN,
-    EVENT_MBUTTONDOWN,
-    EVENT_LBUTTONUP,
-    EVENT_RBUTTONUP,
-    EVENT_MBUTTONUP,
-    EVENT_LBUTTONDBLCLK,
-    EVENT_RBUTTONDBLCLK,
-    EVENT_MBUTTONDBLCLK,
-    EVENT_MOUSEWHEEL,
-    EVENT_MOUSEHWHEEL
+    EVENT_MOUSEMOVE      = 0, //!< indicates that the mouse pointer has moved over the window.
+    EVENT_LBUTTONDOWN    = 1, //!< indicates that the left mouse button is pressed.
+    EVENT_RBUTTONDOWN    = 2, //!< indicates that the right mouse button is pressed.
+    EVENT_MBUTTONDOWN    = 3, //!< indicates that the middle mouse button is pressed.
+    EVENT_LBUTTONUP      = 4, //!< indicates that left mouse button is released.
+    EVENT_RBUTTONUP      = 5, //!< indicates that right mouse button is released.
+    EVENT_MBUTTONUP      = 6, //!< indicates that middle mouse button is released.
+    EVENT_LBUTTONDBLCLK  = 7, //!< indicates that left mouse button is double clicked.
+    EVENT_RBUTTONDBLCLK  = 8, //!< indicates that right mouse button is double clicked.
+    EVENT_MBUTTONDBLCLK  = 9, //!< indicates that middle mouse button is double clicked.
+    EVENT_MOUSEWHEEL     = 10,//!< positive and negative values mean forward and backward scrolling, respectively.
+    EVENT_MOUSEHWHEEL    = 11 //!< positive and negative values mean right and left scrolling, respectively.
 }
 
 enum: int {
-    EVENT_FLAG_LBUTTON,
-    EVENT_FLAG_RBUTTON,
-    EVENT_FLAG_MBUTTON,
-    EVENT_FLAG_CTRLKEY,
-    EVENT_FLAG_SHIFTKEY,
-    EVENT_FLAG_ALTKEY
+    EVENT_FLAG_LBUTTON   = 1, //!< indicates that the left mouse button is down.
+    EVENT_FLAG_RBUTTON   = 2, //!< indicates that the right mouse button is down.
+    EVENT_FLAG_MBUTTON   = 4, //!< indicates that the middle mouse button is down.
+    EVENT_FLAG_CTRLKEY   = 8, //!< indicates that CTRL Key is pressed.
+    EVENT_FLAG_SHIFTKEY  = 16,//!< indicates that SHIFT Key is pressed.
+    EVENT_FLAG_ALTKEY    = 32 //!< indicates that ALT Key is pressed.
 }
 private extern (C){
     // Window
@@ -84,14 +84,14 @@ private extern (C){
 }
 
 enum: int { // cv::WindowFlags
-    WINDOW_NORMAL,
-    WINDOW_AUTOSIZE,
-    WINDOW_OPENGL,
-    WINDOW_FULLSCREEN,
-    WINDOW_FREERATIO,
-    WINDOW_KEEPRATIO,
-    WINDOW_GUI_EXPANDED,
-    WINDOW_GUI_NORMAL
+       WINDOW_NORMAL     = 0x00000000, //!< the user can resize the window (no constraint) / also use to switch a fullscreen window to a normal size.
+       WINDOW_AUTOSIZE   = 0x00000001, //!< the user cannot resize the window, the size is constrainted by the image displayed.
+       WINDOW_OPENGL     = 0x00001000, //!< window with opengl support.
+       WINDOW_FULLSCREEN = 1,          //!< change the window to fullscreen.
+       WINDOW_FREERATIO  = 0x00000100, //!< the image expends as much as it can (no ratio constraint).
+       WINDOW_KEEPRATIO  = 0x00000000, //!< the ratio of the image is respected.
+       WINDOW_GUI_EXPANDED=0x00000000, //!< status bar and tool bar
+       WINDOW_GUI_NORMAL = 0x00000010, //!< old fashious way
 }
 
 void namedWindow(string winname, int flags = 0){

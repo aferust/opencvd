@@ -65,3 +65,38 @@ Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor){
     cv::Size sz(ksize.width, ksize.height);
     return new cv::Mat(cv::getStructuringElement(shape, sz, p1));
 }
+
+void DrawContours2(
+            Mat image,
+            Contours points,
+            int contourIdx,
+            Scalar color,
+            int thickness,
+            int lineType,
+            Hierarchy hierarchy,
+            int maxLevel,
+            Point offset){
+                
+    std::vector<cv::Vec4i> cvhierarchy;
+    for (size_t i = 0; i < hierarchy.length; i++) {
+        cv::Vec4i colr = cv::Vec4i((int)hierarchy.scalars[i].val1, (int)hierarchy.scalars[i].val2, (int)hierarchy.scalars[i].val3, (int)hierarchy.scalars[i].val4);
+        cvhierarchy.push_back(colr);
+    }
+    
+    std::vector<std::vector<cv::Point> > cpts;
+
+    for (size_t i = 0; i < points.length; i++) {
+        Contour contour = points.contours[i];
+
+        std::vector<cv::Point> cntr;
+
+        for (size_t i = 0; i < contour.length; i++) {
+            cntr.push_back(cv::Point(contour.points[i].x, contour.points[i].y));
+        }
+
+        cpts.push_back(cntr);
+    }
+    cv::Scalar cvsclr = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    cv::Point p = {x: offset.x, y: offset.y};
+    cv::drawContours(*image, cpts, contourIdx, cvsclr, thickness, lineType, cvhierarchy, maxLevel, p); 	
+}

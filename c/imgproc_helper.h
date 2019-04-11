@@ -28,6 +28,16 @@ void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, boo
 
 Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor);
 
+void DrawContours2(
+            Mat image,
+            Contours contours,
+            int contourIdx,
+            Scalar color,
+            int thickness,
+            int lineType,
+            Hierarchy hierarchy,
+            int maxLevel,
+            Point offset);
 #ifdef __cplusplus
 }
 #endif

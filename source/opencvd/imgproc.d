@@ -106,6 +106,17 @@ private {
         void ApplyCustomColorMap(Mat src, Mat dst, Mat colormap);
         Mat GetPerspectiveTransform(Contour src, Contour dst);
         void DrawContours(Mat src, Contours contours, int contourIdx, Scalar color, int thickness);
+        void DrawContours2(
+            Mat image,
+            Contours contours,
+            int contourIdx,
+            Scalar color,
+            int thickness,
+            int lineType,
+            Hierarchy hierarchy,
+            int maxLevel,
+            Point offset
+        );
         void Sobel(Mat src, Mat dst, int ddepth, int dx, int dy, int ksize, double scale, double delta, int borderType);
         void SpatialGradient(Mat src, Mat dx, Mat dy, int ksize, int borderType);
         void Remap(Mat src, Mat dst, Mat map1, Mat map2, int interpolation, int borderMode, Scalar borderValue);
@@ -428,6 +439,20 @@ Mat getPerspectiveTransform(Contour src, Contour dst){
 
 void drawContours(Mat src, Contours contours, int contourIdx, Scalar color, int thickness){
     DrawContours(src, contours, contourIdx, color, thickness);
+}
+
+void drawContours(
+            Mat image,
+            Contours contours,
+            int contourIdx,
+            Scalar color,
+            int thickness,
+            int lineType,
+            Hierarchy hierarchy,
+            int maxLevel,
+            Point offset = Point(0,0)
+        ){
+    DrawContours2(image, contours, contourIdx, color, thickness, lineType, hierarchy, maxLevel, offset);
 }
 
 void sobel(Mat src, Mat dst, int ddepth, int dx, int dy, int ksize, double scale, double delta, int borderType){
