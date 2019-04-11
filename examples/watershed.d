@@ -18,17 +18,20 @@ import opencvd.contrib.ximgproc;
 Mat markerMask, img;
 Point prevPt;
 
-static void onMouse( int event, int x, int y, int flags, void* )
+static void onMouse( int event, int x, int y, int flags, void*)
 {
-    x.writeln; //??
+    x.writeln; // problem here
+    
     if( x < 0 || x >= img.cols || y < 0 || y >= img.rows )
         return;
+    
     if( event == EVENT_LBUTTONUP || !(flags & EVENT_FLAG_LBUTTON) )
         prevPt = Point(-1,-1);
     else if( event == EVENT_LBUTTONDOWN )
         prevPt = Point(x,y);
     else if( event == EVENT_MOUSEMOVE && (flags & EVENT_FLAG_LBUTTON) )
     {
+        x.writeln;
         Point pt= Point(x, y);
         if( prevPt.x < 0 )
             prevPt = pt;
@@ -41,7 +44,7 @@ static void onMouse( int event, int x, int y, int flags, void* )
 
 int main( )
 {
-    Mat img0 = imread("test.png", 1);
+    Mat img0 = imread("fruits.jpg", 1);
     Mat imgGray = newMat();
     if( img0.isEmpty() )
     {
@@ -58,7 +61,7 @@ int main( )
     cvtColor(markerMask, imgGray, COLOR_GRAY2BGR);
     markerMask.setTo(Scalar.all(0));
     imshow( "image", img );
-    setMouseCallback( "image", cast(MouseCallback)(&onMouse), null );
+    setMouseCallback( "image", cast(MouseCallback)(&onMouse) );
     
     for(;;)
     {
@@ -88,9 +91,11 @@ int main( )
             
             markers.setTo(Scalar.all(0));
             int idx = 0;
-            for( ; idx >= 0; idx = cast(int)hierarchy.scalars[idx].val1, compCount++ )
-                drawContours(markers, contours, idx, Scalar.all(compCount+1), -1);
             
+            import core.stdc.limits;
+            
+            for( ; idx >= 0; idx = cast(int)hierarchy.scalars[idx].val1, compCount++ )
+                drawContours(markers, contours, idx, Scalar.all(compCount+1), 3, 1, hierarchy, INT_MAX);
             if( compCount == 0 )
                 continue;
             
@@ -116,7 +121,7 @@ int main( )
             for( i = 0; i < markers.rows; i++ )
                 for( j = 0; j < markers.cols; j++ )
                 {
-                    int index = markers.at!int(i,j);
+                    int index = markers.getIntAt(i,j);
                     if( index == -1 )
                         wshed.setColorAt(Color(255,255,255,255), i,j);
                     else if( index <= 0 || index > compCount )
