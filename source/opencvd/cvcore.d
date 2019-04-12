@@ -55,6 +55,10 @@ alias Color = Scalar;
 struct Hierarchy {
     Scalar* scalars;
     int length;
+    
+    Scalar opIndex(int i){
+        return scalars[i];
+    }
 }
 
 alias Colors = Hierarchy;
@@ -62,11 +66,19 @@ alias Colors = Hierarchy;
 struct IntVector {
     int* val;
     int length;
+    
+    int opIndex(int i){
+        return val[i];
+    }
 }
 
 struct FloatVector {
     float* val;
     int length;
+    
+    float opIndex(int i){
+        return val[i];
+    }
 }
 
 struct Rect {
@@ -79,6 +91,10 @@ struct Rect {
 struct Rects {
     Rect* rects;
     int length;
+    
+    Rect opIndex(int i){
+        return rects[i];
+    }
 }
 
 struct RotatedRect {
@@ -117,6 +133,10 @@ struct Point2f {
 struct Points {
     Point* points;
     int length;
+    
+    Point opIndex(int i){
+        return points[i];
+    }
 }
 
 alias Contour = Points;
@@ -124,6 +144,10 @@ alias Contour = Points;
 struct Contours {
     Contour* contours;
     int length;
+    
+    Contour opIndex(int i){
+        return contours[i];
+    }
 }
 
 struct KeyPoint {
@@ -139,6 +163,10 @@ struct KeyPoint {
 struct KeyPoints {
     KeyPoint* keypoints;
     int length;
+    
+    KeyPoint opIndex(int i){
+        return keypoints[i];
+    }
 }
 
 struct DMatch {
@@ -151,11 +179,19 @@ struct DMatch {
 struct DMatches {
     DMatch* dmatches;
     int length;
+    
+    DMatch opIndex(int i){
+        return dmatches[i];
+    }
 }
 
 struct MultiDMatches {
     DMatches* dmatches;
     int length;
+    
+    DMatches opIndex(int i){
+        return dmatches[i];
+    }
 }
 
 struct Moment {
@@ -363,6 +399,10 @@ alias Mat  = _Mat*;
 struct Mats {
     Mat* mats;
     int length;
+    
+    Mat opIndex(int i){
+        return mats[i];
+    }
 }
 
 enum: int {

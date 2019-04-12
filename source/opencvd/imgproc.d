@@ -39,6 +39,8 @@ private {
         void EqualizeHist(Mat src, Mat dst);
         void CalcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc);
         void ConvexHull(Contour points, Mat hull, bool clockwise, bool returnPoints);
+        Points ConvexHull2(Contour points, bool clockwise);
+        IntVector ConvexHull3(Contour points, bool clockwise);
         void ConvexityDefects(Contour points, Mat hull, Mat result);
         void BilateralFilter(Mat src, Mat dst, int d, double sc, double ss);
         void Blur(Mat src, Mat dst, Size ps);
@@ -156,6 +158,14 @@ void calcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, Floa
 
 void convexHull(Contour points, Mat hull, bool clockwise, bool returnPoints){
     ConvexHull(points, hull, clockwise, returnPoints);
+}
+
+Points convexHull(Contour points, bool clockwise = true){
+    return ConvexHull2(points, clockwise);
+}
+
+IntVector convexHullIdx(Contour points, bool clockwise = true){
+    return ConvexHull3(points, clockwise);
 }
 
 void convexityDefects(Contour points, Mat hull, Mat result){

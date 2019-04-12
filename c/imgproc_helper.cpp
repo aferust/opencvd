@@ -100,3 +100,46 @@ void DrawContours2(
     cv::Point p = cv::Point(offset.x, offset.y);
     cv::drawContours(*image, cpts, contourIdx, cvsclr, thickness, lineType, cvhierarchy, maxLevel, p); 	
 }
+
+struct Points ConvexHull2(Contour points, bool clockwise) {
+    std::vector<cv::Point> pts;
+
+    for (size_t i = 0; i < points.length; i++) {
+        pts.push_back(cv::Point(points.points[i].x, points.points[i].y));
+    }
+    
+    std::vector<cv::Point> _retHull;
+    
+    cv::convexHull(pts, _retHull, clockwise, true);
+    
+    Point* _pts = new Point[_retHull.size()];
+    
+    for (size_t i = 0; i < _retHull.size(); i++) {
+        Point tmp = {_retHull[i].x, _retHull[i].y};
+        _pts[i] = tmp;
+    }
+    
+    Points con = {_pts, (int)_retHull.size()};
+    return con;
+}
+
+struct IntVector ConvexHull3(Contour points, bool clockwise) {
+    std::vector<cv::Point> pts;
+
+    for (size_t i = 0; i < points.length; i++) {
+        pts.push_back(cv::Point(points.points[i].x, points.points[i].y));
+    }
+    
+    std::vector<int> _retHull;
+    
+    cv::convexHull(pts, _retHull, clockwise, false);
+    
+    int* _pts = new int[_retHull.size()];
+    
+    for (size_t i = 0; i < _retHull.size(); i++) {
+        _pts[i] = _retHull[i];
+    }
+    
+    IntVector con = {_pts, (int)_retHull.size()};
+    return con;
+}

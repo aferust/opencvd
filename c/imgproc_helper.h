@@ -38,6 +38,10 @@ void DrawContours2(
             Hierarchy hierarchy,
             int maxLevel,
             Point offset);
+
+struct Points ConvexHull2(Contour points, bool clockwise);
+struct IntVector ConvexHull3(Contour points, bool clockwise);
+
 #ifdef __cplusplus
 }
 #endif
