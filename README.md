@@ -152,7 +152,7 @@ void main()
 
 
     auto cnts = findContours(img, RETR_LIST, CHAIN_APPROX_SIMPLE);
-    writeln(cnts[0].points[0]);
+    writeln(cnts[0][0]);
     // or :
     Contours contours;
     Hierarchy hierarchy;
