@@ -23,7 +23,6 @@ int main()
     for(;;)
     {
         int i, count = uniform!"[]"(0, 100, rnd) + 1;
-        Points points;
         
         Point[] _pts;
         for( i = 0; i < count; i++ )
@@ -34,7 +33,7 @@ int main()
             
             _pts ~= Point(x, y);
         }
-        points = Points(_pts.ptr, count);
+        Points points = Points(_pts.ptr, cast(int)_pts.length);
         
         IntVector hull = convexHullIdx(points, true);
         

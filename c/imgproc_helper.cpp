@@ -1,5 +1,4 @@
 #include "imgproc_helper.h"
-//#include <cstdlib>
 
 void Watershed(Mat src, Mat markers ){
     cv::watershed( *src, *markers );
@@ -29,7 +28,7 @@ struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, 
     
     cv::findContours(*src, contours, hierarchy, mode, method);
     
-    Scalar *scalars = new Scalar[hierarchy.size()]; //(Hierarchy*)malloc(sizeof(Hierarchy));
+    Scalar *scalars = new Scalar[hierarchy.size()];
     
     for (size_t i = 0; i < hierarchy.size(); i++){
         Scalar s = {(double)hierarchy[i][0], (double)hierarchy[i][1], (double)hierarchy[i][2], (double)hierarchy[i][3]};
