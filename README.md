@@ -119,10 +119,10 @@ void main()
     Mat img = imread("test.png", 0);
     
     ubyte[] my_ubyte_array = img.array!ubyte; // access flat array of Mat as ubyte
-    my_ubyte_array.writeln;
+    // my_ubyte_array.writeln;
     
     double[] my_double_array = img.array!double; // as double
-    my_double_array.writeln;
+    // my_double_array.writeln;
     
     ubyte val = img.at!ubyte(50, 30);
     
@@ -135,7 +135,7 @@ void main()
     
     compare(img, Scalar(200, 0, 0, 0), imres, CMP_LT);
     
-    imshow("res", imbin);
+    imshow("res", imres);
     
     blur(img, img, Size(3, 3));
     
@@ -152,14 +152,14 @@ void main()
 
 
     auto cnts = findContours(img, RETR_LIST, CHAIN_APPROX_SIMPLE);
-    writeln(cnts.contours[0].points[0]);
+    writeln(cnts[0].points[0]);
     // or :
     Contours contours;
     Hierarchy hierarchy;
     auto c_h = findContoursWithHier(img, RETR_CCOMP, CHAIN_APPROX_SIMPLE);
     contours = c_h[0];
     hierarchy = c_h[1];
-    hierarchy.scalars[0].writeln;
+    hierarchy[0].writeln;
     
     namedWindow("hello", 0);
     imshow("hello", img);
