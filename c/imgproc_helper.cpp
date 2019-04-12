@@ -97,6 +97,6 @@ void DrawContours2(
         cpts.push_back(cntr);
     }
     cv::Scalar cvsclr = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
-    cv::Point p = {x: offset.x, y: offset.y};
+    cv::Point p = cv::Point(offset.x, offset.y);
     cv::drawContours(*image, cpts, contourIdx, cvsclr, thickness, lineType, cvhierarchy, maxLevel, p); 	
 }
