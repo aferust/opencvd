@@ -40,8 +40,22 @@ Then use dub to build the library.
 
 In your app's dub.json, you may need to set linker flags like:
 ```
+"dependencies": {
+        "opencvd": "~>0.0.2"
+},
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
+and add following to dub.json of your test app:
+
+```
+
+"libs": [
+    "opencv", // this is handled by pkgconfig. You may set it as "opencv4" depending on the name of your pkgconfig file.
+    "opencvcapi",
+    "opencvcapi_contrib",
+]
+```
+
 Your build experience may vary. I also need help for automating this.
 
 ### Windows 10 64 bit:
@@ -80,14 +94,13 @@ Now you have *.lib files in opencvd folder.
 
 ```
 "dependencies": {
-        "opencvd": "~>0.0.1"
+        "opencvd": "~>0.0.2"
 },
 "libs": [
     "opencv_world410",
     "opencv_img_hash410",
     "opencvcapi",
     "opencvcapi_contrib",
-    "opencvd"
 ]
 ```
 While compiling your test app, you must always run dub or ldc2 commands in x64 Native Tools Command Prompt for VS 2017.
