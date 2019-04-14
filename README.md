@@ -56,7 +56,7 @@ and add following to dub.json of your test app:
 ]
 ```
 
-Your build experience may vary. I also need help for automating this.
+Your build experience may vary.
 
 ### Windows 10 64 bit:
 - Build OpenCV from source following this guide: https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html
