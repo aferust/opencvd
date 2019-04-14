@@ -978,7 +978,7 @@ void inRange(Mat src, Mat lowerb, Mat upperb, Mat dst){
     Mat_InRange(src, lowerb, upperb, dst);
 }
 
-void inRangeWithScalar(Mat src, const Scalar lowerb, const Scalar upperb, Mat dst){
+void inRange(Mat src, const Scalar lowerb, const Scalar upperb, Mat dst){
     Mat_InRangeWithScalar(src, lowerb, upperb, dst);
 }
 
