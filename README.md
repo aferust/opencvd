@@ -165,9 +165,6 @@ void main()
     imshow("hello", img);
 
     writeln(img.isEmpty());
-
-    auto m = newMat();
-    writeln(m.isEmpty());
     
     Mat m = Mat();
     writeln(m.isEmpty());
