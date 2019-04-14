@@ -126,12 +126,12 @@ void main()
     
     ubyte val = img.at!ubyte(50, 30);
     
-    Color color = img.at(20, 62);
+    Color color = img.at(20, 62); // or img[20, 62];
     
-    img.setColorAt(Color(25, 26, 27, 255), 150, 150);
+    img.setColorAt(Color(25, 26, 27, 255), 150, 150); // or img[150, 150] = Color(25, 26, 27, 255);
     
     namedWindow("res", 0);
-    Mat imres = newMat();
+    Mat imres = newMat(); // or Mat();
     
     compare(img, Scalar(200, 0, 0, 0), imres, CMP_LT);
     
@@ -163,14 +163,23 @@ void main()
     
     namedWindow("hello", 0);
     imshow("hello", img);
-    waitKey(0);
 
     writeln(img.isEmpty());
 
     auto m = newMat();
     writeln(m.isEmpty());
     
+    Mat m = Mat();
+    writeln(m.isEmpty());
+    
     Destroy(img);
+    
+    auto mt = Mat(20, 20, CV8U);
+    
+    mt[2 ,3] = Color(5,6,7,255);
+    mt[2 ,3].writeln;
+    
+    waitKey(0);
     
 }
 

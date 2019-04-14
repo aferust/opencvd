@@ -223,22 +223,50 @@ struct Moment {
     double nu03;
 }
 
-struct _Mat {
+struct Mat {
     void* p;
     
-    int rows() {return Mat_Rows(&this);}
-    int cols() {return Mat_Cols(&this);}
-    int type() {return Mat_Type(&this);}
-    int channels(){return Mat_Channels(&this);}
-    int step() {return Mat_Step(&this);}
+    int rows() {return Mat_Rows(this);}
+    int cols() {return Mat_Cols(this);}
+    int type() {return Mat_Type(this);}
+    int channels(){return Mat_Channels(this);}
+    int step() {return Mat_Step(this);}
     int height() {return rows();}
     int width() {return cols();}
-    int total() {return Mat_Total(&this);}
-    int flatLength() {return Mat_FlatLength(&this);}
-    void* rawDataPtr() {return Mat_DataPtrNoCast(&this);}
-    Scalar mean() {return Mat_Mean(&this);}
-    Mat sqrt() {return Mat_Sqrt(&this);}
+    int total() {return Mat_Total(this);}
+    int flatLength() {return Mat_FlatLength(this);}
+    void* rawDataPtr() {return Mat_DataPtrNoCast(this);}
+    Scalar mean() {return Mat_Mean(this);}
+    Mat sqrt() {return Mat_Sqrt(this);}
+    
+    static Mat opCall(){
+        return newMat();
+    }
+    
+    static Mat opCall(int rows, int cols, int mt ){
+        return Mat_NewWithSize(rows, cols, mt);
+    }
+    
+    static Mat opCall( const Scalar ar, int type){
+        return Mat_NewFromScalar(ar, type);
+    }
 
+    static Mat opCall(const Scalar ar, int rows, int cols, int type){
+        return Mat_NewWithSizeFromScalar(ar, rows, cols, type);
+    }
+
+    static Mat opCall(int rows, int cols, int type, ByteArray buf){
+        return Mat_NewFromBytes(rows, cols, type, buf);
+    }
+
+    static Mat opCall(Mat m, int rows, int cols, int type, int prows, int pcols){
+        return Mat_FromPtr(m, rows, cols, type, prows, pcols);
+    }
+
+    static Mat opCall(int rows, int cols, int type, void* data){
+        return Mat_FromArrayPtr(rows, cols, type, data);
+    }
+    
     string type2str(){
         import std.conv;
         auto chr = _type2str(type());
@@ -248,7 +276,7 @@ struct _Mat {
     }
 
     ByteArray byteArray(){
-        return Mat_DataPtr(&this);
+        return Mat_DataPtr(this);
     }
 
     // retuns d array. use it like: double[] myarray = mat.array!double;
@@ -257,67 +285,73 @@ struct _Mat {
         return ret[0..flatLength()];
     }
     
-    // can templates be used efficiently here?
+    Scalar opIndex(int row, int col){
+        return at(row, col);
+    }
+    
     /* Setters */
+    void opIndexAssign(Scalar color, int row, int col){
+        Mat_SetColorAt(this, color, row, col);
+    }
     
     void setColorAt(Scalar color, int row, int col){
-        Mat_SetColorAt(&this, color, row, col);
+        Mat_SetColorAt(this, color, row, col);
     }
     
     
     void setUCharAt(int row, int col, ubyte val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        Mat_SetUChar(&this, row, col, val);
+        Mat_SetUChar(this, row, col, val);
     }
 
     void setUChar3At( int x, int y, int z, ubyte val){
         // assert((x < rows()) && (y < cols()) && (z < channels()), "index out of bounds!"); // ??
-        Mat_SetUChar3(&this, x, y, z, val);
+        Mat_SetUChar3(this, x, y, z, val);
     }
 
     void setSCharAt(int row, int col, byte val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        Mat_SetSChar(&this, row, col, val);
+        Mat_SetSChar(this, row, col, val);
     }
 
     void setSChar3At(int x, int y, int z, byte val){
-        Mat_SetSChar3(&this, x, y, z, val);
+        Mat_SetSChar3(this, x, y, z, val);
     }
     
     void setShortAt(int row, int col, short val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        Mat_SetShort(&this, row, col, val);    
+        Mat_SetShort(this, row, col, val);    
     }
     
     void setShort3At(int x, int y, int z, short val){
-        Mat_SetShort3(&this, x, y, z, val);   
+        Mat_SetShort3(this, x, y, z, val);   
     }
     
     void setIntAt(int row, int col, int val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        Mat_SetInt(&this, row, col, val);
+        Mat_SetInt(this, row, col, val);
     }
     
     void setInt3At(int x, int y, int z, int val){
-        Mat_SetInt3(&this, x, y, z, val);
+        Mat_SetInt3(this, x, y, z, val);
     }
     
     void setFloatAt(int row, int col, float val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        Mat_SetFloat(&this, row, col, val);
+        Mat_SetFloat(this, row, col, val);
     }
     
     void setFloat3At(int x, int y, int z, float val){
-        Mat_SetFloat3(&this, x, y, z, val);
+        Mat_SetFloat3(this, x, y, z, val);
     }
     
     void setDoubleAt(int row, int col, double val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        Mat_SetDouble(&this, row, col, val);
+        Mat_SetDouble(this, row, col, val);
     }
 
     void setDouble3At(int x, int y, int z, double val){
-        Mat_SetDouble3(&this, x, y, z, val);
+        Mat_SetDouble3(this, x, y, z, val);
     }
 
     /* Getters */
@@ -335,66 +369,64 @@ struct _Mat {
     }
     
     Color at(int row, int col){
-        return Mat_ColorAt(&this, row, col);
+        return Mat_ColorAt(this, row, col);
     }
     
     ubyte getUCharAt(int row, int col){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        return Mat_GetUChar(&this, row, col);
+        return Mat_GetUChar(this, row, col);
     }
 
     ubyte getUChar3At(int x, int y, int z){
-        return Mat_GetUChar3(&this, x, y, z);
+        return Mat_GetUChar3(this, x, y, z);
     }
 
     byte getSCharAt(int row, int col){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        return Mat_GetSChar(&this, row, col);
+        return Mat_GetSChar(this, row, col);
     }
 
     byte getSChar3At(int x, int y, int z){
-        return Mat_GetSChar3(&this, x, y, z);
+        return Mat_GetSChar3(this, x, y, z);
     }
 
     short getShortAt(int row, int col){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        return Mat_GetShort(&this, row, col);
+        return Mat_GetShort(this, row, col);
     }
 
     short getShort3At(int x, int y, int z){
-        return Mat_GetShort3(&this, x, y, z);
+        return Mat_GetShort3(this, x, y, z);
     }
 
     int getIntAt(int row, int col){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        return Mat_GetInt(&this, row, col);
+        return Mat_GetInt(this, row, col);
     }
 
     int getInt3At(int x, int y, int z){
-        return Mat_GetInt3(&this, x, y, z);
+        return Mat_GetInt3(this, x, y, z);
     }
 
     float getFloatAt(int row, int col){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        return Mat_GetFloat(&this, row, col);
+        return Mat_GetFloat(this, row, col);
     }
 
     float getFloat3At(int x, int y, int z){
-        return Mat_GetFloat3(&this, x, y, z);
+        return Mat_GetFloat3(this, x, y, z);
     }
 
     double getDoubleAt(int row, int col){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
-        return Mat_GetDouble(&this, row, col);
+        return Mat_GetDouble(this, row, col);
     }
 
     double getDouble3At(int x, int y, int z){
-        return Mat_GetDouble3(&this, x, y, z);
+        return Mat_GetDouble3(this, x, y, z);
     }
-
+    
 }
-
-alias Mat  = _Mat*;
 
 struct Mats {
     Mat* mats;
@@ -524,7 +556,8 @@ private extern (C) {
 
     Mat Mat_Region(Mat m, Rect r);
     void Mat_PatchNaNs(Mat m);
-
+    
+    // TODO: implement operator overloads:
     void Mat_AddUChar(Mat m, uint8_t val);
     void Mat_SubtractUChar(Mat m, uint8_t val);
     void Mat_MultiplyUChar(Mat m, uint8_t val);
@@ -621,7 +654,7 @@ private extern (C) {
     Mat Mat_OnesFromRC(int rows, int cols, int type);
     Mat Mat_OnesFromSize(Size sz, int type);
     
-    double Mat_Dot(Mat m1, Mat m2);
+    double Mat_Dot(Mat m1, Mat m2); // TODO: implement operator overload
     Mat Mat_Diag(Mat src, int d);
     Mat Mat_EyeFromRC(int rows, int cols, int type);
 }
