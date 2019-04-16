@@ -96,3 +96,7 @@ void Mat_SetColorAt(Mat src, Scalar color, int row, int col){
 void Mat_MultiplyDouble(Mat m, double val) {
     *m *= val;
 }
+
+void Mat_convertTo2(Mat m, Mat dst, int rtype, double alpha, double beta){
+    m->convertTo(*dst, rtype, alpha, beta);
+}

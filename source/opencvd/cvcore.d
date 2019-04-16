@@ -521,6 +521,7 @@ private extern (C) {
     void Mat_CopyTo(Mat m, Mat dst);
     void Mat_CopyToWithMask(Mat m, Mat dst, Mat mask);
     void Mat_ConvertTo(Mat m, Mat dst, int type);
+    void Mat_convertTo2(Mat m, Mat dst, int rtype, double alpha, double beta);
 
     int Mat_Total(Mat m);
     Scalar Mat_Mean(Mat m);
@@ -732,7 +733,11 @@ void copyToWithMask(Mat m, Mat dst, Mat mask){
 }
 
 void convertTo(Mat m, Mat dst, int type){
-    Mat_ConvertTo(m, dst,  type);
+    Mat_ConvertTo(m, dst, type);
+}
+
+void convertTo(Mat m, Mat dst, int rtype, double alpha = 1, double beta = 0 ){
+    Mat_convertTo2(m, dst, rtype, alpha, beta);
 }
 
 void setTo(Mat m, Scalar s){

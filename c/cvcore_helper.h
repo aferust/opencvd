@@ -28,6 +28,8 @@ typedef struct Hierarchy {
     int length;
 } Hierarchy;
 
+void Mat_convertTo2(Mat m, Mat dst, int rtype, double alpha, double beta);
+
 #ifdef __cplusplus
 }
 #endif
