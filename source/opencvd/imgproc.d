@@ -40,6 +40,7 @@ private {
         void CalcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc);
         void CalcHist1(Mat dst, int nimages, int* channels,
             Mat mask, Mat hist, int dims, int* histSize, const float** ranges, bool uniform, bool accumulate);
+        void CalcHist2(Mat dst, Mat mask, Mat hist, int* histSize);
         void ConvexHull(Contour points, Mat hull, bool clockwise, bool returnPoints);
         Points ConvexHull2(Contour points, bool clockwise);
         IntVector ConvexHull3(Contour points, bool clockwise);
@@ -170,6 +171,10 @@ void calcHist(Mat images, int nimages, int[] channels,
     }
     
     CalcHist1(images, nimages, channels.ptr, mask, hist, dims, histSize.ptr, cast(const float**)__ranges, uniform, accumulate);
+}
+
+void calcHist(Mat dst, Mat mask, Mat hist, int* histSize){
+    CalcHist2(dst, mask, hist, histSize);
 }
 
 void convexHull(Contour points, Mat hull, bool clockwise, bool returnPoints){

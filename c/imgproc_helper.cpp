@@ -149,6 +149,10 @@ void CalcHist1(Mat dst, int nimages, int* channels,
     cv::calcHist(dst, nimages, channels, *mask, *hist, dims, histSize, ranges, uniform, accumulate);   
 }
 
+void CalcHist2(Mat dst, Mat mask, Mat hist, int* histSize){
+    cv::calcHist(dst, 1, 0, *mask, *hist, 1, histSize, 0);
+}
+
 void Rectangle2(Mat img, Point _pt1, Point _pt2, Scalar color, int thickness, int lineType, int shift){
     cv::Point pt1 = cv::Point(_pt1.x, _pt1.y);
     cv::Point pt2 = cv::Point(_pt2.x, _pt2.y);

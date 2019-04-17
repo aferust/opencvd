@@ -45,6 +45,7 @@ struct IntVector ConvexHull3(Contour points, bool clockwise);
 void CalcHist1(Mat images, int nimages, int* channels,
     Mat mask, Mat hist, int dims, int* histSize, const float** ranges, bool uniform, bool accumulate);
 
+void CalcHist2(Mat dst, Mat mask, Mat hist, int* histSize);
 
 void Rectangle2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);	
 
