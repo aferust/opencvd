@@ -38,6 +38,8 @@ private {
         void CvtColor(Mat src, Mat dst, int code);
         void EqualizeHist(Mat src, Mat dst);
         void CalcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc);
+        void CalcHist1(Mat dst, int nimages, int* channels,
+            Mat mask, Mat hist, int dims, int* histSize, const float** ranges, bool uniform, bool accumulate);
         void ConvexHull(Contour points, Mat hull, bool clockwise, bool returnPoints);
         Points ConvexHull2(Contour points, bool clockwise);
         IntVector ConvexHull3(Contour points, bool clockwise);
@@ -94,6 +96,7 @@ private {
                      startAngle, double endAngle, Scalar color, int thickness);
         void Line(Mat img, Point pt1, Point pt2, Scalar color, int thickness);
         void Rectangle(Mat img, Rect rect, Scalar color, int thickness);
+        void Rectangle2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
         void FillPoly(Mat img, Contours points, Scalar color);
         Size GetTextSize(const char* text, int fontFace, double fontScale, int thickness);
         void PutText(Mat img, const char* text, Point org, int fontFace, double fontScale,
@@ -154,6 +157,19 @@ void equalizeHist(Mat src, Mat dst){
 
 void calcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc){
     CalcHist(mats, chans, mask, hist, sz, rng, acc);
+}
+
+void calcHist(Mat images, int nimages, int[] channels,
+            Mat mask, Mat hist, int dims, int[] histSize, float[][2] _ranges, bool uniform = true, bool accumulate = false){
+    
+    float*[] __ranges = new float*[channels.length];
+    
+    foreach(i; 0..channels.length){
+        float[] rng = [_ranges[i][0], _ranges[i][1]];
+        __ranges[i] = rng.ptr;
+    }
+    
+    CalcHist1(images, nimages, channels.ptr, mask, hist, dims, histSize.ptr, cast(const float**)__ranges, uniform, accumulate);
 }
 
 void convexHull(Contour points, Mat hull, bool clockwise, bool returnPoints){
@@ -399,6 +415,17 @@ void line(Mat img, Point pt1, Point pt2, Scalar color, int thickness){
 
 void rectangle(Mat img, Rect rect, Scalar color, int thickness){
     Rectangle(img, rect, color, thickness);
+}
+
+enum: int { // cv::LineTypes
+    FILLED = -1, 
+    LINE_4 = 4, 
+    LINE_8 = 8, 
+    LINE_AA = 16
+}
+
+void rectangle(Mat img, Point _pt1, Point _pt2, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
+    Rectangle2(img, _pt1, _pt2, color, thickness, lineType, shift);
 }
 
 void fillPoly(Mat img, Contours points, Scalar color){

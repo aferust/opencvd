@@ -142,3 +142,24 @@ struct IntVector ConvexHull3(Contour points, bool clockwise) {
     IntVector con = {_pts, (int)_retHull.size()};
     return con;
 }
+
+void CalcHist1(Mat dst, int nimages, int* channels,
+    Mat mask, Mat hist, int dims, int* histSize, const float** ranges, bool uniform, bool accumulate){
+    
+    cv::calcHist(dst, nimages, channels, *mask, *hist, dims, histSize, ranges, uniform, accumulate);   
+}
+
+void Rectangle2(Mat img, Point _pt1, Point _pt2, Scalar color, int thickness, int lineType, int shift){
+    cv::Point pt1 = cv::Point(_pt1.x, _pt1.y);
+    cv::Point pt2 = cv::Point(_pt2.x, _pt2.y);
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    cv::rectangle(
+        *img,
+        pt1,
+        pt2,
+        c,
+        thickness,
+        lineType,
+        shift
+    );
+}

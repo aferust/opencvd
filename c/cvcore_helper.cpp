@@ -100,3 +100,7 @@ void Mat_MultiplyDouble(Mat m, double val) {
 void Mat_convertTo2(Mat m, Mat dst, int rtype, double alpha, double beta){
     m->convertTo(*dst, rtype, alpha, beta);
 }
+
+void Mat_MinMaxLoc2(Mat a, double* minVal, double* maxVal, int* minIdx, int* maxIdx){
+    cv::minMaxLoc(cv::SparseMat(*a), minVal, maxVal, minIdx, maxIdx);
+}

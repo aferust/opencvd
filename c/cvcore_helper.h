@@ -30,6 +30,8 @@ typedef struct Hierarchy {
 
 void Mat_convertTo2(Mat m, Mat dst, int rtype, double alpha, double beta);
 
+void Mat_MinMaxLoc2(Mat a, double* minVal, double* maxVal, int* minIdx, int* maxIdx);
+
 #ifdef __cplusplus
 }
 #endif
