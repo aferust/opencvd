@@ -267,6 +267,75 @@ struct Mat {
         return Mat_FromArrayPtr(rows, cols, type, data);
     }
     
+    Mat opMul(ubyte a){
+        multiplyUChar(this, a);
+        return this;
+    }
+    
+    Mat opMul(int a){
+        Mat_MultiplyInt(this, a);
+        return this;
+    }
+    
+    Mat opMul(float a){
+        Mat_MultiplyFloat(this, a);
+        return this;
+    }
+    
+    Mat opBinary(string op)(float a){
+        static if (op == "/"){
+            Mat_MultiplyFloat(this, 1.0f/a);
+            return this;
+        }
+        else static if (op == "+"){
+            Mat_AddFloat(this, a);
+            return this;
+        }
+        else static if (op == "-"){
+            Mat_SubtractFloat(this, a);
+            return this;
+        }
+        return this;
+    }
+    
+    Mat opMul(double a){
+        Mat_MultiplyDouble(this, a);
+        return this;
+    }
+    
+    Mat opBinary(string op)(double a){
+        static if (op == "/"){
+            Mat_MultiplyDouble(this, 1.0/a);
+            return this;
+        }
+        else static if (op == "+"){
+            void Mat_AddDouble(this, a);
+            return this;
+        }
+        else static if (op == "-"){
+            void Mat_SubtractDouble(this, a);
+            return this;
+        }
+        
+        return this;
+    }
+    
+    Mat opBinary(string op)(Mat m){
+        static if (op == "+"){
+            add(this, m, this);
+        }
+        else static if (op == "-"){
+            matSubtract(this, m, this);
+            return this;
+        }
+        return this;
+    }
+    
+    Mat opMul(Mat m){
+        Mat_Multiply(this, m, this);
+        return this;
+    }
+    
     string type2str(){
         import std.conv;
         auto chr = _type2str(type());
@@ -558,7 +627,10 @@ private extern (C) {
     Mat Mat_Region(Mat m, Rect r);
     void Mat_PatchNaNs(Mat m);
     
-    // TODO: implement operator overloads:
+    void Mat_MultiplyInt(Mat m, int val);
+    void Mat_AddDouble(Mat m, double val);
+    void Mat_SubtractDouble(Mat m, double val);
+    
     void Mat_AddUChar(Mat m, uint8_t val);
     void Mat_SubtractUChar(Mat m, uint8_t val);
     void Mat_MultiplyUChar(Mat m, uint8_t val);
@@ -752,6 +824,8 @@ void patchNaNs(Mat m){
 Mat matFromRect(Mat m, Rect r){
     return Mat_Region(m, r);
 }
+
+alias subImageFromROI = matFromRect;
 
 void addUChar(Mat m, ubyte val){
     Mat_AddUChar(m, val);

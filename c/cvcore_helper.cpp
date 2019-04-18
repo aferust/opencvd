@@ -3,6 +3,18 @@
 
 #include <string>
 
+void Mat_MultiplyInt(Mat m, int val){
+    *m *= val;
+}
+
+void Mat_AddDouble(Mat m, double val){
+    *m += val;
+}
+
+void Mat_SubtractDouble(Mat m, double val){
+    *m -= val;
+}
+
 Mat Mat_ZerosFromRC(int rows, int cols, int type){
     auto out = cv::Mat::zeros(rows, cols, type);
     return new cv::Mat(out);

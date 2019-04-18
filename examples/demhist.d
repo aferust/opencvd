@@ -44,7 +44,7 @@ static void updateBrightnessContrast( int /*arg*/, void* )
     calcHist(dst, Mat(), hist, &histSize); // there are more overloads of this function available.
     
     Mat histImage = ones(200, 320, CV8U); 
-    multiplyUChar(histImage, 255);
+    histImage = histImage * 255;
     
     normalize(hist, hist, double(0), double(histImage.rows), NORM_MINMAX);
     histImage.setTo(Scalar.all(255));

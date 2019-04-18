@@ -130,8 +130,8 @@ int main( )
                         wshed.setColorAt(colorTab[index -1], i,j);
                 }
             
-            multiplyDouble(wshed, 0.5);
-            multiplyDouble(imgGray, 0.5);
+            wshed = wshed * 0.5;
+            imgGray = imgGray * 0.5;
             add(wshed, imgGray, wshed);
             
             imshow( "watershed transform", wshed );
