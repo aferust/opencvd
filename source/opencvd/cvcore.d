@@ -25,8 +25,6 @@ DEALINGS IN THE SOFTWARE.
 module opencvd.cvcore;
 
 import core.stdc.stdint;
-import std.stdio;
-import std.typecons;
 
 struct Size {
     int rows;
