@@ -189,6 +189,20 @@ void main()
     mt[2, 3] = Color(5,6,7,255);
     mt[2, 3].writeln;
     
+        ubyte[] data = [1,2,3,
+                    4,5,6,
+                    10,2,3,
+                    1, 1, 1
+    ];
+    
+    Mat mymat = Mat(4, 3, CV8U, data.ptr);
+    
+    mymat = mymat * 2;
+    mymat = mymat + 3;
+    
+    ubyte[] mtdata = mymat.array!ubyte;
+    mtdata.writeln;
+    
     waitKey(0);
     
 }
