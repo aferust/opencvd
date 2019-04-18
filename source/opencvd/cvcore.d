@@ -246,6 +246,10 @@ struct Mat {
     Scalar mean() {return Mat_Mean(this);}
     Mat sqrt() {return Mat_Sqrt(this);}
     
+    Mat opCall(Rect r){
+        return matFromRect(this, r);
+    }
+    
     static Mat opCall(){
         return newMat();
     }
