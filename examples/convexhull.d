@@ -37,7 +37,7 @@ int main()
         
         IntVector hull = convexHullIdx(points, true);
         
-        img.setTo(Scalar.all(0));
+        img = Scalar.all(0);
         for( i = 0; i < count; i++ )
             circle(img, points[i], 3, Scalar(0, 0, 255, 255), 1);
         int hullcount = hull.length;

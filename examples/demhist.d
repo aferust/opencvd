@@ -47,7 +47,7 @@ static void updateBrightnessContrast( int /*arg*/, void* )
     histImage = histImage * 255;
     
     normalize(hist, hist, double(0), double(histImage.rows), NORM_MINMAX);
-    histImage.setTo(Scalar.all(255));
+    histImage = Scalar.all(255);
     int binW = cast(int)round(cast(double)histImage.cols/histSize);
     for( int i = 0; i < histSize; i++ )
         rectangle( histImage, Point(i*binW, histImage.rows),

@@ -23,14 +23,14 @@ static void onTrackbar(int, void*)
     blur(gray, blurImage, Size(3,3));
     // Run the edge detector on grayscale
     canny(blurImage, edge1, edgeThresh, edgeThresh*3);
-    cedge.setTo(Scalar.all(0));
+    cedge = Scalar.all(0);
     copyToWithMask(image, cedge, edge1);
     imshow(window_name1, cedge);
     Mat dx = newMat(), dy = newMat();
     scharr(blurImage, dx, CV16S, 1, 0, 1, 0, 0);
     scharr(blurImage, dy, CV16S, 0, 1, 1, 0, 0);
     canny( dx, dy, edge2, edgeThreshScharr, edgeThreshScharr*3 );
-    cedge.setTo(Scalar.all(0));
+    cedge = Scalar.all(0);
     copyToWithMask(image, cedge, edge2);
     imshow(window_name2, cedge);
 }

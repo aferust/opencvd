@@ -274,6 +274,10 @@ struct Mat {
         return Mat_FromArrayPtr(rows, cols, type, data);
     }
     
+    void opAssign(Color c){
+        this.setTo(c);
+    }
+    
     Mat opMul(ubyte a){
         multiplyUChar(this, a);
         return this;
