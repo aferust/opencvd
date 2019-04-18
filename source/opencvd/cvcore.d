@@ -26,6 +26,7 @@ module opencvd.cvcore;
 
 import core.stdc.stdint;
 import std.stdio;
+import std.typecons;
 
 struct Size {
     int rows;
@@ -47,6 +48,14 @@ struct Scalar {
     
     static Scalar all(double val){
         return Scalar(val,val,val,val);
+    }
+    
+    double opIndex(int i){
+        return [val1, val2, val3, val4][i];
+    }
+    
+    void opIndexAssign(double val, int i){
+        *[&val1, &val2, &val3, &val4][i] = val;
     }
 }
 
