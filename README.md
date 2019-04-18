@@ -377,7 +377,7 @@ void detectAndDraw( Mat img, CascadeClassifier cascade,
             rectangle( img, Rect(cast(int)round(r.x*scale), cast(int)round(r.y*scale), 50, 50), color, 3 );
         if( !nestedCascade ) 
             continue; 
-        smallImgROI = matFromRect(smallImg, r);
+        smallImgROI = smallImg(r);
         
         // Detection of eyes int the input image 
         nestedObjects = nestedCascade.detectMultiScale(smallImgROI);
