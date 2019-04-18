@@ -7,11 +7,23 @@ void Mat_MultiplyInt(Mat m, int val){
     *m *= val;
 }
 
+void Mat_DivideInt(Mat m, int val){
+    *m /= val;
+}
+
 void Mat_AddDouble(Mat m, double val){
     *m += val;
 }
 
 void Mat_SubtractDouble(Mat m, double val){
+    *m -= val;
+}
+
+void Mat_AddInt(Mat m, int val) {
+    *m += val;
+}
+
+void Mat_SubtractInt(Mat m, int val) {
     *m -= val;
 }
 

@@ -295,12 +295,26 @@ struct Mat {
             Mat_SubtractFloat(this, a);
             return this;
         }
-        return this;
     }
     
     Mat opMul(double a){
         Mat_MultiplyDouble(this, a);
         return this;
+    }
+    
+    Mat opBinary(string op)(int a){
+        static if (op == "/"){
+            Mat_DivideInt(this, a);
+            return this;
+        }
+        else static if (op == "+"){
+            Mat_AddInt(this, a);
+            return this;
+        }
+        else static if (op == "-"){
+            Mat_SubtractInt(this, a);
+            return this;
+        }
     }
     
     Mat opBinary(string op)(double a){
@@ -309,15 +323,13 @@ struct Mat {
             return this;
         }
         else static if (op == "+"){
-            void Mat_AddDouble(this, a);
+            Mat_AddDouble(this, a);
             return this;
         }
         else static if (op == "-"){
-            void Mat_SubtractDouble(this, a);
+            Mat_SubtractDouble(this, a);
             return this;
         }
-        
-        return this;
     }
     
     Mat opBinary(string op)(Mat m){
@@ -628,8 +640,11 @@ private extern (C) {
     void Mat_PatchNaNs(Mat m);
     
     void Mat_MultiplyInt(Mat m, int val);
+    void Mat_DivideInt(Mat m, int val);
     void Mat_AddDouble(Mat m, double val);
     void Mat_SubtractDouble(Mat m, double val);
+    void Mat_AddInt(Mat m, int val);
+    void Mat_SubtractInt(Mat m, int val);
     
     void Mat_AddUChar(Mat m, uint8_t val);
     void Mat_SubtractUChar(Mat m, uint8_t val);
@@ -862,6 +877,31 @@ void multiplyDouble(Mat m, double val){
 void divideFloat(Mat m, float val){
     Mat_DivideFloat(m, val);
 }
+
+void multiplyInt(Mat m, int val){
+    Mat_MultiplyInt(m, val);
+}
+
+void divideInt(Mat m, int val){
+    Mat_DivideInt(m, val);
+}
+
+void addDouble(Mat m, double val){
+    Mat_AddDouble(m, val);
+}
+
+void subtractDouble(Mat m, double val){
+    Mat_SubtractDouble(m, val);
+}
+
+void addInt(Mat m, int val){
+    Mat_AddInt(m, val);
+}
+
+void subtractInt(Mat m, int val){
+    Mat_SubtractInt(m, val);
+}
+
 
 void performLUT(Mat src, Mat lut, Mat dst){
     LUT(src, lut, dst);
