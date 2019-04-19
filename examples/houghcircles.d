@@ -30,7 +30,6 @@ int main()
     
     for( size_t i = 0; i < circles.length; i++ )
     {
-        
         Vec3f c = circles[i];
         Point center = Point(c[0].to!int, c[1].to!int);
         // circle center

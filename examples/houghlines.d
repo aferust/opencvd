@@ -8,6 +8,9 @@ import opencvd.highgui;
 import opencvd.imgcodecs;
 import opencvd.imgproc;
 
+// https://docs.opencv.org/4.1.0/d5/df9/samples_2cpp_2tutorial_code_2ImgTrans_2houghlines_8cpp-example.html
+// tested and working!
+
 int main()
 {
     // Declare the output variables
@@ -45,7 +48,7 @@ int main()
     // Probabilistic Line Transform
     Vec4i[] linesP; // will hold the results of the detection
     houghLinesP(dst, linesP, 1, PI/180, 50, 50, 10 ); // runs the actual detection
-    linesP.writeln;
+    
     // Draw the lines
     for( size_t i = 0; i < linesP.length; i++ )
     {

@@ -387,8 +387,7 @@ void houghCircles(Mat image, ref Vec3f[] circles, int method, double dp,
     Vec3fs *ccircles;
     HoughCircles3(image, &ccircles, method, dp, minDist, param1, param2, minRadius, maxRadius);
     
-    circles.length = ccircles.length;
-    circles[] = ccircles.vec3fs[0..ccircles.length];
+    circles = ccircles.vec3fs[0..ccircles.length];
 }	
 
 void houghLines(Mat src, Mat lines, double rho, double theta, int threshold){
@@ -403,8 +402,7 @@ void houghLinesP(Mat image, ref Vec4i[] lines, double rho, double theta,
     int threshold, double minLineLength = 0, double maxLineGap = 0){
     Vec4is *clines;
     HoughLinesP2(image, &clines, rho, theta, threshold, minLineLength, maxLineGap);
-    lines.length = clines.length;
-    lines[] = clines.vec4is[0..clines.length];
+    lines = clines.vec4is[0..clines.length];
 }
 
 void houghLinesPWithParams(Mat src, Mat lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap){
@@ -415,8 +413,7 @@ void houghLines(Mat image, ref Vec2f[] lines, double rho, double theta,
     int threshold, double srn = 0, double stn = 0, double min_theta = 0, double max_theta = PI){
     Vec2fs *clines;
     HoughLines2(image, &clines, rho, theta, threshold, srn, stn, min_theta, max_theta);
-    lines.length = clines.length;
-    lines[] = clines.vec2fs[0..clines.length];
+    lines = clines.vec2fs[0..clines.length];
 }
 
 void houghLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,
