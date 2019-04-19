@@ -387,7 +387,10 @@ void houghCircles(Mat image, ref Vec3f[] circles, int method, double dp,
     Vec3fs *ccircles;
     HoughCircles3(image, &ccircles, method, dp, minDist, param1, param2, minRadius, maxRadius);
     
-    circles = ccircles.vec3fs[0..ccircles.length];
+    //circles = ccircles.vec3fs[0..ccircles.length]; // bug here. we have to do it with a loop
+    foreach(int i; 0..ccircles.length){
+        circles ~= ccircles.vec3fs[i];
+    }
 }	
 
 void houghLines(Mat src, Mat lines, double rho, double theta, int threshold){
