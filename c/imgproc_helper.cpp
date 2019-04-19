@@ -59,6 +59,10 @@ void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, boo
     cv::Canny(*dx, *dy, *edges, threshold1, threshold2, L2gradient);
 }
 
+void Canny3(Mat image, Mat edges, double threshold1, double threshold2, int apertureSize, bool L2gradient){
+    cv::Canny(*image, *edges, threshold1, threshold2, apertureSize, L2gradient);
+}
+
 Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor){
     cv::Point p1(anchor.x, anchor.y);
     cv::Size sz(ksize.width, ksize.height);
@@ -166,4 +170,73 @@ void Rectangle2(Mat img, Point _pt1, Point _pt2, Scalar color, int thickness, in
         lineType,
         shift
     );
+}
+
+void HoughCircles3(Mat image, Vec3fs **_circles, int method, double dp,
+                  double minDist, double param1, double param2, int minRadius, int maxRadius){
+    std::vector<cv::Vec3f> circles;
+    HoughCircles(*image, circles, method, dp, minDist, param1, param2, minRadius, maxRadius);
+    
+    Vec3f* ccs = new Vec3f[circles.size()];
+    
+    for (size_t i = 0; i < circles.size(); i++) {
+        Vec3f vc3f = {circles[i][0], circles[i][1], circles[i][2]};
+        ccs[i] = vc3f;
+    }
+    
+    Vec3fs retCircles = {ccs, (int)circles.size()};
+    *_circles = &retCircles;
+    
+    delete ccs;
+}
+
+void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int shift){
+    cv::Point p1(center.x, center.y);
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+
+    cv::circle(*img, p1, radius, c, thickness, shift);
+}
+
+void HoughLines2(Mat image, Vec2fs **_lines, double rho, double theta,
+            int threshold, double srn, double stn, double min_theta, double max_theta){
+    std::vector<cv::Vec2f> lines;
+    HoughLines(*image, lines, rho, theta, threshold, srn, stn, min_theta, max_theta);
+    
+    Vec2f* lns = new Vec2f[lines.size()];
+    
+    for (size_t i = 0; i < lines.size(); i++) {
+        Vec2f vc2f = {lines[i][0], lines[i][1]};
+        lns[i] = vc2f;
+    }
+    
+    Vec2fs retLines = {lns, (int)lines.size()};
+    *_lines = &retLines;
+    
+    delete lns;
+}
+
+void HoughLinesP2(Mat image, Vec4is **_lines, double rho, double theta,
+            int threshold, double minLineLength, double maxLineGap){
+    std::vector<cv::Vec4i> lines;
+    HoughLinesP(*image, lines, rho, theta, threshold, minLineLength, maxLineGap);
+    
+    Vec4i* lns = new Vec4i[lines.size()];
+    
+    for (size_t i = 0; i < lines.size(); i++) {
+        Vec4i vc4i = {lines[i][0], lines[i][1]};
+        lns[i] = vc4i;
+    }
+    
+    Vec4is retLines = {lns, (int)lines.size()};
+    *_lines = &retLines;
+    
+    delete lns;
+}
+
+void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift){
+    cv::Point p1(pt1.x, pt1.y);
+    cv::Point p2(pt2.x, pt2.y);
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+
+    cv::line(*img, p1, p2, c, thickness, lineType, shift);
 }

@@ -98,7 +98,7 @@ void namedWindow(string winname, int flags = 0){
     Window_New(toStringz(winname), flags);
 }
 
-int waitKey(int val){
+int waitKey(int val = 0){
     return Window_WaitKey(val);
 }
 

@@ -27,6 +27,7 @@ module opencvd.imgproc;
 import std.stdio;
 import std.string;
 import std.typecons;
+import std.math: PI;
 import core.stdc.stdlib;
 
 import opencvd.cvcore;
@@ -76,26 +77,35 @@ private {
         
         void Canny(Mat src, Mat edges, double t1, double t2);
         void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient);
+        void Canny3(Mat image, Mat edges, double threshold1, double threshold2, int apertureSize, bool L2gradient);
         void CornerSubPix(Mat img, Mat corners, Size winSize, Size zeroZone, TermCriteria criteria);
         void GoodFeaturesToTrack(Mat img, Mat corners, int maxCorners, double quality, double minDist);
         void HoughCircles(Mat src, Mat circles, int method, double dp, double minDist);
         void HoughCirclesWithParams(Mat src, Mat circles, int method, double dp, double minDist,
                                     double param1, double param2, int minRadius, int maxRadius);
+        void HoughCircles3(Mat image, Vec3fs **circles, int method, double dp,
+                  double minDist, double param1, double param2, int minRadius, int maxRadius);
         void HoughLines(Mat src, Mat lines, double rho, double theta, int threshold);
         void HoughLinesP(Mat src, Mat lines, double rho, double theta, int threshold);
+        void HoughLinesP2(Mat image, Vec4is **lines, double rho, double theta,
+            int threshold, double minLineLength, double maxLineGap);
         void HoughLinesPWithParams(Mat src, Mat lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap);
         void HoughLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,
                                 double min_rho, double  max_rho, double rho_step,
                                 double min_theta, double max_theta, double theta_step);
+        void HoughLines2(Mat image, Vec2fs **lines, double rho, double theta,
+            int threshold, double srn, double stn, double min_theta, double max_theta);
         void Threshold(Mat src, Mat dst, double thresh, double maxvalue, int typ);
         void AdaptiveThreshold(Mat src, Mat dst, double maxValue, int adaptiveTyp, int typ, int blockSize,
                                double c);
                                
         void ArrowedLine(Mat img, Point pt1, Point pt2, Scalar color, int thickness);
         void Circle(Mat img, Point center, int radius, Scalar color, int thickness);
+        void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int shift);
         void Ellipse(Mat img, Point center, Point axes, double angle, double
                      startAngle, double endAngle, Scalar color, int thickness);
         void Line(Mat img, Point pt1, Point pt2, Scalar color, int thickness);
+        void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
         void Rectangle(Mat img, Rect rect, Scalar color, int thickness);
         void Rectangle2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
         void FillPoly(Mat img, Contours points, Scalar color);
@@ -273,7 +283,7 @@ Contours findContours(Mat src, int mode, int method){
 }
 
 Tuple!(Contours, Hierarchy) findContoursWithHier(Mat src, int mode, int method){
-    Hierarchy *chier;// = null;
+    Hierarchy *chier;
     auto cntrs = FindContoursWithHier(src, &chier, mode, method);
     //chier.scalars.writeln;
     Hierarchy rethie = {scalars: chier.scalars, length: chier.length};
@@ -343,12 +353,23 @@ void canny(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool
     Canny2(dx, dy, edges, threshold1, threshold2, L2gradient);
 }
 
+void canny(Mat image, Mat edges, double threshold1, double threshold2, int apertureSize = 3, bool L2gradient = false){
+    Canny3(image, edges, threshold1, threshold2, apertureSize, L2gradient);
+}
+
 void cornerSubPix(Mat img, Mat corners, Size winSize, Size zeroZone, TermCriteria criteria){
     CornerSubPix(img, corners, winSize, zeroZone, criteria);
 }
 
 void goodFeaturesToTrack(Mat img, Mat corners, int maxCorners, double quality, double minDist){
     GoodFeaturesToTrack(img, corners, maxCorners, quality, minDist);
+}
+
+enum: int { // cv::HoughModes
+  HOUGH_STANDARD = 0, 
+  HOUGH_PROBABILISTIC = 1, 
+  HOUGH_MULTI_SCALE = 2, 
+  HOUGH_GRADIENT = 3 
 }
 
 void houghCircles(Mat src, Mat circles, int method, double dp, double minDist){
@@ -360,6 +381,16 @@ void houghCirclesWithParams(Mat src, Mat circles, int method, double dp, double 
                             param1, param2, minRadius, maxRadius);
 }
 
+void houghCircles(Mat image, ref Vec3f[] circles, int method, double dp,
+                  double minDist, double param1 = 100,
+                  double param2 = 100, int minRadius = 0, int maxRadius = 0){
+    Vec3fs *ccircles;
+    HoughCircles3(image, &ccircles, method, dp, minDist, param1, param2, minRadius, maxRadius);
+    
+    circles.length = ccircles.length;
+    circles[] = ccircles.vec3fs[0..ccircles.length];
+}	
+
 void houghLines(Mat src, Mat lines, double rho, double theta, int threshold){
     HoughLines(src, lines, rho, theta, threshold);
 }
@@ -368,8 +399,24 @@ void houghLinesP(Mat src, Mat lines, double rho, double theta, int threshold){
     HoughLinesP(src, lines, rho, theta, threshold);
 }
 
+void houghLinesP(Mat image, ref Vec4i[] lines, double rho, double theta,
+    int threshold, double minLineLength = 0, double maxLineGap = 0){
+    Vec4is *clines;
+    HoughLinesP2(image, &clines, rho, theta, threshold, minLineLength, maxLineGap);
+    lines.length = clines.length;
+    lines[] = clines.vec4is[0..clines.length];
+}
+
 void houghLinesPWithParams(Mat src, Mat lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap){
     HoughLinesPWithParams(src, lines, rho, theta, threshold, minLineLength, maxLineGap);
+}
+
+void houghLines(Mat image, ref Vec2f[] lines, double rho, double theta,
+    int threshold, double srn = 0, double stn = 0, double min_theta = 0, double max_theta = PI){
+    Vec2fs *clines;
+    HoughLines2(image, &clines, rho, theta, threshold, srn, stn, min_theta, max_theta);
+    lines.length = clines.length;
+    lines[] = clines.vec2fs[0..clines.length];
 }
 
 void houghLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,
@@ -409,6 +456,10 @@ void circle(Mat img, Point center, int radius, Scalar color, int thickness){
     Circle(img, center, radius, color, thickness);
 }
 
+void circle(Mat img, Point center, int radius, Scalar color, int thickness, int shift){
+    Circle2(img, center, radius, color, thickness, shift);
+}
+
 void ellipse(Mat img, Point center, Point axes, double angle, double
              startAngle, double endAngle, Scalar color, int thickness){
     Ellipse(img, center, axes, angle, startAngle, endAngle, color, thickness);
@@ -416,6 +467,10 @@ void ellipse(Mat img, Point center, Point axes, double angle, double
 
 void line(Mat img, Point pt1, Point pt2, Scalar color, int thickness){
     Line(img, pt1, pt2, color, thickness);
+}
+
+void line(Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
+    Line2(img, pt1, pt2, color, thickness, lineType, shift);
 }
 
 void rectangle(Mat img, Rect rect, Scalar color, int thickness){

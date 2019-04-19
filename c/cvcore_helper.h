@@ -5,6 +5,62 @@
 extern "C" {
 #endif
 
+typedef struct Vec4f {
+    float val1;
+    float val2;
+    float val3;
+    float val4;
+} Vec4f;
+
+typedef struct Vec4fs {
+    Vec4f* vec4fs;
+    int length;
+} Vec4fs;
+
+typedef struct Vec3f {
+    float val1;
+    float val2;
+    float val3;
+} Vec3f;
+
+typedef struct Vec3fs {
+    Vec3f* vec3fs;
+    int length;
+} Vec3fs;
+
+typedef struct Vec4i {
+    int val1;
+    int val2;
+    int val3;
+    int val4;
+} Vec4i;
+
+typedef struct Vec4is {
+    Vec4i* vec4is;
+    int length;
+} Vec4is;
+
+typedef struct Vec3i {
+    int val1;
+    int val2;
+    int val3;
+} Vec3i;
+
+typedef struct Vec3is {
+    Vec3i* vec3is;
+    int length;
+} Vec3is;
+
+typedef struct Vec2f {
+    float val1;
+    float val2;
+} Vec2f;
+
+typedef struct Vec2fs {
+    Vec2f* vec2fs;
+    int length;
+} Vec2fs;
+
 void Mat_MultiplyInt(Mat m, int val);
 void Mat_DivideInt(Mat m, int val);
 void Mat_AddDouble(Mat m, double val);

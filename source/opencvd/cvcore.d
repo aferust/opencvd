@@ -59,6 +59,143 @@ struct Scalar {
 
 alias Color = Scalar;
 
+struct Vec4f {
+    float val1;
+    float val2;
+    float val3;
+    float val4;
+    
+    static Scalar all(float val){
+        return Scalar(val,val,val,val);
+    }
+    
+    float opIndex(int i){
+        return [val1, val2, val3, val4][i];
+    }
+    
+    void opIndexAssign(float val, int i){
+        *[&val1, &val2, &val3, &val4][i] = val;
+    }
+}
+
+struct Vec4fs {
+    Vec4f* vec4fs;
+    int length;
+    
+    Vec4f opIndex(int i){
+        return vec4fs[i];
+    }
+}
+
+struct Vec3f {
+    float val1;
+    float val2;
+    float val3;
+    
+    static Vec3f all(float val){
+        return Vec3f(val,val,val);
+    }
+    
+    float opIndex(int i){
+        return [val1, val2, val3][i];
+    }
+    
+    void opIndexAssign(float val, int i){
+        *[&val1, &val2, &val3][i] = val;
+    }
+}
+
+struct Vec3fs{
+    Vec3f* vec3fs;
+    int length;
+    
+    Vec3f opIndex(int i){
+        return vec3fs[i];
+    }
+}
+
+struct Vec4i {
+    int val1;
+    int val2;
+    int val3;
+    int val4;
+    
+    static Vec4i all(int val){
+        return Vec4i(val,val,val,val);
+    }
+    
+    int opIndex(int i){
+        return [val1, val2, val3, val4][i];
+    }
+    
+    void opIndexAssign(int val, int i){
+        *[&val1, &val2, &val3, &val4][i] = val;
+    }
+}
+
+struct Vec4is{
+    Vec4i* vec4is;
+    int length;
+    
+    Vec4i opIndex(int i){
+        return vec4is[i];
+    }
+}
+
+struct Vec3i {
+    int val1;
+    int val2;
+    int val3;
+    
+    static Vec3i all(int val){
+        return Vec3i(val,val,val);
+    }
+    
+    int opIndex(int i){
+        return [val1, val2, val3][i];
+    }
+    
+    void opIndexAssign(int val, int i){
+        *[&val1, &val2, &val3][i] = val;
+    }
+}
+
+struct Vec3is {
+    Vec3i* vec3is;
+    int length;
+    
+    Vec3i opIndex(int i){
+        return vec3is[i];
+    }
+}
+
+struct Vec2f {
+    float val1;
+    float val2;
+    
+    static Vec2f all(float val){
+        return Vec2f(val,val);
+    }
+    
+    float opIndex(int i){
+        return [val1, val2][i];
+    }
+    
+    void opIndexAssign(float val, int i){
+        *[&val1, &val2][i] = val;
+    }
+    
+}
+
+struct Vec2fs {
+    Vec2f* vec2fs;
+    int length;
+    
+    Vec2f opIndex(int i){
+        return vec2fs[i];
+    }
+}
+
 struct Hierarchy {
     Scalar* scalars;
     int length;
@@ -822,6 +959,8 @@ void Destroy(Mat m){
 bool isEmpty(Mat m){
     return Mat_Empty(m) == 0 ? false: true;
 }
+
+alias empty = isEmpty;
 
 Mat clone(Mat m){
     return Mat_Clone(m);
