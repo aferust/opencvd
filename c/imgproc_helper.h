@@ -50,7 +50,7 @@ void CalcHist2(Mat dst, Mat mask, Mat hist, int* histSize);
 
 void Rectangle2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);	
 
-void HoughCircles3(Mat image, Vec3fs **circles, int method, double dp,
+Vec3fs HoughCircles3(Mat image, int method, double dp,
                   double minDist, double param1, double param2, int minRadius, int maxRadius);
 
 void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int shift);

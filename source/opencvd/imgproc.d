@@ -83,7 +83,7 @@ private {
         void HoughCircles(Mat src, Mat circles, int method, double dp, double minDist);
         void HoughCirclesWithParams(Mat src, Mat circles, int method, double dp, double minDist,
                                     double param1, double param2, int minRadius, int maxRadius);
-        void HoughCircles3(Mat image, Vec3fs **circles, int method, double dp,
+        Vec3fs HoughCircles3(Mat image, int method, double dp,
                   double minDist, double param1, double param2, int minRadius, int maxRadius);
         void HoughLines(Mat src, Mat lines, double rho, double theta, int threshold);
         void HoughLinesP(Mat src, Mat lines, double rho, double theta, int threshold);
@@ -384,14 +384,15 @@ void houghCirclesWithParams(Mat src, Mat circles, int method, double dp, double 
 void houghCircles(Mat image, ref Vec3f[] circles, int method, double dp,
                   double minDist, double param1 = 100,
                   double param2 = 100, int minRadius = 0, int maxRadius = 0){
-    Vec3fs *ccircles;
-    HoughCircles3(image, &ccircles, method, dp, minDist, param1, param2, minRadius, maxRadius);
+    Vec3fs ccircles = HoughCircles3(image, method, dp, minDist, param1, param2, minRadius, maxRadius);
     
-    //circles = ccircles.vec3fs[0..ccircles.length]; // bug here. we have to do it with a loop
-    foreach(int i; 0..ccircles.length){
-        circles ~= ccircles.vec3fs[i];
+    version(Windows){
+        foreach(int i; 0..ccircles.length)
+            circles ~= ccircles.vec3fs[i];
+    }else{
+        circles = ccircles.vec3fs[0..ccircles.length];
     }
-}	
+}
 
 void houghLines(Mat src, Mat lines, double rho, double theta, int threshold){
     HoughLines(src, lines, rho, theta, threshold);

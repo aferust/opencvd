@@ -172,7 +172,7 @@ void Rectangle2(Mat img, Point _pt1, Point _pt2, Scalar color, int thickness, in
     );
 }
 
-void HoughCircles3(Mat image, Vec3fs **_circles, int method, double dp,
+Vec3fs HoughCircles3(Mat image, int method, double dp,
                   double minDist, double param1, double param2, int minRadius, int maxRadius){
     std::vector<cv::Vec3f> circles;
     HoughCircles(*image, circles, method, dp, minDist, param1, param2, minRadius, maxRadius);
@@ -185,9 +185,8 @@ void HoughCircles3(Mat image, Vec3fs **_circles, int method, double dp,
     }
     
     Vec3fs retCircles = {ccs, (int)circles.size()};
-    *_circles = &retCircles;
-    
     delete ccs;
+    return retCircles;
 }
 
 void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int shift){
