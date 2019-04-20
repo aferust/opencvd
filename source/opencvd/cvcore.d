@@ -65,7 +65,7 @@ struct Vec4f {
     float val3;
     float val4;
     
-    static Scalar all(float val){
+    static Vec4f all(float val){
         return Scalar(val,val,val,val);
     }
     

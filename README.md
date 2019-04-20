@@ -25,7 +25,7 @@ Opencvd requires the following packeges to build:
 - No documentation yet.
 - Most of the functionality has not been tested yet. (need help)
 - No unittests yet.
-- It may be better to rewrite somethings in a more D way (use d arrays etc.).
+- It may be better to rewrite somethings in a more D way (use d arrays more etc.).
 
 ## How to build
 ### Ubuntu
