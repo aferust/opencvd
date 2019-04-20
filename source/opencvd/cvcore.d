@@ -66,7 +66,7 @@ struct Vec4f {
     float val4;
     
     static Vec4f all(float val){
-        return Scalar(val,val,val,val);
+        return Vec4f(val,val,val,val);
     }
     
     float opIndex(int i){
