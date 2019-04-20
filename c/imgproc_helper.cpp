@@ -184,8 +184,8 @@ Vec3fs HoughCircles3(Mat image, int method, double dp,
         ccs[i] = vc3f;
     }
     
-    Vec3fs retCircles = {ccs, (int)circles.size()};
-    delete ccs;
+    Vec3fs retCircles = {.vec3fs = ccs, .length = (int)circles.size()};
+    
     return retCircles;
 }
 
