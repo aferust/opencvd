@@ -385,13 +385,8 @@ void houghCircles(Mat image, ref Vec3f[] circles, int method, double dp,
                   double minDist, double param1 = 100,
                   double param2 = 100, int minRadius = 0, int maxRadius = 0){
     Vec3fs ccircles = HoughCircles3(image, method, dp, minDist, param1, param2, minRadius, maxRadius);
-    
-    version(Windows){
-        foreach(int i; 0..ccircles.length)
-            circles ~= ccircles.vec3fs[i];
-    }else{
-        circles = ccircles.vec3fs[0..ccircles.length];
-    }
+    circles = ccircles.vec3fs[0..ccircles.length];
+
 }
 
 void houghLines(Mat src, Mat lines, double rho, double theta, int threshold){

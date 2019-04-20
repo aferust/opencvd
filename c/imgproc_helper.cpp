@@ -184,7 +184,7 @@ Vec3fs HoughCircles3(Mat image, int method, double dp,
         ccs[i] = vc3f;
     }
     
-    Vec3fs retCircles = {.vec3fs = ccs, .length = (int)circles.size()};
+    Vec3fs retCircles = {ccs, (int)circles.size()};
     
     return retCircles;
 }
@@ -211,7 +211,7 @@ void HoughLines2(Mat image, Vec2fs **_lines, double rho, double theta,
     Vec2fs retLines = {lns, (int)lines.size()};
     *_lines = &retLines;
     
-    delete lns;
+    //delete lns;
 }
 
 void HoughLinesP2(Mat image, Vec4is **_lines, double rho, double theta,
@@ -229,7 +229,7 @@ void HoughLinesP2(Mat image, Vec4is **_lines, double rho, double theta,
     Vec4is retLines = {lns, (int)lines.size()};
     *_lines = &retLines;
     
-    delete lns;
+    //delete lns;
 }
 
 void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift){
