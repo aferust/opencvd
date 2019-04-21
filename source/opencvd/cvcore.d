@@ -951,6 +951,7 @@ private extern (C) {
     void Mat_Sort(Mat src, Mat dst, int flags);
     void Mat_SortIdx(Mat src, Mat dst, int flags);
     void Mat_Split(Mat src, Mats* mats);
+    Mats Mat_Split2(Mat src);
     void Mat_Subtract(Mat src1, Mat src2, Mat dst);
     Scalar Mat_Trace(Mat src);
     void Mat_Transform(Mat src, Mat dst, Mat tm);
@@ -1485,13 +1486,12 @@ void matSortIdx(Mat src, Mat dst, int flags){
 }
 
 void matSplit(Mat src, Mats* mats){
-    Mat_Split(src, mats);
+    Mats _mats = Mat_Split2(src);
+    mats = &_mats;
 }
 
 void matSplit(Mat src, ref Mat[] _mats){
-    Mats* mats;
-    Mat_Split(src, mats);
-    
+    Mats mats = Mat_Split2(src);
     _mats = mats.mats[0..mats.length];
 }
 

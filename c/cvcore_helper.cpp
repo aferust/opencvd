@@ -189,3 +189,17 @@ void Mat_MinMaxLoc2(Mat a, double* minVal, double* maxVal, int* minIdx, int* max
 void Mat_Merge2(struct Mats mats, int count, Mat dst){
     cv::merge(*mats.mats, (size_t)count, *dst);
 }
+
+struct Mats Mat_Split2(Mat src){
+    std::vector<cv::Mat> channels;
+    cv::split(*src, channels);
+    
+    Mat *_mats = new Mat[channels.size()];
+
+    for (size_t i = 0; i < channels.size(); ++i) {
+        _mats[i] = new cv::Mat(channels[i]);
+    }
+    
+    Mats ret = {_mats, (int)channels.size()};
+    return ret;
+}

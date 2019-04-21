@@ -114,7 +114,7 @@ void Mat_MinMaxLoc2(Mat a, double* minVal, double* maxVal, int* minIdx, int* max
 
 void Mat_Merge2(struct Mats mats, int count, Mat dst);
 
-
+struct Mats Mat_Split2(Mat src);
 
 #ifdef __cplusplus
 }
