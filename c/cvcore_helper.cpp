@@ -3,6 +3,10 @@
 
 #include <string>
 
+uchar* Mat_RowPtr(Mat m, int i){
+    return (*m).ptr(i);
+}
+
 void Mat_MultiplyInt(Mat m, int val){
     *m *= val;
 }
@@ -25,6 +29,59 @@ void Mat_AddInt(Mat m, int val) {
 
 void Mat_SubtractInt(Mat m, int val) {
     *m -= val;
+}
+
+void Mat_AddScalar(Mat m, Scalar s){
+    cv::Scalar scalar = cv::Scalar(s.val1, s.val2, s.val3, s.val4);
+    *m += scalar;
+}
+
+Mat Mat_EQInt(Mat m, int a){
+    return new cv::Mat(*m == a);
+}
+
+Mat Mat_GTInt(Mat m, int a){
+    return new cv::Mat(*m > a);
+}
+
+Mat Mat_GEInt(Mat m, int a){
+    return new cv::Mat(*m >= a);
+}
+
+Mat Mat_LTInt(Mat m, int a){
+    return new cv::Mat(*m < a);
+}
+
+Mat Mat_LEInt(Mat m, int a){
+    return new cv::Mat(*m <= a);
+}
+
+Mat Mat_NEInt(Mat m, int a){
+    return new cv::Mat(*m != a);
+}
+
+Mat Mat_EQDouble(Mat m, double a){
+    return new cv::Mat(*m == a);
+}
+
+Mat Mat_GTDouble(Mat m, double a){
+    return new cv::Mat(*m > a);
+}
+
+Mat Mat_GEDouble(Mat m, double a){
+    return new cv::Mat(*m >= a);
+}
+
+Mat Mat_LTDouble(Mat m, double a){
+    return new cv::Mat(*m < a);
+}
+
+Mat Mat_LEDouble(Mat m, double a){
+    return new cv::Mat(*m <= a);
+}
+
+Mat Mat_NEDouble(Mat m, double a){
+    return new cv::Mat(*m != a);
 }
 
 Mat Mat_ZerosFromRC(int rows, int cols, int type){
@@ -127,4 +184,8 @@ void Mat_convertTo2(Mat m, Mat dst, int rtype, double alpha, double beta){
 
 void Mat_MinMaxLoc2(Mat a, double* minVal, double* maxVal, int* minIdx, int* maxIdx){
     cv::minMaxLoc(cv::SparseMat(*a), minVal, maxVal, minIdx, maxIdx);
+}
+
+void Mat_Merge2(struct Mats mats, int count, Mat dst){
+    cv::merge(*mats.mats, (size_t)count, *dst);
 }

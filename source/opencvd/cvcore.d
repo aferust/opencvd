@@ -380,6 +380,7 @@ struct Mat {
     int total() {return Mat_Total(this);}
     int flatLength() {return Mat_FlatLength(this);}
     void* rawDataPtr() {return Mat_DataPtrNoCast(this);}
+    ubyte* ptr(int i) { return Mat_RowPtr(this, i);}
     Scalar mean() {return Mat_Mean(this);}
     Mat sqrt() {return Mat_Sqrt(this);}
     
@@ -484,13 +485,70 @@ struct Mat {
         }
     }
     
+    // so sad that the D does not support struct > 5
+    Mat EQInt(int a){
+        return Mat_EQInt(this, a);
+    }
+    
+    Mat GTInt(int a){
+        return Mat_GTInt(this, a);
+    }
+    
+    Mat GEInt(int a){
+        return Mat_GEInt(this, a);
+    }
+    
+    Mat LTInt(int a){
+        return Mat_LTInt(this, a);
+    }
+    
+    Mat LEInt(int a){
+        return Mat_LEInt(this, a);
+    }
+    Mat NEInt(int a){
+        return Mat_NEInt(this, a);
+    }
+    
+    Mat EQDouble(double a){
+        return Mat_EQDouble(this, a);
+    }
+    
+    Mat GTDouble(double a){
+        return Mat_GTDouble(this, a);
+    }
+    
+    Mat GEDouble(double a){
+        return Mat_GEDouble(this, a);
+    }
+    
+    Mat LTDouble(double a){
+        return Mat_LTDouble(this, a);
+    }
+    
+    Mat LEDouble(double a){
+        return Mat_LEDouble(this, a);
+    }
+    
+    Mat NEDouble(double a){
+        return Mat_NEDouble(this, a);
+    }
+    
     Mat opBinary(string op)(Mat m){
         static if (op == "+"){
             add(this, m, this);
         }
         else static if (op == "-"){
             matSubtract(this, m, this);
-            return this;
+        }
+        return this;
+    }
+    
+    Mat opBinary(string op)(Scalar s){
+        static if (op == "+"){
+            Mat_AddScalar(this, s);
+        }
+        else static if (op == "-"){
+            Mat_AddScalar(this, Scalar(-s.val1, -s.val2, -s.val3, -s.val4));
         }
         return this;
     }
@@ -732,6 +790,7 @@ private extern (C) {
     Mat Mat_NewFromBytes(int rows, int cols, int type, ByteArray buf);
     Mat Mat_FromPtr(Mat m, int rows, int cols, int type, int prows, int pcols);
     Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
+    ubyte* Mat_RowPtr(Mat m, int i);
     
     int Mat_Rows(Mat m);
     int Mat_Cols(Mat m);
@@ -797,6 +856,21 @@ private extern (C) {
     void Mat_SubtractDouble(Mat m, double val);
     void Mat_AddInt(Mat m, int val);
     void Mat_SubtractInt(Mat m, int val);
+    void Mat_AddScalar(Mat m, Scalar s);
+    
+    Mat Mat_EQInt(Mat m, int a);
+    Mat Mat_GTInt(Mat m, int a);
+    Mat Mat_GEInt(Mat m, int a);
+    Mat Mat_LTInt(Mat m, int a);
+    Mat Mat_LEInt(Mat m, int a);
+    Mat Mat_NEInt(Mat m, int a);
+
+    Mat Mat_EQDouble(Mat m, double a);
+    Mat Mat_GTDouble(Mat m, double a);
+    Mat Mat_GEDouble(Mat m, double a);
+    Mat Mat_LTDouble(Mat m, double a);
+    Mat Mat_LEDouble(Mat m, double a);
+    Mat Mat_NEDouble(Mat m, double a);
     
     void Mat_AddUChar(Mat m, uint8_t val);
     void Mat_SubtractUChar(Mat m, uint8_t val);
@@ -858,6 +932,7 @@ private extern (C) {
     void Mat_Max(Mat src1, Mat src2, Mat dst);
     void Mat_MeanStdDev(Mat src, Mat dstMean, Mat dstStdDev);
     void Mat_Merge(Mats mats, Mat dst);
+    void Mat_Merge2(Mats mats, int count, Mat dst);
     void Mat_Min(Mat src1, Mat src2, Mat dst);
     void Mat_MinMaxIdx(Mat m, double* minVal, double* maxVal, int* minIdx, int* maxIdx);
     void Mat_MinMaxLoc(Mat m, double* minVal, double* maxVal, Point* minLoc, Point* maxLoc);
@@ -1067,6 +1142,10 @@ void absDiff(Mat src1, Mat src2, Mat dst){
 
 void add(Mat src1, Mat src2, Mat dst){
     Mat_Add(src1, src2, dst);
+}
+
+void addScalar(Mat m, Scalar s){
+    Mat_AddScalar(m, s);
 }
 
 void addWeighted(Mat src1, double alpha, Mat src2, double beta, double gamma, Mat dst){
@@ -1315,6 +1394,10 @@ void meanStdDev(Mat src, Mat dstMean, Mat dstStdDev){
 
 void merge(Mats mats, Mat dst){
     Mat_Merge(mats, dst);
+}
+
+void merge(Mat[] mats, Mat dst){
+    Mat_Merge(Mats(mats.ptr, cast(int)mats.length), dst);
 }
 
 void matMin(Mat src1, Mat src2, Mat dst){

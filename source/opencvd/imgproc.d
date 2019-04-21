@@ -148,6 +148,9 @@ private {
         void Watershed(Mat src, Mat markers);
         int FloodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
                 Rect rect, Scalar loDiff, Scalar upDiff, int flags);
+        void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
+            int maskSize, int labelType);
+        void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType);
     }
 }
 double arcLength(Contour curve, bool is_closed){
@@ -584,6 +587,40 @@ int floodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
                 Rect rect, Scalar loDiff, Scalar upDiff, int flags){
     return FloodFill(image, mask, seedPoint, newVal, rect, loDiff, upDiff, flags);
 }
+
+enum: int{ // cv::DistanceTransformMasks
+    DIST_MASK_3 = 3, 
+    DIST_MASK_5 = 5, 
+    DIST_MASK_PRECISE = 0 
+}
+
+enum: int { // cv::DistanceTransformLabelTypes
+    DIST_LABEL_CCOMP = 0, 
+    DIST_LABEL_PIXEL = 1 
+}
+
+enum: int { // cv::DistanceTypes
+    DIST_USER = -1, 
+    DIST_L1 = 1, 
+    DIST_L2 = 2, 
+    DIST_C = 3, 
+    DIST_L12 = 4, 
+    DIST_FAIR = 5, 
+    DIST_WELSCH = 6, 
+    DIST_HUBER = 7 
+}
+
+
+void distanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
+    int maskSize, int labelType = DIST_LABEL_CCOMP){
+    
+    DistanceTransform(src, dst, labels, distanceType, maskSize, labelType);
+}	
+
+
+void distanceTransform(Mat src, Mat	dst, int distanceType, int maskSize, int dstType = CV32F){
+    DistanceTransform2(src, dst, distanceType, maskSize, dstType);
+}	
 
 // Contrast-limited adaptive histogram equalization
 struct _CLAHE{

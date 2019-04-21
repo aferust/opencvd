@@ -61,12 +61,29 @@ typedef struct Vec2fs {
     int length;
 } Vec2fs;
 
+uchar* Mat_RowPtr(Mat m, int i);
+
 void Mat_MultiplyInt(Mat m, int val);
 void Mat_DivideInt(Mat m, int val);
 void Mat_AddDouble(Mat m, double val);
 void Mat_SubtractDouble(Mat m, double val);
 void Mat_AddInt(Mat m, int val);
 void Mat_SubtractInt(Mat m, int val);
+void Mat_AddScalar(Mat m, Scalar scalar);
+
+Mat Mat_EQInt(Mat m, int a);
+Mat Mat_GTInt(Mat m, int a);
+Mat Mat_GEInt(Mat m, int a);
+Mat Mat_LTInt(Mat m, int a);
+Mat Mat_LEInt(Mat m, int a);
+Mat Mat_NEInt(Mat m, int a);
+
+Mat Mat_EQDouble(Mat m, double a);
+Mat Mat_GTDouble(Mat m, double a);
+Mat Mat_GEDouble(Mat m, double a);
+Mat Mat_LTDouble(Mat m, double a);
+Mat Mat_LEDouble(Mat m, double a);
+Mat Mat_NEDouble(Mat m, double a);
 
 Mat Mat_ZerosFromRC(int rows, int cols, int type);
 Mat Mat_ZerosFromSize(Size sz, int type);
@@ -94,6 +111,10 @@ typedef struct Hierarchy {
 void Mat_convertTo2(Mat m, Mat dst, int rtype, double alpha, double beta);
 
 void Mat_MinMaxLoc2(Mat a, double* minVal, double* maxVal, int* minIdx, int* maxIdx);
+
+void Mat_Merge2(struct Mats mats, int count, Mat dst);
+
+
 
 #ifdef __cplusplus
 }

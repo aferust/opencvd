@@ -62,6 +62,11 @@ void HoughLinesP2(Mat image, Vec4is **lines, double rho, double theta,
             int threshold, double minLineLength, double maxLineGap);
 void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
 
+void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
+            int maskSize, int labelType);
+
+void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType);
+
 #ifdef __cplusplus
 }
 #endif

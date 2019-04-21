@@ -239,3 +239,12 @@ void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineT
 
     cv::line(*img, p1, p2, c, thickness, lineType, shift);
 }
+
+void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
+            int maskSize, int labelType){
+    distanceTransform(*src, *dst, *labels, distanceType, maskSize, labelType);
+}
+
+void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType){
+    distanceTransform(*src, *dst, distanceType, maskSize, dstType);
+}
