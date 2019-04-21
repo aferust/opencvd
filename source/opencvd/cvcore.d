@@ -1487,6 +1487,16 @@ void matSortIdx(Mat src, Mat dst, int flags){
 void matSplit(Mat src, Mats* mats){
     Mat_Split(src, mats);
 }
+
+void matSplit(Mat src, ref Mat[] _mats){
+    Mats* mats;
+    Mat_Split(src, mats);
+    
+    _mats = mats.mats[0..mats.length];
+}
+
+alias split = matSplit;
+
 void matSubtract(Mat src1, Mat src2, Mat dst){
     Mat_Subtract(src1, src2, dst);
 }
