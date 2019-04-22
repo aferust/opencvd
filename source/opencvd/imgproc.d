@@ -148,6 +148,7 @@ private {
         void Watershed(Mat src, Mat markers);
         int FloodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
                 Rect rect, Scalar loDiff, Scalar upDiff, int flags);
+        int FloodFill2(Mat image, Point seedPoint, Scalar newVal, Rect rect, Scalar loDiff, Scalar upDiff, int flags);
         void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
             int maskSize, int labelType);
         void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType);
@@ -584,8 +585,12 @@ void watershed(Mat src, Mat markers){
 }
 
 int floodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
-                Rect rect, Scalar loDiff, Scalar upDiff, int flags){
+                Rect rect = Rect(), Scalar loDiff = Scalar(), Scalar upDiff = Scalar(), int flags = 4){
     return FloodFill(image, mask, seedPoint, newVal, rect, loDiff, upDiff, flags);
+}
+
+int floodFill(Mat image, Point seedPoint, Scalar newVal, Rect rect = Rect(), Scalar loDiff = Scalar(), Scalar upDiff = Scalar(), int flags = 4){
+    return FloodFill2(image, seedPoint, newVal, rect, loDiff, upDiff, flags);
 }
 
 enum: int{ // cv::DistanceTransformMasks
