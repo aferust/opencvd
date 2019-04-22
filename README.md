@@ -27,6 +27,9 @@ Opencvd requires the following packeges to build:
 - No unittests yet.
 - It may be better to rewrite somethings in a more D way (use d arrays more etc.).
 
+## Current roadmap of the project
+- make more examples runnable from https://docs.opencv.org/4.1.0/examples.html or https://www.learnopencv.com/
+
 ## How to build
 ### Ubuntu
 First, you have to compile C/C++ interface files:
