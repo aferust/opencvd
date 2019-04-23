@@ -196,6 +196,36 @@ struct Vec2fs {
     }
 }
 
+struct Vec6f {
+    float val1;
+    float val2;
+    float val3;
+    float val4;
+    float val5;
+    float val6;
+    
+    static Vec6f all(float val){
+        return Vec6f(val,val,val,val,val,val);
+    }
+    
+    float opIndex(int i){
+        return [val1, val2, val3, val4, val5, val6][i];
+    }
+    
+    void opIndexAssign(float val, int i){
+        *[&val1, &val2, &val3, &val4, &val5, &val6][i] = val;
+    }
+}
+
+struct Vec6fs {
+    Vec6f* vec6fs;
+    int length;
+    
+    Vec6f opIndex(int i){
+        return vec6fs[i];
+    }
+}
+
 struct Hierarchy {
     Scalar* scalars;
     int length;

@@ -19,6 +19,8 @@ Opencvd requires the following packeges to build:
 ## Tested Systems
 - Ubuntu 18.04.2 LTS 64 bit - ldc2-1.8.0 - Opencv 4.0.0 built from source
 - Windows 10 64 bit - ldc2-1.14.0-windows-x64 - OpenCV-master (4.10.0 AFAIK) - Visual Studio 2017 community Ed.
+- Raspberry Pi 3 - Raspbian Stretch Opencv 4.1.0 built from source with some pain!:
+    (https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/)
 
 ## Current limitations:
 - There may be unwrapped opencv features.
@@ -31,7 +33,7 @@ Opencvd requires the following packeges to build:
 - make more examples runnable from https://docs.opencv.org/4.1.0/examples.html or https://www.learnopencv.com/
 
 ## How to build
-### Ubuntu
+### Ubuntu - Raspbian
 First, you have to compile C/C++ interface files:
 ```
 cd opencvd/c && mkdir build
@@ -59,7 +61,15 @@ and add following to dub.json of your test app:
 ]
 ```
 
-Your build experience may vary.
+Your build experience may vary. On Raspbian, you may want to use RP Official Camera, so you
+have to register the camera device to be /dev/video0:
+```
+sudo nano /etc/modules
+```
+and add this line to the end of the file and reboot:
+```
+bcm2835-v4l2
+```
 
 ### Windows 10 64 bit:
 - Build OpenCV from source following this guide: https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html

@@ -61,6 +61,20 @@ typedef struct Vec2fs {
     int length;
 } Vec2fs;
 
+typedef struct Vec6f {
+    float val1;
+    float val2;
+    float val3;
+    float val4;
+    float val5;
+    float val6;
+} Vec6f;
+
+typedef struct Vec6fs {
+    Vec6f* vec6fs;
+    int length;
+} Vec6fs;
+
 uchar* Mat_RowPtr(Mat m, int i);
 
 void Mat_MultiplyInt(Mat m, int val);
