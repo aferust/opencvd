@@ -5,11 +5,8 @@ import std.random;
 import opencvd.cvcore;
 import opencvd.highgui;
 import opencvd.imgcodecs;
-import opencvd.videoio;
 import opencvd.imgproc;
-import opencvd.objdetect;
-import opencvd.ocvversion;
-import opencvd.contrib.ximgproc;
+
 
 // https://docs.opencv.org/4.1.0/d5/d04/samples_2cpp_2convexhull_8cpp-example.html
 // tested and working.
@@ -24,23 +21,22 @@ int main()
     {
         int i, count = uniform!"[]"(0, 100, rnd) + 1;
         
-        Point[] _pts;
+        Point[] points;
         for( i = 0; i < count; i++ )
         {
             
             int x = uniform!"[]"(img.cols/4, img.cols*3/4, rnd);
             int y = uniform!"[]"(img.rows/4, img.rows*3/4, rnd);
             
-            _pts ~= Point(x, y);
+            points ~= Point(x, y);
         }
-        Points points = Points(_pts.ptr, cast(int)_pts.length);
         
-        IntVector hull = convexHullIdx(points, true);
+        int[] hull = convexHullIdx(points, true);
         
         img = Scalar.all(0);
         for( i = 0; i < count; i++ )
             circle(img, points[i], 3, Scalar(0, 0, 255, 255), 1);
-        int hullcount = hull.length;
+        ulong hullcount = hull.length;
         Point pt0 = points[hull[hullcount-1]];
         for( i = 0; i < hullcount; i++ )
         {
@@ -55,3 +51,4 @@ int main()
     }
     return 0;
 }
+

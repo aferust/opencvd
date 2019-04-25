@@ -191,16 +191,18 @@ void calcHist(Mat dst, Mat mask, Mat hist, int* histSize){
     CalcHist2(dst, mask, hist, histSize);
 }
 
-void convexHull(Contour points, Mat hull, bool clockwise, bool returnPoints){
-    ConvexHull(points, hull, clockwise, returnPoints);
+void convexHull(Point[] points, Mat hull, bool clockwise, bool returnPoints){
+    ConvexHull(Contour(points.ptr, cast(int)points.length), hull, clockwise, returnPoints);
 }
 
-Points convexHull(Contour points, bool clockwise = true){
-    return ConvexHull2(points, clockwise);
+Point[] convexHull(Point[] points, bool clockwise = true){
+    Points pts = ConvexHull2(Contour(points.ptr, cast(int)points.length), clockwise);
+    return pts.points[0..pts.length];
 }
 
-IntVector convexHullIdx(Contour points, bool clockwise = true){
-    return ConvexHull3(points, clockwise);
+int[] convexHullIdx(Point[] points, bool clockwise = true){
+    IntVector iv = ConvexHull3(Contour(points.ptr, cast(int)points.length), clockwise);
+    return iv.val[0..iv.length];
 }
 
 void convexityDefects(Contour points, Mat hull, Mat result){
