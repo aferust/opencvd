@@ -159,7 +159,7 @@ private {
         void Subdiv2D_Close(Subdiv2D sd);
         void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
         Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
-        void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetList, Point2fs** faceCenters);
+        Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters);
         void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
         void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
         void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
@@ -684,15 +684,13 @@ struct Subdiv2D {
     }
     
    Tuple!(Point2f[][], Point2f[]) getVoronoiFacetList(int[] idx = null){
-       
-       Point2fss* _facetList;
        Point2fs* _faceCenters;
-       Subdiv2D_GetVoronoiFacetList(this, IntVector(idx.ptr, cast(int)idx.length), &_facetList, &_faceCenters);
+       Point2fss _facetList = Subdiv2D_GetVoronoiFacetList(this, IntVector(idx.ptr, cast(int)idx.length), &_faceCenters);
        
        Point2f[] faceCenters = _faceCenters.points[0.._faceCenters.length];
        
        Point2f[][] retFL;
-       foreach(i; 0.._facetList.length){
+       for(size_t i = 0; i < _facetList.length; i++){
            Point2fs fl = _facetList.point2fss[i];
            Point2f[] point2fs = fl.points[0..fl.length];
            retFL ~= point2fs;

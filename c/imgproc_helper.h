@@ -80,7 +80,7 @@ Subdiv2D Subdiv2d_NewFromRect(Rect r);
 void Subdiv2D_Close(Subdiv2D sd);
 void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
 struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
-void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetList, Point2fs** faceCenters);
+Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters);
 
 void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
 void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);

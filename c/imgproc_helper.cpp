@@ -290,7 +290,7 @@ struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd){
     return ret;
 }
 
-void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetList, Point2fs** faceCenters){
+Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters){
     std::vector<std::vector<cv::Point2f> > facets;
     std::vector<cv::Point2f> centers;
     
@@ -308,17 +308,14 @@ void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetL
         Point2f* points = new Point2f[vp2f.size()];
         for( size_t j = 0; j < vp2f.size(); j++ ){
             
-            cv::Point2f p2f = vp2f[j];
-            Point2f point = {p2f.x, p2f.y};
+            Point2f point = {vp2f[j].x, vp2f[j].y};
             points[j] = point;
         }
         
         Point2fs p2fs = {points, (int)vp2f.size()};
+        
         elemFacetList[i] = p2fs;
     }
-    
-    Point2fss _ret1 = {elemFacetList, (int)facets.size()};
-    *facetList = &_ret1;
     
     Point2f* centersPtr = new Point2f[centers.size()];
     for( size_t i = 0; i < centers.size(); i++ ){
@@ -329,6 +326,9 @@ void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetL
     
     Point2fs _ret2 = {centersPtr, (int)centers.size()};
     *faceCenters = &_ret2;
+    
+    Point2fss _ret1 = {elemFacetList, (int)facets.size()};
+    return _ret1;
 }
 
 void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift){
