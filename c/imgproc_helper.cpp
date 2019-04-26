@@ -257,3 +257,76 @@ void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
 void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType){
     distanceTransform(*src, *dst, distanceType, maskSize, dstType);
 }
+
+Subdiv2D Subdiv2d_New(){
+    return new cv::Subdiv2D();
+}
+
+Subdiv2D Subdiv2d_NewFromRect(Rect r){
+    return new cv::Subdiv2D(cv::Rect(r.x, r.y, r.width, r.height));
+}
+
+void Subdiv2D_Close(Subdiv2D sd){
+    delete sd;
+}
+
+void Subdiv2D_Insert(Subdiv2D sd, Point2f p){
+    sd->insert(cv::Point2f(p.x, p.y));
+}
+
+struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd){
+    std::vector<cv::Vec6f> triangleList;
+    sd->getTriangleList(triangleList);
+    
+    Vec6f* v6ptr = new Vec6f[triangleList.size()];
+    
+    for( size_t i = 0; i < triangleList.size(); i++ ){
+        cv::Vec6f t = triangleList[i];
+        Vec6f v6 = {t[0], t[1], t[2], t[3], t[4], t[5]};
+        v6ptr[i] = v6;
+    }
+    
+    Vec6fs ret = {v6ptr, (int)triangleList.size()};
+    return ret;
+}
+
+void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetList, Point2fs** faceCenters){
+    std::vector<std::vector<cv::Point2f> > facets;
+    std::vector<cv::Point2f> centers;
+    
+    std::vector<int> cidx;
+    for(size_t i = 0; i < idx.length; i++) cidx.push_back(idx.val[i]);
+    
+    sd->getVoronoiFacetList(cidx, facets, centers);
+    
+    Point2fs* elemFacetList = new Point2fs[facets.size()];
+    
+    for( size_t i = 0; i < facets.size(); i++ ){
+        
+        std::vector<cv::Point2f> vp2f = facets[i];
+        
+        Point2f* points = new Point2f[vp2f.size()];
+        for( size_t j = 0; j < vp2f.size(); j++ ){
+            
+            cv::Point2f p2f = vp2f[j];
+            Point2f point = {p2f.x, p2f.y};
+            points[j] = point;
+        }
+        
+        Point2fs p2fs = {points, (int)vp2f.size()};
+        elemFacetList[i] = p2fs;
+    }
+    
+    Point2fss _ret1 = {elemFacetList, (int)facets.size()};
+    *facetList = &_ret1;
+    
+    Point2f* centersPtr = new Point2f[centers.size()];
+    for( size_t i = 0; i < centers.size(); i++ ){
+        cv::Point2f fc = centers[i];
+        Point2f _fc = {fc.x, fc.y};
+        centersPtr[i] = _fc ;
+    }
+    
+    Point2fs _ret2 = {centersPtr, (int)centers.size()};
+    *faceCenters = &_ret2;
+}

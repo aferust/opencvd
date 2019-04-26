@@ -152,6 +152,13 @@ private {
         void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
             int maskSize, int labelType);
         void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType);
+        
+        Subdiv2D Subdiv2d_New();
+        Subdiv2D Subdiv2d_NewFromRect(Rect r);
+        void Subdiv2D_Close(Subdiv2D sd);
+        void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
+        Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
+        void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetList, Point2fs** faceCenters);
     }
 }
 double arcLength(Contour curve, bool is_closed){
@@ -628,6 +635,70 @@ void distanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
 void distanceTransform(Mat src, Mat	dst, int distanceType, int maskSize, int dstType = CV32F){
     DistanceTransform2(src, dst, distanceType, maskSize, dstType);
 }	
+
+/** Subdiv2D point location cases */
+enum: int {
+    PTLOC_ERROR        = -2, //!< Point location error
+    PTLOC_OUTSIDE_RECT = -1, //!< Point outside the subdivision bounding rect
+    PTLOC_INSIDE       = 0, //!< Point inside some facet
+    PTLOC_VERTEX       = 1, //!< Point coincides with one of the subdivision vertices
+    PTLOC_ON_EDGE      = 2  //!< Point on some edge
+}
+
+/** Subdiv2D edge type navigation (see: getEdge()) */
+enum: int { 
+    NEXT_AROUND_ORG   = 0x00,
+    NEXT_AROUND_DST   = 0x22,
+    PREV_AROUND_ORG   = 0x11,
+    PREV_AROUND_DST   = 0x33,
+    NEXT_AROUND_LEFT  = 0x13,
+    NEXT_AROUND_RIGHT = 0x31,
+    PREV_AROUND_LEFT  = 0x20,
+    PREV_AROUND_RIGHT = 0x02
+}
+
+struct Subdiv2D {
+    void* p;
+    
+    static Subdiv2D opCall(){
+        return Subdiv2d_New();
+    }
+    
+    static Subdiv2D opCall(Rect rect){
+        return Subdiv2d_NewFromRect(rect);
+    }
+    
+    void insert(Point2f p){
+        Subdiv2D_Insert(this, p);
+    }
+    
+    Vec6f[] getTriangleList(){
+        auto v6fs = Subdiv2D_GetTriangleList(this);
+        return v6fs.vec6fs[0..v6fs.length];
+    }
+    
+   Tuple!(Point2f[][], Point2f[]) getVoronoiFacetList(int[] idx = null){
+       
+       Point2fss* _facetList;
+       Point2fs* _faceCenters;
+       Subdiv2D_GetVoronoiFacetList(this, IntVector(idx.ptr, cast(int)idx.length), &_facetList, &_faceCenters);
+       
+       Point2f[] faceCenters = _faceCenters.points[0.._faceCenters.length];
+       
+       Point2f[][] retFL;
+       foreach(i; 0.._facetList.length){
+           Point2fs fl = _facetList.point2fss[i];
+           Point2f[] point2fs = fl.points[0..fl.length];
+           retFL ~= point2fs;
+       }
+       
+       return tuple(retFL, faceCenters);
+   }
+}
+
+void Destroy(Subdiv2D sd){
+    Subdiv2D_Close(sd);
+}
 
 // Contrast-limited adaptive histogram equalization
 struct _CLAHE{

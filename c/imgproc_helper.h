@@ -70,5 +70,21 @@ void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
 void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType);
 
 #ifdef __cplusplus
+typedef cv::Subdiv2D* Subdiv2D;
+#else
+typedef void* Subdiv2D;
+#endif
+
+Subdiv2D Subdiv2d_New();
+Subdiv2D Subdiv2d_NewFromRect(Rect r);
+void Subdiv2D_Close(Subdiv2D sd);
+void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
+struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
+void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetList, Point2fs** faceCenters);
+
+/* keep wrapping here*/
+
+
+#ifdef __cplusplus
 }
 #endif

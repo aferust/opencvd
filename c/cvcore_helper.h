@@ -75,6 +75,16 @@ typedef struct Vec6fs {
     int length;
 } Vec6fs;
 
+typedef struct Point2fs {
+    Point2f* points;
+    int length;
+} Point2fs;
+
+typedef struct Point2fss {
+    Point2fs* point2fss;
+    int length;
+} Point2fss;
+
 uchar* Mat_RowPtr(Mat m, int i);
 
 void Mat_MultiplyInt(Mat m, int val);
@@ -129,6 +139,8 @@ void Mat_MinMaxLoc2(Mat a, double* minVal, double* maxVal, int* minIdx, int* max
 void Mat_Merge2(struct Mats mats, int count, Mat dst);
 
 struct Mats Mat_Split2(Mat src);
+
+bool Rect_Contains(Rect r, Point p);
 
 #ifdef __cplusplus
 }

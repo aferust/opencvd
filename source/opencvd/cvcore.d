@@ -262,6 +262,10 @@ struct Rect {
     int height;
 }
 
+bool contains(Rect r, Point p){
+    return Rect_Contains(r, p);
+}
+
 struct Rects {
     Rect* rects;
     int length;
@@ -302,6 +306,24 @@ struct Point {
 struct Point2f {
     float x;
     float y;
+}
+
+struct Point2fs {
+    Point2f* points;
+    int length;
+    
+    Point2f opIndex(int i){
+        return points[i];
+    }
+}
+
+struct Point2fss {
+    Point2fs* point2fss;
+    int length;
+    
+    Point2fs opIndex(int i){
+        return point2fss[i];
+    }
 }
 
 struct Points {
@@ -1004,6 +1026,8 @@ private extern (C) {
     double Mat_Dot(Mat m1, Mat m2); // TODO: implement operator overload
     Mat Mat_Diag(Mat src, int d);
     Mat Mat_EyeFromRC(int rows, int cols, int type);
+    
+    bool Rect_Contains(Rect r, Point p);
 }
 
 

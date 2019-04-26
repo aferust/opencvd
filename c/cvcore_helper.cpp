@@ -203,3 +203,9 @@ struct Mats Mat_Split2(Mat src){
     Mats ret = {_mats, (int)channels.size()};
     return ret;
 }
+
+bool Rect_Contains(Rect r, Point p){
+    cv::Rect rect = {r.x, r.y, r.width, r.height};
+    cv::Point _p = {p.x, p.y};
+    return rect.contains(_p);
+}
