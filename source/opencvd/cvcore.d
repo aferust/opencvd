@@ -25,6 +25,7 @@ DEALINGS IN THE SOFTWARE.
 module opencvd.cvcore;
 
 import core.stdc.stdint;
+import std.conv;
 
 struct Size {
     int rows;
@@ -292,7 +293,7 @@ struct Point {
         if (rhs.x < x) return 1;
         return 0;
     }
-
+    
     void toString(scope void delegate(const(char)[]) sink) const {
         import std.format;
         sink("(");
@@ -301,11 +302,19 @@ struct Point {
         formattedWrite(sink, "%d", y);
         sink(")");
     }
+    
+    Point2f asFloat(){
+        return Point2f(x.to!float, y.to!float);
+    }
 }
 
 struct Point2f {
     float x;
     float y;
+    
+    Point asInt(){
+        return Point(x.to!int, y.to!int);
+    }
 }
 
 struct Point2fs {

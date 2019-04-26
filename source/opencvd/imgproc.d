@@ -27,6 +27,7 @@ module opencvd.imgproc;
 import std.stdio;
 import std.string;
 import std.typecons;
+import std.conv;
 import std.math: PI;
 import core.stdc.stdlib;
 
@@ -159,6 +160,11 @@ private {
         void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
         Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
         void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetList, Point2fs** faceCenters);
+        void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
+        void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
+        void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+        void Polylines2f(Mat img, Point2fs pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+        void Polylines2fss(Mat img, Point2fss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
     }
 }
 double arcLength(Contour curve, bool is_closed){
@@ -698,6 +704,43 @@ struct Subdiv2D {
 
 void Destroy(Subdiv2D sd){
     Subdiv2D_Close(sd);
+}
+
+void fillConvexPoly(Mat img, Point[] points, Scalar color, int lineType = LINE_8, int shift = 0){
+    FillConvexPoly(img, Points(points.ptr, cast(int)points.length), color, lineType, shift);
+}
+
+void fillConvexPoly(Mat img, Point2f[] points, Scalar color, int lineType = LINE_8, int shift = 0){
+    FillConvexPoly2f(img, Point2fs(points.ptr, cast(int)points.length), color, lineType, shift);
+}
+
+enum: int {
+    CV_FILLED = -1,
+    CV_AA = 16
+}
+
+void polylines(Mat img, Point[] pts, bool isClosed, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
+    Polylines(img, Points(pts.ptr, pts.length.to!int), isClosed, color, thickness, lineType, shift);
+}
+
+void polylines(Mat img, Point2f[] pts, bool isClosed, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
+    Polylines2f(img, Point2fs(pts.ptr, pts.length.to!int), isClosed, color, thickness, lineType, shift);
+}
+
+void polylines(Mat img, Point2f[][]pts, bool isClosed, Scalar color,
+    int thickness = 1, int lineType = LINE_8, int shift = 0){
+    
+    Point2fs[] incpts = new Point2fs[pts.length];
+    foreach(i; 0..pts.length){
+        Point2f[] inception = new Point2f[pts[i].length];
+        foreach(j; 0..pts[i].length){
+            inception[j] = pts[i][j];
+        }
+        
+        incpts[i] = Point2fs(inception.ptr, pts[i].length.to!int);
+    }
+    Point2fss param = {incpts.ptr, pts.length.to!int}; 
+    Polylines2fss(img, param, isClosed, color, thickness, lineType, shift);
 }
 
 // Contrast-limited adaptive histogram equalization

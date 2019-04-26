@@ -330,3 +330,61 @@ void Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fss** facetL
     Point2fs _ret2 = {centersPtr, (int)centers.size()};
     *faceCenters = &_ret2;
 }
+
+void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift){
+    std::vector<cv::Point> pts;
+    for(int i=0; i < points.length; i++){
+        cv::Point p = {points.points[i].x, points.points[i].y};
+        pts.push_back(p);
+    }
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    cv::fillConvexPoly(*img, pts, c, lineType, shift);
+}
+
+void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift){
+    std::vector<cv::Point2f> pts;
+    for(int i=0; i < points.length; i++){
+        cv::Point2f p = {points.points[i].x, points.points[i].y};
+        pts.push_back(p);
+    }
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    cv::fillConvexPoly(*img, pts, c, lineType, shift);
+}
+
+void Polylines(Mat img, Points _pts, bool isClosed, Scalar color, int thickness, int lineType, int shift){
+    std::vector<cv::Point> pts;
+    for(int i=0; i < _pts.length; i++){
+        cv::Point p = {_pts.points[i].x, _pts.points[i].y};
+        pts.push_back(p);
+    }
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    cv::polylines(*img, pts, isClosed, c, thickness, lineType, shift);
+}
+
+void Polylines2f(Mat img, Point2fs _pts, bool isClosed, Scalar color, int thickness, int lineType, int shift){
+    std::vector<cv::Point2f> pts;
+    for(int i=0; i < _pts.length; i++){
+        cv::Point2f p = {_pts.points[i].x, _pts.points[i].y};
+        pts.push_back(p);
+    }
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    cv::polylines(*img, pts, isClosed, c, thickness, lineType, shift);
+}
+
+void Polylines2fss(Mat img, Point2fss flist, bool isClosed, Scalar color, int thickness, int lineType, int shift){
+    std::vector<std::vector<cv::Point2f>> pts;
+    for(int i=0; i < flist.length; i++){
+        std::vector<cv::Point2f> inner;
+        for(int j=0; j < flist.point2fss[i].length; j++){
+            cv::Point2f inp = {flist.point2fss[i].points[j].x, flist.point2fss[i].points[j].y};
+            inner.push_back(inp);
+        }
+        pts.push_back(inner);
+    }
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    cv::polylines(*img, pts, isClosed, c, thickness, lineType, shift);
+}
+
+
+
+
