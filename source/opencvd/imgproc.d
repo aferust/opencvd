@@ -745,11 +745,7 @@ struct Subdiv2D {
     
     int[] getLeadingEdgeList(){
         IntVector intv = Subdiv2D_GetLeadingEdgeList(this);
-        int[] ret;
-        foreach(i; 0..intv.length){
-            int v = intv[i];
-            ret ~= v;
-        }
+        int[] ret = intv.val[0..intv.length];
         return ret;
     }
     
