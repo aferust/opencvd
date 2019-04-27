@@ -158,12 +158,20 @@ private {
         Subdiv2D Subdiv2d_NewFromRect(Rect r);
         void Subdiv2D_Close(Subdiv2D sd);
         void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
+        void Subdiv2D_InsertMultiple(Subdiv2D sd, Point2fs ptvec);
         Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
         Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters);
         int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
         int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
+        int Subdiv2D_NextEdge(Subdiv2D sd, int edge);
+        int Subdiv2D_RotateEdge(Subdiv2D sd, int edge, int rotate);
+        int Subdiv2D_SymEdge(Subdiv2D sd, int edge);
         int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType);
+        Vec4fs Subdiv2D_GetEdgeList(Subdiv2D sd);
+        IntVector Subdiv2D_GetLeadingEdgeList(Subdiv2D sd);
         int Subdiv2D_Locate(Subdiv2D sd, Point2f pt, ref int edge, ref int vertex);
+        Point2f Subdiv2D_GetVertex(Subdiv2D sd, int vertex, int* firstEdge);
+        void Subdiv2D_InitDelaunay(Subdiv2D sd, Rect bRect);
         
         void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
         void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
@@ -672,6 +680,10 @@ struct Subdiv2D {
         Subdiv2D_Insert(this, p);
     }
     
+    void insert(Point2f[] ptvec){
+        Subdiv2D_InsertMultiple(this, Point2fs(ptvec.ptr, ptvec.length.to!int));
+    }
+    
     Vec6f[] getTriangleList(){
         auto v6fs = Subdiv2D_GetTriangleList(this);
         return v6fs.vec6fs[0..v6fs.length];
@@ -721,10 +733,49 @@ struct Subdiv2D {
         return Subdiv2D_GetEdge(this, edge, nextEdgeType);
     }
     
+    Vec4f[] getEdgeList(){
+        Vec4fs vec4fs = Subdiv2D_GetEdgeList(this);
+        Vec4f[] ret;
+        foreach(i; 0..vec4fs.length){
+            auto v = vec4fs[i];
+            ret ~= v;
+        }
+        return ret;
+    }
+    
+    int[] getLeadingEdgeList(){
+        IntVector intv = Subdiv2D_GetLeadingEdgeList(this);
+        int[] ret;
+        foreach(i; 0..intv.length){
+            int v = intv[i];
+            ret ~= v;
+        }
+        return ret;
+    }
+    
+    int nextEdge(int edge){
+        return Subdiv2D_NextEdge(this, edge);
+    }
+    
+    int rotateEdge(int edge, int rotate){
+        return Subdiv2D_RotateEdge(this, edge, rotate);
+    }
+    
+    int symEdge(int edge){
+        return Subdiv2D_SymEdge(this, edge);
+    }
+    
     int locate(Point2f pt, ref int edge, ref int vertex){
         return Subdiv2D_Locate(this, pt, edge, vertex);
     }
     
+    Point2f getVertex(int vertex, int* firstEdge = null){
+        return Subdiv2D_GetVertex(this, vertex, firstEdge);
+    }
+    
+    void initDelaunay(Rect bRect){
+        Subdiv2D_InitDelaunay(this, bRect);
+    }
 }
 
 void Destroy(Subdiv2D sd){

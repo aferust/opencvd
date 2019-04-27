@@ -274,6 +274,16 @@ void Subdiv2D_Insert(Subdiv2D sd, Point2f p){
     sd->insert(cv::Point2f(p.x, p.y));
 }
 
+void Subdiv2D_InsertMultiple(Subdiv2D sd, Point2fs ptvec){
+     std::vector< cv::Point2f > pv;
+     for( size_t i = 0; i < ptvec.length; i++ ){
+         Point2f pp = ptvec.points[i];
+         cv::Point2f p = {pp.x, pp.y};
+         pv.push_back(p);
+     }
+     sd->insert(pv);
+}
+
 struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd){
     std::vector<cv::Vec6f> triangleList;
     sd->getTriangleList(triangleList);
@@ -353,6 +363,63 @@ int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt){
 
 int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType){
     return sd->getEdge(edge, nextEdgeType);
+}
+
+int Subdiv2D_NextEdge(Subdiv2D sd, int edge){
+    return sd->nextEdge(edge);
+}
+
+int Subdiv2D_RotateEdge(Subdiv2D sd, int edge, int rotate){
+    return sd->rotateEdge(edge, rotate);
+}
+
+int Subdiv2D_SymEdge(Subdiv2D sd, int edge){
+    return sd->symEdge(edge);
+}
+
+int Subdiv2D_FindNearest(Subdiv2D sd, Point2f pt, Point2f** _nearestPt){
+    cv::Point2f p = {pt.x, pt.y};
+    cv::Point2f np;
+    int retInt = sd->findNearest(p, &np);
+    Point2f rp = {np.x, np.y};
+    *_nearestPt = &rp;
+    return retInt;
+}
+
+struct Vec4fs Subdiv2D_GetEdgeList(Subdiv2D sd){
+    std::vector<cv::Vec4f> v4;
+    sd->getEdgeList(v4);
+    
+    Vec4f *v4fs = new Vec4f[v4.size()];
+    for(size_t i=0; i < v4.size(); i++){
+        Vec4f v4c = {v4[i][0], v4[i][1], v4[i][2], v4[i][3]};
+        v4fs[i] = v4c;
+    }
+    Vec4fs v4s = {v4fs, (int)v4.size()};
+    return v4s;
+};
+
+struct IntVector Subdiv2D_GetLeadingEdgeList(Subdiv2D sd){
+    std::vector<int> iv;
+    sd->getLeadingEdgeList(iv);
+    int *cintv = new int[iv.size()];
+    for(size_t i=0; i < iv.size(); i++){
+        cintv[i] = iv[i];
+    }
+    IntVector ret = {cintv, (int)iv.size()};
+    return ret;
+};
+
+
+Point2f Subdiv2D_GetVertex(Subdiv2D sd, int vertex, int* firstEdge){
+    cv::Point2f vx = sd->getVertex(vertex, firstEdge);
+    Point2f cvx = {vx.x, vx.y};
+    return cvx;
+}
+
+void Subdiv2D_InitDelaunay(Subdiv2D sd, Rect bRect){
+    cv::Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    sd->initDelaunay(r);
 }
 
 void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift){
