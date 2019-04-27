@@ -85,6 +85,16 @@ typedef struct Point2fss {
     int length;
 } Point2fss;
 
+typedef struct Pointss {
+    Points* pointss;
+    int length;
+    
+    Points opIndex(int i){
+        return pointss[i];
+    }
+} Pointss;
+
+
 uchar* Mat_RowPtr(Mat m, int i);
 
 void Mat_MultiplyInt(Mat m, int val);

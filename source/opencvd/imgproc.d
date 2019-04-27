@@ -168,6 +168,7 @@ private {
         void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
         void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
         void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+        void Polylines2ss(Mat img, Pointss flist, bool isClosed, Scalar color, int thickness, int lineType, int shift);
         void Polylines2f(Mat img, Point2fs pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
         void Polylines2fss(Mat img, Point2fss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
     }
@@ -734,37 +735,54 @@ void fillConvexPoly(Mat img, Point[] points, Scalar color, int lineType = LINE_8
     FillConvexPoly(img, Points(points.ptr, cast(int)points.length), color, lineType, shift);
 }
 
-void fillConvexPoly(Mat img, Point2f[] points, Scalar color, int lineType = LINE_8, int shift = 0){
-    FillConvexPoly2f(img, Point2fs(points.ptr, cast(int)points.length), color, lineType, shift);
-}
-
 enum: int {
     CV_FILLED = -1,
     CV_AA = 16
+}
+
+Point[] asInt(Point2f[] ip){
+    
+    Point[] ret;
+    foreach(j; 0..ip.length){
+        Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
+        ret ~= p;
+    }
+    return ret;
 }
 
 void polylines(Mat img, Point[] pts, bool isClosed, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
     Polylines(img, Points(pts.ptr, pts.length.to!int), isClosed, color, thickness, lineType, shift);
 }
 
-void polylines(Mat img, Point2f[] pts, bool isClosed, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
-    Polylines2f(img, Point2fs(pts.ptr, pts.length.to!int), isClosed, color, thickness, lineType, shift);
+Point[][] asInt(Point2f[][] pts){
+    
+    Point[][] ret;
+    foreach(i; 0..pts.length){
+        Point[] iip;
+        Point2f[] ip = pts[i];
+        foreach(j; 0..ip.length){
+            Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
+            iip ~= p;
+        }
+        ret ~= iip;
+    }
+    return ret;
 }
 
-void polylines(Mat img, Point2f[][]pts, bool isClosed, Scalar color,
+void polylines(Mat img, Point[][] pts, bool isClosed, Scalar color,
     int thickness = 1, int lineType = LINE_8, int shift = 0){
     
-    Point2fs[] incpts = new Point2fs[pts.length];
+    Points[] incpts = new Points[pts.length];
     foreach(i; 0..pts.length){
-        Point2f[] inception = new Point2f[pts[i].length];
+        Point[] inception = new Point[pts[i].length];
         foreach(j; 0..pts[i].length){
             inception[j] = pts[i][j];
         }
         
-        incpts[i] = Point2fs(inception.ptr, pts[i].length.to!int);
+        incpts[i] = Points(inception.ptr, pts[i].length.to!int);
     }
-    Point2fss param = {incpts.ptr, pts.length.to!int}; 
-    Polylines2fss(img, param, isClosed, color, thickness, lineType, shift);
+    Pointss param = {incpts.ptr, pts.length.to!int}; 
+    Polylines2ss(img, param, isClosed, color, thickness, lineType, shift);
 }
 
 // Contrast-limited adaptive histogram equalization

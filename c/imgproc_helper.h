@@ -87,11 +87,8 @@ int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType);
 int Subdiv2D_Locate(Subdiv2D sd, Point2f pt, int &edge, int &vertex);
 
 void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
-void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
 void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
-void Polylines2f(Mat img, Point2fs pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
-void Polylines2fss(Mat img, Point2fss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
-
+void Polylines2ss(Mat img, Pointss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
 #ifdef __cplusplus
 }
 #endif

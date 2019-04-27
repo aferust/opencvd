@@ -344,6 +344,15 @@ struct Points {
     }
 }
 
+struct Pointss {
+    Points* pointss;
+    int length;
+    
+    Points opIndex(int i){
+        return pointss[i];
+    }
+}
+
 alias Contour = Points;
 
 struct Contours {
