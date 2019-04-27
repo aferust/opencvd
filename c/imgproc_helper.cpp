@@ -295,19 +295,18 @@ Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** fa
     std::vector<cv::Point2f> centers;
     
     std::vector<int> cidx;
-    for(size_t i = 0; i < idx.length; i++) cidx.push_back(idx.val[i]);
+    for(size_t k = 0; k < idx.length; k++) cidx.push_back(idx.val[k]);
     
     sd->getVoronoiFacetList(cidx, facets, centers);
     
-    Point2fs* elemFacetList = new Point2fs[facets.size()];
+    Point2fs* elemFacetList = new Point2fs[(int)facets.size()];
     
     for( size_t i = 0; i < facets.size(); i++ ){
         
         std::vector<cv::Point2f> vp2f = facets[i];
         
-        Point2f* points = new Point2f[vp2f.size()];
+        Point2f* points = new Point2f[(int)vp2f.size()];
         for( size_t j = 0; j < vp2f.size(); j++ ){
-            
             Point2f point = {vp2f[j].x, vp2f[j].y};
             points[j] = point;
         }
@@ -317,7 +316,7 @@ Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** fa
         elemFacetList[i] = p2fs;
     }
     
-    Point2f* centersPtr = new Point2f[centers.size()];
+    Point2f* centersPtr = new Point2f[(int)centers.size()];
     for( size_t i = 0; i < centers.size(); i++ ){
         cv::Point2f fc = centers[i];
         Point2f _fc = {fc.x, fc.y};
@@ -329,6 +328,31 @@ Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** fa
     
     Point2fss _ret1 = {elemFacetList, (int)facets.size()};
     return _ret1;
+}
+
+int Subdiv2D_Locate(Subdiv2D sd, Point2f _pt, int &edge, int &vertex){
+    cv::Point2f pt = {_pt.x, _pt.y};
+    return sd->locate(pt, edge, vertex);
+}
+
+int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt){
+    cv::Point2f op;
+    int retInt = sd->edgeOrg(edge, &op);
+    Point2f opp = {op.x, op.y};
+    *orgpt = &opp;
+    return retInt;
+}
+
+int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt){
+    cv::Point2f op;
+    int retInt = sd->edgeDst(edge, &op);
+    Point2f opp = {op.x, op.y};
+    *dstpt = &opp;
+    return retInt;
+}
+
+int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType){
+    return sd->getEdge(edge, nextEdgeType);
 }
 
 void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift){

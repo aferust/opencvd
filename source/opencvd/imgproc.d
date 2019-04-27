@@ -160,6 +160,11 @@ private {
         void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
         Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
         Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters);
+        int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
+        int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
+        int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType);
+        int Subdiv2D_Locate(Subdiv2D sd, Point2f pt, ref int edge, ref int vertex);
+        
         void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
         void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
         void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
@@ -651,18 +656,6 @@ enum: int {
     PTLOC_ON_EDGE      = 2  //!< Point on some edge
 }
 
-/** Subdiv2D edge type navigation (see: getEdge()) */
-enum: int { 
-    NEXT_AROUND_ORG   = 0x00,
-    NEXT_AROUND_DST   = 0x22,
-    PREV_AROUND_ORG   = 0x11,
-    PREV_AROUND_DST   = 0x33,
-    NEXT_AROUND_LEFT  = 0x13,
-    NEXT_AROUND_RIGHT = 0x31,
-    PREV_AROUND_LEFT  = 0x20,
-    PREV_AROUND_RIGHT = 0x02
-}
-
 struct Subdiv2D {
     void* p;
     
@@ -683,7 +676,7 @@ struct Subdiv2D {
         return v6fs.vec6fs[0..v6fs.length];
     }
     
-   Tuple!(Point2f[][], Point2f[]) getVoronoiFacetList(int[] idx = null){
+    Tuple!(Point2f[][], Point2f[]) getVoronoiFacetList(int[] idx = null){
        Point2fs* _faceCenters;
        Point2fss _facetList = Subdiv2D_GetVoronoiFacetList(this, IntVector(idx.ptr, cast(int)idx.length), &_faceCenters);
        
@@ -697,7 +690,40 @@ struct Subdiv2D {
        }
        
        return tuple(retFL, faceCenters);
-   }
+    }
+    
+    /** Subdiv2D edge type navigation (see: getEdge()) */
+    static int NEXT_AROUND_ORG   = 0x00;
+    static int NEXT_AROUND_DST   = 0x22;
+    static int PREV_AROUND_ORG   = 0x11;
+    static int PREV_AROUND_DST   = 0x33;
+    static int NEXT_AROUND_LEFT  = 0x13;
+    static int NEXT_AROUND_RIGHT = 0x31;
+    static int PREV_AROUND_LEFT  = 0x20;
+    static int PREV_AROUND_RIGHT = 0x02;
+    
+    int edgeOrg(int edge, ref Point2f orgpt){
+        Point2f *pt;
+        int retVal = Subdiv2D_EdgeOrg(this, edge, &pt);
+        orgpt = *pt;
+        return retVal;
+    }
+    
+    int edgeDst(int edge, ref Point2f dstpt){
+        Point2f *pt;
+        int retVal = Subdiv2D_EdgeDst(this, edge, &pt);
+        dstpt = *pt;
+        return retVal;
+    }
+    
+    int getEdge(int edge, int nextEdgeType){
+        return Subdiv2D_GetEdge(this, edge, nextEdgeType);
+    }
+    
+    int locate(Point2f pt, ref int edge, ref int vertex){
+        return Subdiv2D_Locate(this, pt, edge, vertex);
+    }
+    
 }
 
 void Destroy(Subdiv2D sd){

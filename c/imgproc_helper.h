@@ -81,6 +81,10 @@ void Subdiv2D_Close(Subdiv2D sd);
 void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
 struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
 Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters);
+int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
+int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
+int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType);
+int Subdiv2D_Locate(Subdiv2D sd, Point2f pt, int &edge, int &vertex);
 
 void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
 void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
