@@ -63,7 +63,7 @@ private {
         RotatedRect MinAreaRect(Points points);
         void MinEnclosingCircle(Points points, Point2f* center, float* radius);
         Contours FindContours(Mat src, int mode, int method);
-        Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, int method);
+        Contours FindContoursWithHier(Mat src, Hierarchy* chierarchy, int mode, int method);
         int ConnectedComponents(Mat src, Mat dst, int connectivity, int ltype, int ccltype);
         int ConnectedComponentsWithStats(Mat src, Mat labels, Mat stats, Mat centroids, int connectivity, int ltype, int ccltype);
 
@@ -160,7 +160,7 @@ private {
         void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
         void Subdiv2D_InsertMultiple(Subdiv2D sd, Point2fs ptvec);
         Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
-        Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters);
+        Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs* faceCenters);
         int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
         int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
         int Subdiv2D_NextEdge(Subdiv2D sd, int edge);
@@ -315,13 +315,23 @@ Contours findContours(Mat src, int mode, int method){
     return FindContours(src, mode, method);
 }
 
-Tuple!(Contours, Hierarchy) findContoursWithHier(Mat src, int mode, int method){
-    Hierarchy *chier;
-    auto cntrs = FindContoursWithHier(src, &chier, mode, method);
-    //chier.scalars.writeln;
-    Hierarchy rethie = {scalars: chier.scalars, length: chier.length};
-    destroy(chier);
-    return tuple(cntrs, rethie);
+Tuple!(Point[][], Scalar[]) findContoursWithHier(Mat src, int mode, int method){
+    Hierarchy chier;
+    Contours cntrs = FindContoursWithHier(src, &chier, mode, method);
+    
+    Scalar[] hier = chier.scalars[0..chier.length].dup;
+    free(chier.scalars);
+    
+    Point[][] rc;
+    
+    foreach(i; 0..cntrs.length){
+        Contour cp = cntrs.contours[i];
+        Point[] dp = cp.points[0..cp.length].dup;
+        free(cp.points);
+        rc ~= dp;
+    }
+    free(cntrs.contours);
+    return tuple(rc, hier);
 }
 
 int connectedComponents(Mat src, Mat dst, int connectivity, int ltype, int ccltype){
@@ -418,8 +428,8 @@ void houghCircles(Mat image, ref Vec3f[] circles, int method, double dp,
                   double minDist, double param1 = 100,
                   double param2 = 100, int minRadius = 0, int maxRadius = 0){
     Vec3fs ccircles = HoughCircles3(image, method, dp, minDist, param1, param2, minRadius, maxRadius);
-    circles = ccircles.vec3fs[0..ccircles.length];
-
+    circles = ccircles.vec3fs[0..ccircles.length].dup;
+    free(ccircles.vec3fs);
 }
 
 void houghLines(Mat src, Mat lines, double rho, double theta, int threshold){
@@ -690,18 +700,19 @@ struct Subdiv2D {
     }
     
     Tuple!(Point2f[][], Point2f[]) getVoronoiFacetList(int[] idx = null){
-       Point2fs* _faceCenters;
+       Point2fs _faceCenters;
        Point2fss _facetList = Subdiv2D_GetVoronoiFacetList(this, IntVector(idx.ptr, cast(int)idx.length), &_faceCenters);
        
-       Point2f[] faceCenters = _faceCenters.points[0.._faceCenters.length];
-       
+       Point2f[] faceCenters = _faceCenters.points[0.._faceCenters.length].dup;
+       free(_faceCenters.points);
        Point2f[][] retFL;
        for(size_t i = 0; i < _facetList.length; i++){
            Point2fs fl = _facetList.point2fss[i];
-           Point2f[] point2fs = fl.points[0..fl.length];
+           Point2f[] point2fs = fl.points[0..fl.length].dup;
+           free(fl.points);
            retFL ~= point2fs;
        }
-       
+       free(_facetList.point2fss);
        return tuple(retFL, faceCenters);
     }
     
@@ -735,11 +746,8 @@ struct Subdiv2D {
     
     Vec4f[] getEdgeList(){
         Vec4fs vec4fs = Subdiv2D_GetEdgeList(this);
-        Vec4f[] ret;
-        foreach(i; 0..vec4fs.length){
-            auto v = vec4fs[i];
-            ret ~= v;
-        }
+        Vec4f[] ret = vec4fs.vec4fs[0..vec4fs.length].dup;
+        free(vec4fs.vec4fs);
         return ret;
     }
     

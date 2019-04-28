@@ -24,7 +24,7 @@ int FloodFill(  Mat 	image,
 
 int FloodFill2(Mat image, Point seedPoint, Scalar newVal, Rect rect, Scalar loDiff, Scalar upDiff, int flags);
 	
-struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, int method);
+struct Contours FindContoursWithHier(Mat src, Hierarchy* chierarchy, int mode, int method);
 
 void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient);
 void Canny3(Mat image, Mat edges, double threshold1, double threshold2, int apertureSize, bool L2gradient);
@@ -81,7 +81,7 @@ void Subdiv2D_Close(Subdiv2D sd);
 void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
 void Subdiv2D_InsertMultiple(Subdiv2D sd, Point2fs ptvec);
 struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
-Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters);
+Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs* faceCenters);
 int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
 int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
 int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType);

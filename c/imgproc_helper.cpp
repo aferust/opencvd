@@ -31,22 +31,23 @@ int FloodFill2(Mat image, Point seedPoint, Scalar newVal, Rect rect, Scalar loDi
     return cv::floodFill(*image, sp, nv, &r, lo, up, flags);
 }
 
-struct Contours FindContoursWithHier(Mat src, Hierarchy **chierarchy, int mode, int method) { 
+struct Contours FindContoursWithHier(Mat src, Hierarchy* chierarchy, int mode, int method) { 
     std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
     
     cv::findContours(*src, contours, hierarchy, mode, method);
     
-    Scalar *scalars = new Scalar[hierarchy.size()];
+    Scalar *scalars = (Scalar*)malloc(hierarchy.size()*sizeof(Scalar));
     
     for (size_t i = 0; i < hierarchy.size(); i++){
         Scalar s = {(double)hierarchy[i][0], (double)hierarchy[i][1], (double)hierarchy[i][2], (double)hierarchy[i][3]};
         scalars[i] = s;
     }
-    Hierarchy retHie = {scalars, (int)hierarchy.size()};
-    *chierarchy = &retHie;
     
-    Contour* points = new Contour[contours.size()];
+    chierarchy->scalars = scalars;
+    chierarchy->length = (int)hierarchy.size();
+    
+    Contour* points = (Contour*)malloc(contours.size()*sizeof(Contour));
 
     for (size_t i = 0; i < contours.size(); i++) {
         Point* pts = new Point[contours[i].size()];
@@ -186,7 +187,7 @@ Vec3fs HoughCircles3(Mat image, int method, double dp,
     std::vector<cv::Vec3f> circles;
     HoughCircles(*image, circles, method, dp, minDist, param1, param2, minRadius, maxRadius);
     
-    Vec3f* ccs = new Vec3f[circles.size()];
+    Vec3f* ccs = (Vec3f*)malloc(circles.size()*sizeof(Vec3f));
     
     for (size_t i = 0; i < circles.size(); i++) {
         Vec3f vc3f = {circles[i][0], circles[i][1], circles[i][2]};
@@ -219,8 +220,6 @@ void HoughLines2(Mat image, Vec2fs **_lines, double rho, double theta,
     
     Vec2fs retLines = {lns, (int)lines.size()};
     *_lines = &retLines;
-    
-    //delete lns;
 }
 
 void HoughLinesP2(Mat image, Vec4is **_lines, double rho, double theta,
@@ -237,8 +236,6 @@ void HoughLinesP2(Mat image, Vec4is **_lines, double rho, double theta,
     
     Vec4is retLines = {lns, (int)lines.size()};
     *_lines = &retLines;
-    
-    //delete lns;
 }
 
 void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift){
@@ -300,7 +297,7 @@ struct Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd){
     return ret;
 }
 
-Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** faceCenters){
+Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs* faceCenters){
     std::vector<std::vector<cv::Point2f> > facets;
     std::vector<cv::Point2f> centers;
     
@@ -309,13 +306,13 @@ Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** fa
     
     sd->getVoronoiFacetList(cidx, facets, centers);
     
-    Point2fs* elemFacetList = new Point2fs[(int)facets.size()];
+    Point2fs* elemFacetList = (Point2fs*)malloc(facets.size()*sizeof(Point2fs));
     
     for( size_t i = 0; i < facets.size(); i++ ){
         
         std::vector<cv::Point2f> vp2f = facets[i];
         
-        Point2f* points = new Point2f[(int)vp2f.size()];
+        Point2f* points = (Point2f*)malloc(vp2f.size()*sizeof(Point2f));
         for( size_t j = 0; j < vp2f.size(); j++ ){
             Point2f point = {vp2f[j].x, vp2f[j].y};
             points[j] = point;
@@ -326,15 +323,16 @@ Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs** fa
         elemFacetList[i] = p2fs;
     }
     
-    Point2f* centersPtr = new Point2f[(int)centers.size()];
+    Point2f* centersPtr = (Point2f*)malloc(centers.size()*sizeof(Point2f));
     for( size_t i = 0; i < centers.size(); i++ ){
         cv::Point2f fc = centers[i];
         Point2f _fc = {fc.x, fc.y};
         centersPtr[i] = _fc ;
     }
     
-    Point2fs _ret2 = {centersPtr, (int)centers.size()};
-    *faceCenters = &_ret2;
+    //Point2fs _ret2 = {centersPtr, (int)centers.size()};
+    faceCenters->points = centersPtr;
+    faceCenters->length = (int)centers.size();
     
     Point2fss _ret1 = {elemFacetList, (int)facets.size()};
     return _ret1;
@@ -390,7 +388,7 @@ struct Vec4fs Subdiv2D_GetEdgeList(Subdiv2D sd){
     std::vector<cv::Vec4f> v4;
     sd->getEdgeList(v4);
     
-    Vec4f *v4fs = new Vec4f[v4.size()];
+    Vec4f *v4fs = (Vec4f*)malloc(v4.size()*sizeof(Vec4f));
     for(size_t i=0; i < v4.size(); i++){
         Vec4f v4c = {v4[i][0], v4[i][1], v4[i][2], v4[i][3]};
         v4fs[i] = v4c;
