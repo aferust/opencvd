@@ -88,13 +88,13 @@ private {
                   double minDist, double param1, double param2, int minRadius, int maxRadius);
         void HoughLines(Mat src, Mat lines, double rho, double theta, int threshold);
         void HoughLinesP(Mat src, Mat lines, double rho, double theta, int threshold);
-        void HoughLinesP2(Mat image, Vec4is **lines, double rho, double theta,
+        void HoughLinesP2(Mat image, Vec4is *lines, double rho, double theta,
             int threshold, double minLineLength, double maxLineGap);
         void HoughLinesPWithParams(Mat src, Mat lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap);
         void HoughLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,
                                 double min_rho, double  max_rho, double rho_step,
                                 double min_theta, double max_theta, double theta_step);
-        void HoughLines2(Mat image, Vec2fs **lines, double rho, double theta,
+        void HoughLines2(Mat image, Vec2fs *lines, double rho, double theta,
             int threshold, double srn, double stn, double min_theta, double max_theta);
         void Threshold(Mat src, Mat dst, double thresh, double maxvalue, int typ);
         void AdaptiveThreshold(Mat src, Mat dst, double maxValue, int adaptiveTyp, int typ, int blockSize,
@@ -442,9 +442,10 @@ void houghLinesP(Mat src, Mat lines, double rho, double theta, int threshold){
 
 void houghLinesP(Mat image, ref Vec4i[] lines, double rho, double theta,
     int threshold, double minLineLength = 0, double maxLineGap = 0){
-    Vec4is *clines;
+    Vec4is clines;
     HoughLinesP2(image, &clines, rho, theta, threshold, minLineLength, maxLineGap);
-    lines = clines.vec4is[0..clines.length];
+    lines = clines.vec4is[0..clines.length].dup;
+    free(clines.vec4is);
 }
 
 void houghLinesPWithParams(Mat src, Mat lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap){
@@ -453,9 +454,10 @@ void houghLinesPWithParams(Mat src, Mat lines, double rho, double theta, int thr
 
 void houghLines(Mat image, ref Vec2f[] lines, double rho, double theta,
     int threshold, double srn = 0, double stn = 0, double min_theta = 0, double max_theta = PI){
-    Vec2fs *clines;
+    Vec2fs clines;
     HoughLines2(image, &clines, rho, theta, threshold, srn, stn, min_theta, max_theta);
-    lines = clines.vec2fs[0..clines.length];
+    lines = clines.vec2fs[0..clines.length].dup;
+    free(clines.vec2fs);
 }
 
 void houghLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,

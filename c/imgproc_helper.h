@@ -57,10 +57,10 @@ Vec3fs HoughCircles3(Mat image, int method, double dp,
 
 void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int shift);
 
-void HoughLines2(Mat image, Vec2fs **lines, double rho, double theta,
+void HoughLines2(Mat image, Vec2fs *lines, double rho, double theta,
             int threshold, double srn, double stn, double min_theta, double max_theta);
 
-void HoughLinesP2(Mat image, Vec4is **lines, double rho, double theta,
+void HoughLinesP2(Mat image, Vec4is *lines, double rho, double theta,
             int threshold, double minLineLength, double maxLineGap);
 void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
 

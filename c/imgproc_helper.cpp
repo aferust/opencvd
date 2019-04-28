@@ -206,36 +206,36 @@ void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int
     cv::circle(*img, p1, radius, c, thickness, shift);
 }
 
-void HoughLines2(Mat image, Vec2fs **_lines, double rho, double theta,
+void HoughLines2(Mat image, Vec2fs* _lines, double rho, double theta,
             int threshold, double srn, double stn, double min_theta, double max_theta){
     std::vector<cv::Vec2f> lines;
     HoughLines(*image, lines, rho, theta, threshold, srn, stn, min_theta, max_theta);
     
-    Vec2f* lns = new Vec2f[lines.size()];
+    Vec2f* lns = (Vec2f*)malloc(lines.size()*sizeof(Vec2f));
     
     for (size_t i = 0; i < lines.size(); i++) {
         Vec2f vc2f = {lines[i][0], lines[i][1]};
         lns[i] = vc2f;
     }
     
-    Vec2fs retLines = {lns, (int)lines.size()};
-    *_lines = &retLines;
+    _lines->vec2fs = lns;
+    _lines->length = (int)lines.size();
 }
 
-void HoughLinesP2(Mat image, Vec4is **_lines, double rho, double theta,
+void HoughLinesP2(Mat image, Vec4is* _lines, double rho, double theta,
             int threshold, double minLineLength, double maxLineGap){
     std::vector<cv::Vec4i> lines;
     HoughLinesP(*image, lines, rho, theta, threshold, minLineLength, maxLineGap);
     
-    Vec4i* lns = new Vec4i[lines.size()];
+    Vec4i* lns = (Vec4i*)malloc(lines.size()*sizeof(Vec4i));
     
     for (size_t i = 0; i < lines.size(); i++) {
         Vec4i vc4i = {lines[i][0], lines[i][1]};
         lns[i] = vc4i;
     }
     
-    Vec4is retLines = {lns, (int)lines.size()};
-    *_lines = &retLines;
+    _lines->vec4is = lns;
+    _lines->length = (int)lines.size();
 }
 
 void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift){
