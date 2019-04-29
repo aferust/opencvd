@@ -324,10 +324,10 @@ void main()
     double scale=1; 
   
     // Load classifiers from "opencv/data/haarcascades" directory  
-    nestedCascade.load( "/home/user/Desktop/opencv_d/test_data/haarcascade_eye_tree_eyeglasses.xml" ) ;
+    nestedCascade.load( "haarcascade_eye_tree_eyeglasses.xml" ) ;
     
     // Change path before execution  
-    cascade.load( "/home/user/Desktop/opencv_d/test_data/haarcascade_frontalcatface.xml" ) ; 
+    cascade.load( "haarcascade_frontalcatface.xml" ) ; 
     if( cap.isOpened() )
     while(true)
     {
@@ -374,11 +374,11 @@ void detectAndDraw( Mat img, CascadeClassifier cascade,
     // Draw circles around the faces 
     for ( int i = 0; i < faces.length; i++ ) 
     { 
-        Rect r = faces.rects[i];
+        Rect r = faces[i];
         Mat smallImgROI; 
         Rects nestedObjects;
         Point center; 
-        Scalar color = Scalar(255, 0, 0, 0); // Color for Drawing tool 
+        Scalar color = Scalar(255, 0, 0); // Color for Drawing tool 
         int radius; 
   
         double aspect_ratio = cast(double)r.width/r.height; 
@@ -401,7 +401,7 @@ void detectAndDraw( Mat img, CascadeClassifier cascade,
         // Draw circles around eyes 
         for ( int j = 0; j < nestedObjects.length; j++ )  
         { 
-            Rect nr = nestedObjects.rects[j]; 
+            Rect nr = nestedObjects[j]; 
             center.x = cast(int)round((r.x + nr.x + nr.width*0.5)*scale); 
             center.y = cast(int)round((r.y + nr.y + nr.height*0.5)*scale); 
             radius = cast(int)round((nr.width + nr.height)*0.25*scale); 
@@ -412,5 +412,6 @@ void detectAndDraw( Mat img, CascadeClassifier cascade,
     // Show Processed Image with detected faces 
     imshow( "mywin", img );  
 }
+
 ```
 ![alt text](facedetectshot.png?raw=true)
