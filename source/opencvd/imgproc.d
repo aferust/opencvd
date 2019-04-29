@@ -550,8 +550,18 @@ void rectangle(Mat img, Point _pt1, Point _pt2, Scalar color, int thickness = 1,
     Rectangle2(img, _pt1, _pt2, color, thickness, lineType, shift);
 }
 
-void fillPoly(Mat img, Contours points, Scalar color){
-    FillPoly(img, points, color);
+void fillPoly(Mat img, Point[][] _points, Scalar color){
+    Points[] incpts = new Points[_points.length];
+    foreach(i; 0.._points.length){
+        Point[] inception = new Point[_points[i].length];
+        foreach(j; 0.._points[i].length){
+            inception[j] = _points[i][j];
+        }
+        
+        incpts[i] = Points(inception.ptr, _points[i].length.to!int);
+    }
+    Contours param = {incpts.ptr, _points.length.to!int};
+    FillPoly(img, param, color);
 }
 
 Size getTextSize(string text, int fontFace, double fontScale, int thickness){
