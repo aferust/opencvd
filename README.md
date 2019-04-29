@@ -23,7 +23,7 @@ Opencvd requires the following packeges to build:
     (https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/)
 
 ## Notable features
-- Uses d arrays when it is possible like: uses Point[][] instead of std::vector<std::vector<cv::Point> >
+- Uses d arrays when it is possible like: uses Point[][] to wrap std::vector<std::vector<cv::Point> >
 
 ## Current limitations:
 - There may be unwrapped opencv features.
