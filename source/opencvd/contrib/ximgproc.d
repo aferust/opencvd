@@ -1,5 +1,7 @@
 module opencvd.contrib.ximgproc;
 
+import std.conv;
+
 import opencvd.cvcore;
 
 private extern (C){
@@ -8,8 +10,8 @@ private extern (C){
     
 }
 
-void fourierDescriptor(Contour src, Mat dst, int nbElt = -1, int nbFD = -1){
-    FourierDescriptor(src, dst, nbElt, nbFD);
+void fourierDescriptor(Point[] src, Mat dst, int nbElt = -1, int nbFD = -1){
+    FourierDescriptor(Contour(src.ptr, src.length.to!int), dst, nbElt, nbFD);
 }
 
 enum: int {
