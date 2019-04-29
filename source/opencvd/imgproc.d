@@ -181,12 +181,16 @@ private {
         void Polylines2fss(Mat img, Point2fss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
     }
 }
+
 double arcLength(Point[] curve, bool is_closed){
     return ArcLength(Contour(curve.ptr, curve.length.to!int), is_closed);
 }
 
-Contour approxPolyDP(Point[] curve, double epsilon, bool isClosed){
-    return ApproxPolyDP(Contour(curve.ptr, curve.length.to!int), epsilon, isClosed);
+Point[] approxPolyDP(Point[] curve, double epsilon, bool isClosed){
+    Contour cret = ApproxPolyDP(Contour(curve.ptr, curve.length.to!int), epsilon, isClosed);
+    Point[] ret = cret.points[0..cret.length].dup;
+    deleteArr(cret.points);
+    return ret;
 }
 
 void cvtColor(Mat src, Mat dst, int code){
@@ -657,8 +661,8 @@ void logPolar(Mat src, Mat dst, Point center, double m, int flags){
     LogPolar(src, dst, center, m, flags);
 }
 
-void fitLine(Contour points, Mat line, int distType, double param, double reps, double aeps){
-    FitLine(points, line, distType, param, reps, aeps);
+void fitLine(Point[] points, Mat line, int distType, double param, double reps, double aeps){
+    FitLine(Contour(points.ptr, points.length.to!int), line, distType, param, reps, aeps);
 }
 
 void watershed(Mat src, Mat markers){
