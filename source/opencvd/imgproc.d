@@ -216,6 +216,7 @@ void calcHist(Mat images, int nimages, int[] channels,
     }
     
     CalcHist1(images, nimages, channels.ptr, mask, hist, dims, histSize.ptr, cast(const float**)__ranges, uniform, accumulate);
+    destroy(__ranges);
 }
 
 void calcHist(Mat dst, Mat mask, Mat hist, int* histSize){
