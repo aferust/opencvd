@@ -3,6 +3,10 @@
 
 #include <string>
 
+void deleteArr(void* arr){
+    delete[] arr;
+}
+
 uchar* Mat_RowPtr(Mat m, int i){
     return (*m).ptr(i);
 }

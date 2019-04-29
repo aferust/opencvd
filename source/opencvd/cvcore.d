@@ -631,12 +631,12 @@ struct Mat {
     string type2str(){
         import std.conv;
         auto chr = _type2str(type());
-        string stype = chr.to!string;
-        destroy(chr);
+        string stype = chr.to!string.dup;
+        deleteArr(chr);
         return stype;
     }
 
-    ByteArray byteArray(){
+    ByteArray byteArray(){ // no reason to use this now. will be removed soon.
         return Mat_DataPtr(this);
     }
 
@@ -851,6 +851,8 @@ enum: int {
 }
 
 alias MatType = int;
+
+extern (C) void deleteArr(void* arr);
 
 private extern (C) {
     Mat Mat_New();

@@ -181,12 +181,12 @@ private {
         void Polylines2fss(Mat img, Point2fss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
     }
 }
-double arcLength(Contour curve, bool is_closed){
-    return ArcLength(curve, is_closed);
+double arcLength(Point[] curve, bool is_closed){
+    return ArcLength(Contour(curve.ptr, curve.length.to!int), is_closed);
 }
 
-Contour approxPolyDP(Contour curve, double epsilon, bool isClosed){
-    return ApproxPolyDP(curve, epsilon, isClosed);
+Contour approxPolyDP(Point[] curve, double epsilon, bool isClosed){
+    return ApproxPolyDP(Contour(curve.ptr, curve.length.to!int), epsilon, isClosed);
 }
 
 void cvtColor(Mat src, Mat dst, int code){
@@ -197,8 +197,8 @@ void equalizeHist(Mat src, Mat dst){
     EqualizeHist(src, dst);
 }
 
-void calcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc){
-    CalcHist(mats, chans, mask, hist, sz, rng, acc);
+void calcHist(Mats mats, int[] chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc){
+    CalcHist(mats, IntVector(chans.ptr, chans.length.to!int), mask, hist, sz, rng, acc);
 }
 
 void calcHist(Mat images, int nimages, int[] channels,
@@ -224,16 +224,20 @@ void convexHull(Point[] points, Mat hull, bool clockwise, bool returnPoints){
 
 Point[] convexHull(Point[] points, bool clockwise = true){
     Points pts = ConvexHull2(Contour(points.ptr, cast(int)points.length), clockwise);
-    return pts.points[0..pts.length];
+    Point[] ret = pts.points[0..pts.length].dup;
+    deleteArr(pts.points);
+    return ret;
 }
 
 int[] convexHullIdx(Point[] points, bool clockwise = true){
     IntVector iv = ConvexHull3(Contour(points.ptr, cast(int)points.length), clockwise);
-    return iv.val[0..iv.length];
+    int[] ret = iv.val[0..iv.length].dup;
+    deleteArr(iv.val);
+    return ret;
 }
 
-void convexityDefects(Contour points, Mat hull, Mat result){
-    ConvexityDefects(points, hull, result);
+void convexityDefects(Point[] points, Mat hull, Mat result){
+    ConvexityDefects(Contour(points.ptr, points.length.to!int), hull, result);
 }
 
 void bilateralFilter(Mat src, Mat dst, int d, double sc, double ss){
@@ -276,23 +280,27 @@ void pyrUp(Mat src, Mat dst, Size dstsize, int borderType){
     PyrUp(src, dst, dstsize, borderType);
 }
 
-Rect boundingRect(Contour con){
-    return BoundingRect(con);
+Rect boundingRect(Point[] con){
+    return BoundingRect(Contour(con.ptr, con.length.to!int));
 }
 
 void boxPoints(RotatedRect rect, Mat boxPts){
     BoxPoints(rect, boxPts);
 }
 
-double contourArea(Contour con){
-    return ContourArea(con);
+double contourArea(Point[] con){
+    return ContourArea(Contour(con.ptr, con.length.to!int));
 }
 
-RotatedRect minAreaRect(Points points){
-    return MinAreaRect(points);
+RotatedRect minAreaRect(Point[] _points){
+    RotatedRect rr = MinAreaRect(Points(_points.ptr, _points.length.to!int));
+    Point[] ps = rr.pts.points[0..rr.pts.length].dup;
+    deleteArr(rr.pts.points);
+    RotatedRect ret = {Contour(ps.ptr, cast(int)ps.length), rr.boundingRect, rr.center, rr.size, rr.angle};
+    return ret;
 }
-void minEnclosingCircle(Points points, Point2f* center, float* radius){
-    MinEnclosingCircle(points, center, radius);
+void minEnclosingCircle(Point[] _points, Point2f* center, float* radius){
+    MinEnclosingCircle(Points(_points.ptr, _points.length.to!int), center, radius);
 }
 
 // enum cv::RetrievalModes for findContours
@@ -311,8 +319,17 @@ enum: int {
     CHAIN_APPROX_TC89_KCOS
 }
 
-Contours findContours(Mat src, int mode, int method){
-    return FindContours(src, mode, method);
+Point[][] findContours(Mat src, int mode, int method){
+    Contours cnts = FindContours(src, mode, method);
+    Point[][] dcnts;
+    foreach(i; 0..cnts.length){
+        Points pts = cnts.contours[i];
+        Point[] dpts = pts.points[0..pts.length].dup;
+        deleteArr(pts.points);
+        dcnts ~= dpts;
+    }
+    deleteArr(cnts.contours);
+    return dcnts;
 }
 
 Tuple!(Point[][], Scalar[]) findContoursWithHier(Mat src, int mode, int method){
@@ -571,26 +588,49 @@ void applyCustomColorMap(Mat src, Mat dst, Mat colormap){
     ApplyCustomColorMap(src, dst, colormap);
 }
 
-Mat getPerspectiveTransform(Contour src, Contour dst){
-    return GetPerspectiveTransform(src, dst);
+Mat getPerspectiveTransform(Point[] src, Point[] dst){
+    return GetPerspectiveTransform(Contour(src.ptr, src.length.to!int), Contour(dst.ptr, dst.length.to!int));
 }
 
-void drawContours(Mat src, Contours contours, int contourIdx, Scalar color, int thickness){
-    DrawContours(src, contours, contourIdx, color, thickness);
+void drawContours(Mat src, Point[][] contours, int contourIdx, Scalar color, int thickness){
+    Points[] incpts = new Points[contours.length];
+    foreach(i; 0..contours.length){
+        Point[] inception = new Point[contours[i].length];
+        foreach(j; 0..contours[i].length){
+            inception[j] = contours[i][j];
+        }
+        
+        incpts[i] = Points(inception.ptr, contours[i].length.to!int);
+    }
+    Contours param = {incpts.ptr, contours.length.to!int};
+    DrawContours(src, param, contourIdx, color, thickness);
 }
 
 void drawContours(
             Mat image,
-            Contours contours,
+            Point[][] contours,
             int contourIdx,
             Scalar color,
             int thickness,
             int lineType,
-            Hierarchy hierarchy,
+            Scalar[] hierarchy,
             int maxLevel,
             Point offset = Point(0,0)
         ){
-    DrawContours2(image, contours, contourIdx, color, thickness, lineType, hierarchy, maxLevel, offset);
+    Points[] incpts = new Points[contours.length];
+    foreach(i; 0..contours.length){
+        Point[] inception = new Point[contours[i].length];
+        foreach(j; 0..contours[i].length){
+            inception[j] = contours[i][j];
+        }
+        
+        incpts[i] = Points(inception.ptr, contours[i].length.to!int);
+    }
+    Contours param = {incpts.ptr, contours.length.to!int};
+    
+    Hierarchy chie = {hierarchy.ptr, hierarchy.length.to!int};
+    
+    DrawContours2(image, param, contourIdx, color, thickness, lineType, chie, maxLevel, offset);
 }
 
 void sobel(Mat src, Mat dst, int ddepth, int dx, int dy, int ksize, double scale, double delta, int borderType){
@@ -698,7 +738,9 @@ struct Subdiv2D {
     
     Vec6f[] getTriangleList(){
         auto v6fs = Subdiv2D_GetTriangleList(this);
-        return v6fs.vec6fs[0..v6fs.length];
+        Vec6f[] ret = v6fs.vec6fs[0..v6fs.length].dup;
+        deleteArr(v6fs.vec6fs);
+        return ret;
     }
     
     Tuple!(Point2f[][], Point2f[]) getVoronoiFacetList(int[] idx = null){
@@ -755,7 +797,8 @@ struct Subdiv2D {
     
     int[] getLeadingEdgeList(){
         IntVector intv = Subdiv2D_GetLeadingEdgeList(this);
-        int[] ret = intv.val[0..intv.length];
+        int[] ret = intv.val[0..intv.length].dup;
+        deleteArr(intv.val);
         return ret;
     }
     

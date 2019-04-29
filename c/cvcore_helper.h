@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+void deleteArr(void* arr);
+
 typedef struct Vec4f {
     float val1;
     float val2;
