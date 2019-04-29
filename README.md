@@ -22,12 +22,14 @@ Opencvd requires the following packeges to build:
 - Raspberry Pi 3 - Raspbian Stretch Opencv 4.1.0 built from source with some pain!:
     (https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/)
 
+## notable features
+- Uses d arrays when possible like: uses Point[][] instead of std::vector<std::vector<cv::Point> >
+
 ## Current limitations:
 - There may be unwrapped opencv features.
 - No documentation yet.
 - Most of the functionality has not been tested yet. (need help)
 - No unittests yet.
-- It may be better to rewrite somethings in a more D way (use d arrays more etc.).
 
 ## Current roadmap of the project
 - make more examples runnable from https://docs.opencv.org/4.1.0/examples.html or https://www.learnopencv.com/
