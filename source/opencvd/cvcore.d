@@ -1322,7 +1322,7 @@ void completeSymm(Mat m, bool lowerToUpper){
     Mat_CompleteSymm(m, lowerToUpper);
 }
 
-void convertScaleAbs(Mat src, Mat dst, double alpha, double beta){
+void convertScaleAbs(Mat src, Mat dst, double alpha = 1, double beta = 0){
     Mat_ConvertScaleAbs(src, dst, alpha, beta);
 }
 
