@@ -35,6 +35,7 @@ public {
     import opencvd.objdetect;
     import opencvd.calib3d;
     import opencvd.features2d;
+    import opencvd.photo;
     
     import opencvd.contrib.xfeatures2d;
     import opencvd.contrib.imghash;
