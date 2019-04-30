@@ -1,4 +1,4 @@
-#include "photo.h"
+#include "photo_helper.h"
 
 void DetailEnhance(Mat src, Mat dst, float sigma_s, float sigma_r){
     cv::detailEnhance(*src, *dst, sigma_s, sigma_r);

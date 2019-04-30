@@ -39,6 +39,11 @@ struct ByteArray {
     int length;
 }
 
+struct CStrings {
+    const char** strs;
+    int length;
+}
+
 struct Scalar {
     double val1;
     double val2;
