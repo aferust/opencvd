@@ -22,24 +22,45 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 */
 
-module opencvd;
+module opencvd.stitching;
 
-public {
-    import opencvd.cvcore;
-    import opencvd.highgui;
-    import opencvd.imgcodecs;
-    import opencvd.imgproc;
-    import opencvd.videoio;
-    import opencvd.video;
-    import opencvd.ocvversion;
-    import opencvd.objdetect;
-    import opencvd.calib3d;
-    import opencvd.features2d;
-    import opencvd.photo;
-    import opencvd.stitching;
+import std.conv;
+
+import opencvd.cvcore;
+
+private extern (C) {
+    void Stitcher_Close(Stitcher st);
+    Stitcher Stitcher_Create(int mode);
+    int Stitcher_Stitch(Stitcher st, Mats images, Mat pano);
+}
+
+struct Stitcher {
+    void* p;
     
-    import opencvd.contrib.xfeatures2d;
-    import opencvd.contrib.imghash;
-    import opencvd.contrib.face;
+    static int PANORAMA = 0;
+    static int SCANS = 1;
+    
+    static int OK = 0;
+    static int ERR_NEED_MORE_IMGS = 1;
+    static int ERR_HOMOGRAPHY_EST_FAIL = 2;
+    static int ERR_CAMERA_PARAMS_ADJUST_FAIL = 3;
+    
+    
+    static Stitcher create(int mode=Stitcher.PANORAMA){
+        return Stitcher_Create(mode);
+    }
+    
+    static Stitcher opCall(int mode=Stitcher.PANORAMA){
+        return Stitcher_Create(mode);
+    }
+    
+    int stitch(Mat[] images, Mat pano){
+        Mats imgs = {images.ptr, images.length.to!int};
+        
+        return Stitcher_Stitch(this, imgs, pano);
+    }
+}
 
+void Destroy(Stitcher st){
+    Stitcher_Close(st);
 }
