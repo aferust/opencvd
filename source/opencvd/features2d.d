@@ -24,6 +24,8 @@ DEALINGS IN THE SOFTWARE.
 
 module opencvd.features2d;
 
+import std.conv;
+
 import opencvd.cvcore;
 
 private extern (C){
@@ -82,12 +84,18 @@ struct _AKAZE {
         AKAZE_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return AKAZE_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = AKAZE_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
     
-    KeyPoints detectAndCompute(Mat src, Mat mask, Mat desc){
-        return AKAZE_DetectAndCompute(&this, src, mask, desc);
+    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
+        KeyPoints kpts = AKAZE_DetectAndCompute(&this, src, mask, desc);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -104,8 +112,11 @@ struct _AgastFeatureDetector{
         AgastFeatureDetector_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return AgastFeatureDetector_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = AgastFeatureDetector_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -122,12 +133,18 @@ struct _BRISK {
         BRISK_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return BRISK_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = BRISK_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
     
-    KeyPoints detectAndCompute(Mat src, Mat mask, Mat desc){
-        return BRISK_DetectAndCompute(&this, src, mask, desc);
+    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
+        KeyPoints kpts = BRISK_DetectAndCompute(&this, src, mask, desc);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -144,8 +161,11 @@ struct _FastFeatureDetector {
         FastFeatureDetector_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return FastFeatureDetector_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = FastFeatureDetector_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -162,8 +182,11 @@ struct _GFTTDetector {
         GFTTDetector_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return GFTTDetector_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = GFTTDetector_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -180,12 +203,18 @@ struct _KAZE {
         KAZE_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return KAZE_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = KAZE_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
     
-    KeyPoints detectAndCompute(Mat src, Mat mask, Mat desc){
-        return KAZE_DetectAndCompute(&this, src, mask, desc);
+    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
+        KeyPoints kpts = KAZE_DetectAndCompute(&this, src, mask, desc);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -202,8 +231,11 @@ struct _MSER {
         MSER_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-         return MSER_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = MSER_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 alias MSER = _MSER*;
@@ -219,12 +251,18 @@ struct _ORB {
         ORB_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return ORB_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = ORB_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
     
-    KeyPoints detectAndCompute(Mat src, Mat mask, Mat desc){
-        return ORB_DetectAndCompute(&this, src, mask, desc);
+    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
+        KeyPoints kpts = ORB_DetectAndCompute(&this, src, mask, desc);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -241,8 +279,11 @@ struct _SimpleBlobDetector {
         SimpleBlobDetector_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return SimpleBlobDetector_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = SimpleBlobDetector_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -259,8 +300,19 @@ struct _BFMatcher {
         BFMatcher_Close(&this);
     }
     
-    MultiDMatches knnMatch(Mat query, Mat train, int k){
-        return BFMatcher_KnnMatch(&this, query, train, k);
+    DMatch[][] knnMatch(Mat query, Mat train, int k){
+        
+        MultiDMatches mdms = BFMatcher_KnnMatch(&this, query, train, k);
+        
+        DMatch[][] ret;
+        foreach(i; 0..mdms.length){
+            DMatches ds = mdms.dmatches[i];
+            DMatch[] dmats = ds.dmatches[0..ds.length].dup;
+            deleteArr(ds.dmatches);
+            ret ~= dmats;
+        }
+        deleteArr(mdms.dmatches);
+        return ret;
     }
 }
 
@@ -274,6 +326,14 @@ BFMatcher newBFMatcherWithParams(int normType, bool crossCheck){
     return BFMatcher_CreateWithParams(normType, crossCheck);
 }
 
-void drawKeyPoints(Mat src, KeyPoints kp, Mat dst, const Scalar s, int flags){
-    DrawKeyPoints(src, kp, dst, s, flags);
+enum: int { // cv::DrawMatchesFlags 
+    DrawMatchesFlags_DEFAULT = 0, 
+    DrawMatchesFlags_DRAW_OVER_OUTIMG = 1, 
+    DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS = 2, 
+    DrawMatchesFlags_DRAW_RICH_KEYPOINTS = 4 
+}
+
+void drawKeyPoints(Mat src, KeyPoint[] kp, Mat dst,
+        const Scalar s = Scalar.all(-1), int flags = DrawMatchesFlags_DEFAULT){
+    DrawKeyPoints(src, KeyPoints(kp.ptr, kp.length.to!int), dst, s, flags);
 }

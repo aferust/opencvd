@@ -45,12 +45,18 @@ struct _SIFT {
         SIFT_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return SIFT_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = SIFT_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
     
-    KeyPoints detectAndCompute(Mat src, Mat mask, Mat desc){
-        return SIFT_DetectAndCompute(&this, src, mask, desc);
+    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
+        KeyPoints kpts = SIFT_DetectAndCompute(&this, src, mask, desc);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
@@ -67,12 +73,18 @@ struct _SURF {
         SURF_Close(&this);
     }
     
-    KeyPoints detect(Mat src){
-        return SURF_Detect(&this, src);
+    KeyPoint[] detect(Mat src){
+        KeyPoints kpts = SURF_Detect(&this, src);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
     
-    KeyPoints detectAndCompute(Mat src, Mat mask, Mat desc){
-        return SURF_DetectAndCompute(&this, src, mask, desc);
+    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
+        KeyPoints kpts = SURF_DetectAndCompute(&this, src, mask, desc);
+        KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
+        deleteArr(kpts.keypoints);
+        return ret;
     }
 }
 
