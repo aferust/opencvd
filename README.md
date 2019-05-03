@@ -130,7 +130,7 @@ https://www.learnopencv.com/install-opencv-4-on-macos/
 export PKG_CONFIG_PATH=/Users/user/opencv4-dev/installation/OpenCV-master/lib/pkgconfig/
 export DYLD_LIBRARY_PATH=/Users/user/opencv4-dev/installation/OpenCV-master/lib/
 ```
-Than build opencvcapi and opencvcapi_contrib using cmake and make commands following the ubuntu guide.
+- Build opencvcapi and opencvcapi_contrib using cmake and make commands following the ubuntu guide.
 
 Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app. This is an example dub.json for test app:
 
