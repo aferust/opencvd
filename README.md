@@ -125,7 +125,7 @@ And note that we have built opencvd against shared libs of opencv4. So, Compiled
 ### OSX
 - Build opencv using one of the guides found on internet such as:
 https://www.learnopencv.com/install-opencv-4-on-macos/
-- Before compiling any code:
+- Before compiling any code or running your test app, set required env-vars like:
 ```
 export PKG_CONFIG_PATH=/Users/user/opencv4-dev/installation/OpenCV-master/lib/pkgconfig/
 export DYLD_LIBRARY_PATH=/Users/user/opencv4-dev/installation/OpenCV-master/lib/
