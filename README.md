@@ -133,7 +133,7 @@ export DYLD_LIBRARY_PATH=/Users/user/opencv4-dev/installation/OpenCV-master/lib/
 - Build opencvcapi and opencvcapi_contrib using cmake and make commands following the ubuntu guide.
 
 Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app. This is an example dub.json for test app:
-
+```
 {
 	"description": "A minimal D application.",
     "dependencies": {
@@ -152,7 +152,7 @@ Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app
         "opencvcapi_contrib",
     ]
 }
-
+```
 ## Some notes about C interface (C++ functions with C externs)
 Gocv does not wrap some important functionality of opencv.
 Opencvd will cover some of those wrapping them in c++ sources with
