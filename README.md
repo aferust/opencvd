@@ -11,7 +11,7 @@ Pull requests are welcome for growing and enhancing the binding. I am willing to
 contributors to the project. Let's make it a complete binding to opencv.
 
 ## Requirements
-Opencvd requires the following packeges to build:
+Opencvd requires the following packages to build:
 
 * OpenCV ~>4.0 ( must be built with contrib repo)
 * cmake (version of 3.10.2 is installed in my system)
@@ -21,6 +21,7 @@ Opencvd requires the following packeges to build:
 - Windows 10 64 bit - ldc2-1.14.0-windows-x64 - OpenCV-master (4.10.0 AFAIK) - Visual Studio 2017 community Ed.
 - Raspberry Pi 3 - Raspbian Stretch Opencv 4.1.0 built from source with some pain!:
     (https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/)
+- OSX Sierra 10.12.5
 
 ## Notable features
 - Uses d arrays when it is possible like: uses Point[][] to wrap std::vector<std::vector<cv::Point> >
@@ -120,6 +121,37 @@ Now you have *.lib files in opencvd folder.
 ```
 While compiling your test app, you must always run dub or ldc2 commands in x64 Native Tools Command Prompt for VS 2017.
 And note that we have built opencvd against shared libs of opencv4. So, Compiled executables will need opencv dlls in the PATH.
+
+### OSX
+- Build opencv using one of the guides found on internet such as:
+https://www.learnopencv.com/install-opencv-4-on-macos/
+- Before compiling any code:
+```
+export PKG_CONFIG_PATH=/Users/user/opencv4-dev/installation/OpenCV-master/lib/pkgconfig/
+export DYLD_LIBRARY_PATH=/Users/user/opencv4-dev/installation/OpenCV-master/lib/
+```
+Than build opencvcapi and opencvcapi_contrib using cmake and make commands following the ubuntu guide.
+
+Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app. This is an example dub.json for test app:
+
+{
+	"description": "A minimal D application.",
+    "dependencies": {
+        "opencvd": "~>0.0.2"
+	},
+	"authors": [
+		"Ferhat Kurtulmuş"
+	],
+	"copyright": "Copyright © 2019, Ferhat Kurtulmuş",
+	"license": "Boost",
+	"name": "testapp",
+    "lflags": ["-L/Users/user/opencv4-dev/installation/OpenCV-master/lib/", "-L/Users/user/Desktop/testapp/"],
+    "libs": [
+        "opencv4",
+        "opencvcapi",
+        "opencvcapi_contrib",
+    ]
+}
 
 ## Some notes about C interface (C++ functions with C externs)
 Gocv does not wrap some important functionality of opencv.
