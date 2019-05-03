@@ -213,3 +213,12 @@ bool Rect_Contains(Rect r, Point p){
     cv::Point _p = {p.x, p.y};
     return rect.contains(_p);
 }
+
+Mat Mat_FromContour(Contour points){
+    std::vector<cv::Point> pts;
+    for (int i = 0; i < points.length; ++i){
+        cv::Point pt = {points.points[i].x, points.points[i].y};
+        pts.push_back(pt);
+    }
+    return new cv::Mat(pts);
+}

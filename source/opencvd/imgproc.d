@@ -33,153 +33,161 @@ import core.stdc.stdlib;
 
 import opencvd.cvcore;
 
-private {
-    extern (C){
-        double ArcLength(Contour curve, bool is_closed);
-        Contour ApproxPolyDP(Contour curve, double epsilon, bool closed);
-        void CvtColor(Mat src, Mat dst, int code);
-        void EqualizeHist(Mat src, Mat dst);
-        void CalcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc);
-        void CalcHist1(Mat dst, int nimages, int* channels,
-            Mat mask, Mat hist, int dims, int* histSize, const float** ranges, bool uniform, bool accumulate);
-        void CalcHist2(Mat dst, Mat mask, Mat hist, int* histSize);
-        void ConvexHull(Contour points, Mat hull, bool clockwise, bool returnPoints);
-        Points ConvexHull2(Contour points, bool clockwise);
-        IntVector ConvexHull3(Contour points, bool clockwise);
-        void ConvexityDefects(Contour points, Mat hull, Mat result);
-        void BilateralFilter(Mat src, Mat dst, int d, double sc, double ss);
-        void Blur(Mat src, Mat dst, Size ps);
-        void BoxFilter(Mat src, Mat dst, int ddepth, Size ps);
-        void SqBoxFilter(Mat src, Mat dst, int ddepth, Size ps);
-        void Dilate(Mat src, Mat dst, Mat kernel);
-        void Erode(Mat src, Mat dst, Mat kernel);
-        void MatchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask);
-        Moment Moments(Mat src, bool binaryImage);
-        void PyrDown(Mat src, Mat dst, Size dstsize, int borderType);
-        void PyrUp(Mat src, Mat dst, Size dstsize, int borderType);
-        Rect BoundingRect(Contour con);
-        void BoxPoints(RotatedRect rect, Mat boxPts);
-        double ContourArea(Contour con);
-        RotatedRect MinAreaRect(Points points);
-        void MinEnclosingCircle(Points points, Point2f* center, float* radius);
-        Contours FindContours(Mat src, int mode, int method);
-        Contours FindContoursWithHier(Mat src, Hierarchy* chierarchy, int mode, int method);
-        int ConnectedComponents(Mat src, Mat dst, int connectivity, int ltype, int ccltype);
-        int ConnectedComponentsWithStats(Mat src, Mat labels, Mat stats, Mat centroids, int connectivity, int ltype, int ccltype);
+private extern (C){
 
-        void GaussianBlur(Mat src, Mat dst, Size ps, double sX, double sY, int bt);
-        void Laplacian(Mat src, Mat dst, int dDepth, int kSize, double scale, double delta, int borderType);
-        void Scharr(Mat src, Mat dst, int dDepth, int dx, int dy, double scale, double delta,
-                    int borderType);
-        Mat GetStructuringElement(int shape, Size ksize);
-        Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor);
-        void MorphologyEx(Mat src, Mat dst, int op, Mat kernel);
-        void MedianBlur(Mat src, Mat dst, int ksize);
-        
-        void Canny(Mat src, Mat edges, double t1, double t2);
-        void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient);
-        void Canny3(Mat image, Mat edges, double threshold1, double threshold2, int apertureSize, bool L2gradient);
-        void CornerSubPix(Mat img, Mat corners, Size winSize, Size zeroZone, TermCriteria criteria);
-        void GoodFeaturesToTrack(Mat img, Mat corners, int maxCorners, double quality, double minDist);
-        void HoughCircles(Mat src, Mat circles, int method, double dp, double minDist);
-        void HoughCirclesWithParams(Mat src, Mat circles, int method, double dp, double minDist,
-                                    double param1, double param2, int minRadius, int maxRadius);
-        Vec3fs HoughCircles3(Mat image, int method, double dp,
-                  double minDist, double param1, double param2, int minRadius, int maxRadius);
-        void HoughLines(Mat src, Mat lines, double rho, double theta, int threshold);
-        void HoughLinesP(Mat src, Mat lines, double rho, double theta, int threshold);
-        void HoughLinesP2(Mat image, Vec4is *lines, double rho, double theta,
-            int threshold, double minLineLength, double maxLineGap);
-        void HoughLinesPWithParams(Mat src, Mat lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap);
-        void HoughLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,
-                                double min_rho, double  max_rho, double rho_step,
-                                double min_theta, double max_theta, double theta_step);
-        void HoughLines2(Mat image, Vec2fs *lines, double rho, double theta,
-            int threshold, double srn, double stn, double min_theta, double max_theta);
-        void Threshold(Mat src, Mat dst, double thresh, double maxvalue, int typ);
-        void AdaptiveThreshold(Mat src, Mat dst, double maxValue, int adaptiveTyp, int typ, int blockSize,
-                               double c);
-                               
-        void ArrowedLine(Mat img, Point pt1, Point pt2, Scalar color, int thickness);
-        void Circle(Mat img, Point center, int radius, Scalar color, int thickness);
-        void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int shift);
-        void Ellipse(Mat img, Point center, Point axes, double angle, double
-                     startAngle, double endAngle, Scalar color, int thickness);
-        void Line(Mat img, Point pt1, Point pt2, Scalar color, int thickness);
-        void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
-        void Rectangle(Mat img, Rect rect, Scalar color, int thickness);
-        void Rectangle2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
-        void FillPoly(Mat img, Contours points, Scalar color);
-        Size GetTextSize(const char* text, int fontFace, double fontScale, int thickness);
-        void PutText(Mat img, const char* text, Point org, int fontFace, double fontScale,
-                     Scalar color, int thickness);
-        void Resize(Mat src, Mat dst, Size sz, double fx, double fy, int interp);
-        Mat GetRotationMatrix2D(Point center, double angle, double scale);
-        void WarpAffine(Mat src, Mat dst, Mat rot_mat, Size dsize);
-        void WarpAffineWithParams(Mat src, Mat dst, Mat rot_mat, Size dsize, int flags, int borderMode,
-                                  Scalar borderValue);
-        void WarpPerspective(Mat src, Mat dst, Mat m, Size dsize);
-        void ApplyColorMap(Mat src, Mat dst, int colormap);
-        void ApplyCustomColorMap(Mat src, Mat dst, Mat colormap);
-        Mat GetPerspectiveTransform(Contour src, Contour dst);
-        void DrawContours(Mat src, Contours contours, int contourIdx, Scalar color, int thickness);
-        void DrawContours2(
-            Mat image,
-            Contours contours,
-            int contourIdx,
-            Scalar color,
-            int thickness,
-            int lineType,
-            Hierarchy hierarchy,
-            int maxLevel,
-            Point offset
-        );
-        void Sobel(Mat src, Mat dst, int ddepth, int dx, int dy, int ksize, double scale, double delta, int borderType);
-        void SpatialGradient(Mat src, Mat dx, Mat dy, int ksize, int borderType);
-        void Remap(Mat src, Mat dst, Mat map1, Mat map2, int interpolation, int borderMode, Scalar borderValue);
-        void Filter2D(Mat src, Mat dst, int ddepth, Mat kernel, Point anchor, double delta, int borderType);
-        void SepFilter2D(Mat src, Mat dst, int ddepth, Mat kernelX, Mat kernelY, Point anchor, double delta, int borderType);
-        void LogPolar(Mat src, Mat dst, Point center, double m, int flags);
-        void FitLine(Contour points, Mat line, int distType, double param, double reps, double aeps);
-        CLAHE CLAHE_Create();
-        CLAHE CLAHE_CreateWithParams(double clipLimit, Size tileGridSize);
-        void CLAHE_Close(CLAHE c);
-        void CLAHE_Apply(CLAHE c, Mat src, Mat dst);
-        
-        void Watershed(Mat src, Mat markers);
-        int FloodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
-                Rect rect, Scalar loDiff, Scalar upDiff, int flags);
-        int FloodFill2(Mat image, Point seedPoint, Scalar newVal, Rect rect, Scalar loDiff, Scalar upDiff, int flags);
-        void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
-            int maskSize, int labelType);
-        void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType);
-        
-        Subdiv2D Subdiv2d_New();
-        Subdiv2D Subdiv2d_NewFromRect(Rect r);
-        void Subdiv2D_Close(Subdiv2D sd);
-        void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
-        void Subdiv2D_InsertMultiple(Subdiv2D sd, Point2fs ptvec);
-        Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
-        Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs* faceCenters);
-        int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
-        int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
-        int Subdiv2D_NextEdge(Subdiv2D sd, int edge);
-        int Subdiv2D_RotateEdge(Subdiv2D sd, int edge, int rotate);
-        int Subdiv2D_SymEdge(Subdiv2D sd, int edge);
-        int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType);
-        Vec4fs Subdiv2D_GetEdgeList(Subdiv2D sd);
-        IntVector Subdiv2D_GetLeadingEdgeList(Subdiv2D sd);
-        int Subdiv2D_Locate(Subdiv2D sd, Point2f pt, ref int edge, ref int vertex);
-        Point2f Subdiv2D_GetVertex(Subdiv2D sd, int vertex, int* firstEdge);
-        void Subdiv2D_InitDelaunay(Subdiv2D sd, Rect bRect);
-        
-        void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
-        void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
-        void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
-        void Polylines2ss(Mat img, Pointss flist, bool isClosed, Scalar color, int thickness, int lineType, int shift);
-        void Polylines2f(Mat img, Point2fs pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
-        void Polylines2fss(Mat img, Point2fss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
-    }
+    double ArcLength(Contour curve, bool is_closed);
+    Contour ApproxPolyDP(Contour curve, double epsilon, bool closed);
+    void CvtColor(Mat src, Mat dst, int code);
+    void EqualizeHist(Mat src, Mat dst);
+    void CalcHist(Mats mats, IntVector chans, Mat mask, Mat hist, IntVector sz, FloatVector rng, bool acc);
+    void CalcHist1(Mat dst, int nimages, int* channels,
+        Mat mask, Mat hist, int dims, int* histSize, const float** ranges, bool uniform, bool accumulate);
+    void CalcHist2(Mat dst, Mat mask, Mat hist, int* histSize);
+    void ConvexHull(Contour points, Mat hull, bool clockwise, bool returnPoints);
+    Points ConvexHull2(Contour points, bool clockwise);
+    IntVector ConvexHull3(Contour points, bool clockwise);
+    void ConvexityDefects(Contour points, Mat hull, Mat result);
+    void BilateralFilter(Mat src, Mat dst, int d, double sc, double ss);
+    void Blur(Mat src, Mat dst, Size ps);
+    void BoxFilter(Mat src, Mat dst, int ddepth, Size ps);
+    void SqBoxFilter(Mat src, Mat dst, int ddepth, Size ps);
+    void Dilate(Mat src, Mat dst, Mat kernel);
+    void Erode(Mat src, Mat dst, Mat kernel);
+    void MatchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask);
+    Moment Moments(Mat src, bool binaryImage);
+    void PyrDown(Mat src, Mat dst, Size dstsize, int borderType);
+    void PyrUp(Mat src, Mat dst, Size dstsize, int borderType);
+    Rect BoundingRect(Contour con);
+    void BoxPoints(RotatedRect rect, Mat boxPts);
+    double ContourArea(Contour con);
+    RotatedRect MinAreaRect(Points points);
+    void MinEnclosingCircle(Points points, Point2f* center, float* radius);
+    Contours FindContours(Mat src, int mode, int method);
+    Contours FindContoursWithHier(Mat src, Hierarchy* chierarchy, int mode, int method);
+    int ConnectedComponents(Mat src, Mat dst, int connectivity, int ltype, int ccltype);
+    int ConnectedComponentsWithStats(Mat src, Mat labels, Mat stats, Mat centroids, int connectivity, int ltype, int ccltype);
+
+    void GaussianBlur(Mat src, Mat dst, Size ps, double sX, double sY, int bt);
+    void Laplacian(Mat src, Mat dst, int dDepth, int kSize, double scale, double delta, int borderType);
+    void Scharr(Mat src, Mat dst, int dDepth, int dx, int dy, double scale, double delta,
+                int borderType);
+    Mat GetStructuringElement(int shape, Size ksize);
+    Mat GetStructuringElementWithAnchor(int shape, Size ksize, Point anchor);
+    void MorphologyEx(Mat src, Mat dst, int op, Mat kernel);
+    void MedianBlur(Mat src, Mat dst, int ksize);
+    
+    void Canny(Mat src, Mat edges, double t1, double t2);
+    void Canny2(Mat dx, Mat dy, Mat edges, double threshold1, double threshold2, bool L2gradient);
+    void Canny3(Mat image, Mat edges, double threshold1, double threshold2, int apertureSize, bool L2gradient);
+    void CornerSubPix(Mat img, Mat corners, Size winSize, Size zeroZone, TermCriteria criteria);
+    void GoodFeaturesToTrack(Mat img, Mat corners, int maxCorners, double quality, double minDist);
+    void HoughCircles(Mat src, Mat circles, int method, double dp, double minDist);
+    void HoughCirclesWithParams(Mat src, Mat circles, int method, double dp, double minDist,
+                                double param1, double param2, int minRadius, int maxRadius);
+    Vec3fs HoughCircles3(Mat image, int method, double dp,
+              double minDist, double param1, double param2, int minRadius, int maxRadius);
+    void HoughLines(Mat src, Mat lines, double rho, double theta, int threshold);
+    void HoughLinesP(Mat src, Mat lines, double rho, double theta, int threshold);
+    void HoughLinesP2(Mat image, Vec4is *lines, double rho, double theta,
+        int threshold, double minLineLength, double maxLineGap);
+    void HoughLinesPWithParams(Mat src, Mat lines, double rho, double theta, int threshold, double minLineLength, double maxLineGap);
+    void HoughLinesPointSet(Mat points, Mat lines, int lines_max, int threshold,
+                            double min_rho, double  max_rho, double rho_step,
+                            double min_theta, double max_theta, double theta_step);
+    void HoughLines2(Mat image, Vec2fs *lines, double rho, double theta,
+        int threshold, double srn, double stn, double min_theta, double max_theta);
+    void Threshold(Mat src, Mat dst, double thresh, double maxvalue, int typ);
+    void AdaptiveThreshold(Mat src, Mat dst, double maxValue, int adaptiveTyp, int typ, int blockSize,
+                           double c);
+                           
+    void ArrowedLine(Mat img, Point pt1, Point pt2, Scalar color, int thickness);
+    void Circle(Mat img, Point center, int radius, Scalar color, int thickness);
+    void Circle2(Mat img, Point center, int radius, Scalar color, int thickness, int shift);
+    void Ellipse(Mat img, Point center, Point axes, double angle, double
+                 startAngle, double endAngle, Scalar color, int thickness);
+    void Line(Mat img, Point pt1, Point pt2, Scalar color, int thickness);
+    void Line2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
+    void Rectangle(Mat img, Rect rect, Scalar color, int thickness);
+    void Rectangle2(Mat img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
+    void FillPoly(Mat img, Contours points, Scalar color);
+    Size GetTextSize(const char* text, int fontFace, double fontScale, int thickness);
+    void PutText(Mat img, const char* text, Point org, int fontFace, double fontScale,
+                 Scalar color, int thickness);
+    void Resize(Mat src, Mat dst, Size sz, double fx, double fy, int interp);
+    Mat GetRotationMatrix2D(Point center, double angle, double scale);
+    void WarpAffine(Mat src, Mat dst, Mat rot_mat, Size dsize);
+    void WarpAffineWithParams(Mat src, Mat dst, Mat rot_mat, Size dsize, int flags, int borderMode,
+                              Scalar borderValue);
+    void WarpPerspective(Mat src, Mat dst, Mat m, Size dsize);
+    void ApplyColorMap(Mat src, Mat dst, int colormap);
+    void ApplyCustomColorMap(Mat src, Mat dst, Mat colormap);
+    Mat GetPerspectiveTransform(Contour src, Contour dst);
+    void DrawContours(Mat src, Contours contours, int contourIdx, Scalar color, int thickness);
+    void DrawContours2(
+        Mat image,
+        Contours contours,
+        int contourIdx,
+        Scalar color,
+        int thickness,
+        int lineType,
+        Hierarchy hierarchy,
+        int maxLevel,
+        Point offset
+    );
+    void Sobel(Mat src, Mat dst, int ddepth, int dx, int dy, int ksize, double scale, double delta, int borderType);
+    void SpatialGradient(Mat src, Mat dx, Mat dy, int ksize, int borderType);
+    void Remap(Mat src, Mat dst, Mat map1, Mat map2, int interpolation, int borderMode, Scalar borderValue);
+    void Filter2D(Mat src, Mat dst, int ddepth, Mat kernel, Point anchor, double delta, int borderType);
+    void SepFilter2D(Mat src, Mat dst, int ddepth, Mat kernelX, Mat kernelY, Point anchor, double delta, int borderType);
+    void LogPolar(Mat src, Mat dst, Point center, double m, int flags);
+    void FitLine(Contour points, Mat line, int distType, double param, double reps, double aeps);
+    CLAHE CLAHE_Create();
+    CLAHE CLAHE_CreateWithParams(double clipLimit, Size tileGridSize);
+    void CLAHE_Close(CLAHE c);
+    void CLAHE_Apply(CLAHE c, Mat src, Mat dst);
+    
+    void Watershed(Mat src, Mat markers);
+    int FloodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
+            Rect rect, Scalar loDiff, Scalar upDiff, int flags);
+    int FloodFill2(Mat image, Point seedPoint, Scalar newVal, Rect rect, Scalar loDiff, Scalar upDiff, int flags);
+    void DistanceTransform(Mat src, Mat dst, Mat labels, int distanceType,
+        int maskSize, int labelType);
+    void DistanceTransform2(Mat src, Mat dst, int distanceType, int maskSize, int dstType);
+    
+    Subdiv2D Subdiv2d_New();
+    Subdiv2D Subdiv2d_NewFromRect(Rect r);
+    void Subdiv2D_Close(Subdiv2D sd);
+    void Subdiv2D_Insert(Subdiv2D sd, Point2f p);
+    void Subdiv2D_InsertMultiple(Subdiv2D sd, Point2fs ptvec);
+    Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
+    Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs* faceCenters);
+    int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
+    int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
+    int Subdiv2D_NextEdge(Subdiv2D sd, int edge);
+    int Subdiv2D_RotateEdge(Subdiv2D sd, int edge, int rotate);
+    int Subdiv2D_SymEdge(Subdiv2D sd, int edge);
+    int Subdiv2D_GetEdge(Subdiv2D sd, int edge, int nextEdgeType);
+    Vec4fs Subdiv2D_GetEdgeList(Subdiv2D sd);
+    IntVector Subdiv2D_GetLeadingEdgeList(Subdiv2D sd);
+    int Subdiv2D_Locate(Subdiv2D sd, Point2f pt, ref int edge, ref int vertex);
+    Point2f Subdiv2D_GetVertex(Subdiv2D sd, int vertex, int* firstEdge);
+    void Subdiv2D_InitDelaunay(Subdiv2D sd, Rect bRect);
+    
+    void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
+    void FillConvexPoly2f(Mat img, Point2fs points, Scalar color, int lineType, int shift);
+    void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+    void Polylines2ss(Mat img, Pointss flist, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+    void Polylines2f(Mat img, Point2fs pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+    void Polylines2fss(Mat img, Point2fss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+    
+    RotatedRect FitEllipse(Points points);
+    RotatedRect FitEllipse2(Mat points);
+    RotatedRect FitEllipseAMS(Points points);
+    RotatedRect FitEllipseAMS2(Mat points);
+    RotatedRect FitEllipseDirect(Points points);
+    RotatedRect FitEllipseDirect2(Mat points);
+    void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineType);
+
 }
 
 double arcLength(Point[] curve, bool is_closed){
@@ -565,6 +573,18 @@ void fillPoly(Mat img, Point[][] _points, Scalar color){
     FillPoly(img, param, color);
 }
 
+enum: int { // cv::HersheyFonts
+    FONT_HERSHEY_SIMPLEX = 0, 
+    FONT_HERSHEY_PLAIN = 1, 
+    FONT_HERSHEY_DUPLEX = 2, 
+    FONT_HERSHEY_COMPLEX = 3, 
+    FONT_HERSHEY_TRIPLEX = 4, 
+    FONT_HERSHEY_COMPLEX_SMALL = 5, 
+    FONT_HERSHEY_SCRIPT_SIMPLEX = 6, 
+    FONT_HERSHEY_SCRIPT_COMPLEX = 7, 
+    FONT_ITALIC = 16 
+}
+
 Size getTextSize(string text, int fontFace, double fontScale, int thickness){
     return GetTextSize(toStringz(text), fontFace, fontScale, thickness);
 }
@@ -921,6 +941,67 @@ CLAHE newCLAHE(){ // implement in 'this'?
 
 CLAHE newCLAHEWithParams(double clipLimit, Size tileGridSize){ // implement in 'this'?
     return CLAHE_CreateWithParams(clipLimit, tileGridSize);
+}
+
+RotatedRect fitEllipse(Point[] points){
+    RotatedRect rect = FitEllipse(Points(points.ptr, points.length.to!int));
+    Point[] pts = rect.pts.points[0..rect.pts.length].dup;
+    
+    RotatedRect retRect = {
+        Contour(pts.ptr, pts.length.to!int),
+        rect.boundingRect,
+        rect.center,
+        rect.size,
+        rect.angle
+    };
+    deleteArr(rect.pts.points);
+    return retRect;
+}
+
+RotatedRect fitEllipse(Mat points){
+    return FitEllipse2(points);
+}
+
+RotatedRect fitEllipseAMS(Point[] points){
+    RotatedRect rect = FitEllipseAMS(Points(points.ptr, points.length.to!int));
+    Point[] pts = rect.pts.points[0..rect.pts.length].dup;
+    
+    RotatedRect retRect = {
+        Contour(pts.ptr, pts.length.to!int),
+        rect.boundingRect,
+        rect.center,
+        rect.size,
+        rect.angle
+    };
+    deleteArr(rect.pts.points);
+    return retRect;
+}
+
+RotatedRect fitEllipseAMS(Mat points){
+    return FitEllipseAMS2(points);
+}
+
+RotatedRect fitEllipseDirect(Point[] points){
+    RotatedRect rect = FitEllipseDirect(Points(points.ptr, points.length.to!int));
+    Point[] pts = rect.pts.points[0..rect.pts.length].dup;
+    
+    RotatedRect retRect = {
+        Contour(pts.ptr, pts.length.to!int),
+        rect.boundingRect,
+        rect.center,
+        rect.size,
+        rect.angle
+    };
+    deleteArr(rect.pts.points);
+    return retRect;
+}
+
+RotatedRect fitEllipseDirect(Mat points){
+    return FitEllipseDirect2(points);
+}
+
+void ellipse(Mat img, RotatedRect box, Scalar color, int thickness = 1, int lineType = LINE_8){
+    Ellipse2(img, box, color, thickness, lineType);
 }
 
 enum: int {

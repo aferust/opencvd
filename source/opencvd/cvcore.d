@@ -287,6 +287,8 @@ struct RotatedRect {
     Point center;
     Size size;
     double angle;
+    
+    alias points = pts;
 }
 
 struct Point {
@@ -311,6 +313,10 @@ struct Point {
     Point2f asFloat(){
         return Point2f(x.to!float, y.to!float);
     }
+    
+    Point opMul(double a){
+        return Point((x*a).to!int,(y*a).to!int);
+    }
 }
 
 struct Point2f {
@@ -319,6 +325,10 @@ struct Point2f {
     
     Point asInt(){
         return Point(x.to!int, y.to!int);
+    }
+    
+    Point2f opMul(double a){
+        return Point2f(float(x*a),float(y*a));
     }
 }
 
@@ -489,6 +499,10 @@ struct Mat {
 
     static Mat opCall(int rows, int cols, int type, void* data){
         return Mat_FromArrayPtr(rows, cols, type, data);
+    }
+    
+    static Mat opCall(Point[] points){
+        return newMatFromContour(points);
     }
     
     void opAssign(Color c){
@@ -867,6 +881,7 @@ private extern (C) {
     Mat Mat_NewFromBytes(int rows, int cols, int type, ByteArray buf);
     Mat Mat_FromPtr(Mat m, int rows, int cols, int type, int prows, int pcols);
     Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
+    Mat Mat_FromContour(Contour points);
     ubyte* Mat_RowPtr(Mat m, int i);
     
     int Mat_Rows(Mat m);
@@ -1082,6 +1097,10 @@ Mat newMatFromPtr(Mat m, int rows, int cols, int type, int prows, int pcols){
 
 Mat newMatFromArrayPtr(int rows, int cols, int type, void* data){
     return Mat_FromArrayPtr(rows, cols, type, data);
+}
+
+Mat newMatFromContour(Point[] pts){
+    return Mat_FromContour(Contour(pts.ptr, pts.length.to!int));
 }
 
 Mat zeros(int rows, int cols, int type){

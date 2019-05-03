@@ -154,6 +154,8 @@ struct Mats Mat_Split2(Mat src);
 
 bool Rect_Contains(Rect r, Point p);
 
+Mat Mat_FromContour(Contour points);
+
 #ifdef __cplusplus
 }
 #endif

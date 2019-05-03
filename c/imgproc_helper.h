@@ -99,6 +99,15 @@ void Subdiv2D_InitDelaunay(Subdiv2D sd, Rect rect);
 void FillConvexPoly(Mat img, Points points, Scalar color, int lineType, int shift);
 void Polylines(Mat img, Points pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
 void Polylines2ss(Mat img, Pointss pts, bool isClosed, Scalar color, int thickness, int lineType, int shift);
+
+struct RotatedRect FitEllipse(Points points);
+struct RotatedRect FitEllipse2(Mat points);
+struct RotatedRect FitEllipseAMS(Points points);
+struct RotatedRect FitEllipseAMS2(Mat points);
+struct RotatedRect FitEllipseDirect(Points points);
+struct RotatedRect FitEllipseDirect2(Mat points);
+void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineType);
+
 #ifdef __cplusplus
 }
 #endif

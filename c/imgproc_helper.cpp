@@ -454,6 +454,173 @@ void Polylines2ss(Mat img, Pointss flist, bool isClosed, Scalar color, int thick
     cv::polylines(*img, pts, isClosed, c, thickness, lineType, shift);
 }
 
+struct RotatedRect FitEllipse(Points points){
+    std::vector<cv::Point> pts;
 
+    for (size_t i = 0; i < points.length; i++) {
+        pts.push_back(cv::Point(points.points[i].x, points.points[i].y));
+    }
 
+    cv::RotatedRect cvrect = cv::fitEllipse(pts);
 
+    Point* rpts = new Point[4];
+    cv::Point2f* pts4 = new cv::Point2f[4];
+    cvrect.points(pts4);
+
+    for (size_t j = 0; j < 4; j++) {
+        Point pt = {int(lroundf(pts4[j].x)), int(lroundf(pts4[j].y))};
+        rpts[j] = pt;
+    }
+
+    delete[] pts4;
+
+    cv::Rect bRect = cvrect.boundingRect();
+    Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
+    Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
+    return retrect;
+}
+
+struct RotatedRect FitEllipse2(Mat points){
+    cv::RotatedRect cvrect = cv::fitEllipse(*points);
+
+    Point* rpts = new Point[4];
+    cv::Point2f* pts4 = new cv::Point2f[4];
+    cvrect.points(pts4);
+
+    for (size_t j = 0; j < 4; j++) {
+        Point pt = {int(lroundf(pts4[j].x)), int(lroundf(pts4[j].y))};
+        rpts[j] = pt;
+    }
+
+    delete[] pts4;
+
+    cv::Rect bRect = cvrect.boundingRect();
+    Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
+    Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
+    return retrect;
+}
+
+struct RotatedRect FitEllipseAMS(Points points){
+    std::vector<cv::Point> pts;
+
+    for (size_t i = 0; i < points.length; i++) {
+        pts.push_back(cv::Point(points.points[i].x, points.points[i].y));
+    }
+
+    cv::RotatedRect cvrect = cv::fitEllipseAMS(pts);
+
+    Point* rpts = new Point[4];
+    cv::Point2f* pts4 = new cv::Point2f[4];
+    cvrect.points(pts4);
+
+    for (size_t j = 0; j < 4; j++) {
+        Point pt = {int(lroundf(pts4[j].x)), int(lroundf(pts4[j].y))};
+        rpts[j] = pt;
+    }
+
+    delete[] pts4;
+
+    cv::Rect bRect = cvrect.boundingRect();
+    Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
+    Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
+    return retrect;
+}
+
+struct RotatedRect FitEllipseAMS2(Mat points){
+    cv::RotatedRect cvrect = cv::fitEllipseAMS(*points);
+
+    Point* rpts = new Point[4];
+    cv::Point2f* pts4 = new cv::Point2f[4];
+    cvrect.points(pts4);
+
+    for (size_t j = 0; j < 4; j++) {
+        Point pt = {int(lroundf(pts4[j].x)), int(lroundf(pts4[j].y))};
+        rpts[j] = pt;
+    }
+
+    delete[] pts4;
+
+    cv::Rect bRect = cvrect.boundingRect();
+    Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
+    Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
+    return retrect;
+}
+
+struct RotatedRect FitEllipseDirect(Points points){
+    std::vector<cv::Point> pts;
+
+    for (size_t i = 0; i < points.length; i++) {
+        pts.push_back(cv::Point(points.points[i].x, points.points[i].y));
+    }
+
+    cv::RotatedRect cvrect = cv::fitEllipseDirect(pts);
+
+    Point* rpts = new Point[4];
+    cv::Point2f* pts4 = new cv::Point2f[4];
+    cvrect.points(pts4);
+
+    for (size_t j = 0; j < 4; j++) {
+        Point pt = {int(lroundf(pts4[j].x)), int(lroundf(pts4[j].y))};
+        rpts[j] = pt;
+    }
+
+    delete[] pts4;
+
+    cv::Rect bRect = cvrect.boundingRect();
+    Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
+    Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
+    return retrect;
+}
+
+struct RotatedRect FitEllipseDirect2(Mat points){
+    cv::RotatedRect cvrect = cv::fitEllipseDirect(*points);
+
+    Point* rpts = new Point[4];
+    cv::Point2f* pts4 = new cv::Point2f[4];
+    cvrect.points(pts4);
+
+    for (size_t j = 0; j < 4; j++) {
+        Point pt = {int(lroundf(pts4[j].x)), int(lroundf(pts4[j].y))};
+        rpts[j] = pt;
+    }
+
+    delete[] pts4;
+
+    cv::Rect bRect = cvrect.boundingRect();
+    Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
+    Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
+    return retrect;
+}
+
+void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineType){
+    cv::Size sz = {box.size.width, box.size.height};
+    cv::Point center = {box.center.x, box.center.y};
+    cv::RotatedRect cvrect = cv::RotatedRect(center, sz, float(box.angle));
+    cv::Scalar c = cv::Scalar(color.val1, color.val2, color.val3, color.val4);
+    
+    cv::ellipse(*img, cvrect, c, thickness, lineType);
+}
