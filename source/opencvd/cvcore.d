@@ -288,7 +288,9 @@ struct RotatedRect {
     Size size;
     double angle;
     
-    alias points = pts;
+    Point[] points(){
+        return pts.points[0..pts.length];
+    }
 }
 
 struct Point {
@@ -369,6 +371,56 @@ struct Pointss {
 }
 
 alias Contour = Points;
+
+Point[] asInt(Point2f[] ip){
+    
+    Point[] ret;
+    foreach(j; 0..ip.length){
+        Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
+        ret ~= p;
+    }
+    return ret;
+}
+
+Point[][] asInt(Point2f[][] pts){
+    
+    Point[][] ret;
+    foreach(i; 0..pts.length){
+        Point[] iip;
+        Point2f[] ip = pts[i];
+        foreach(j; 0..ip.length){
+            Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
+            iip ~= p;
+        }
+        ret ~= iip;
+    }
+    return ret;
+}
+
+Point2f[] asFloat(Point[] ip){
+    
+    Point2f[] ret;
+    foreach(j; 0..ip.length){
+        Point2f p = Point2f(ip[j].x.to!float, ip[j].y.to!float);
+        ret ~= p;
+    }
+    return ret;
+}
+
+Point2f[][] asFloat(Point[][] pts){
+    
+    Point2f[][] ret;
+    foreach(i; 0..pts.length){
+        Point2f[] iip;
+        Point[] ip = pts[i];
+        foreach(j; 0..ip.length){
+            Point2f p = Point2f(ip[j].x.to!float, ip[j].y.to!float);
+            iip ~= p;
+        }
+        ret ~= iip;
+    }
+    return ret;
+}
 
 struct Contours {
     Contour* contours;
@@ -737,7 +789,7 @@ struct Mat {
     /* Getters */
     
     T at(T)(int row, int col){
-        assert(channels() == 1, "only single channel Mats are supported for at");
+        //assert(channels() == 1, "only single channel Mats are supported for at");
         T* ret = cast(T*)rawDataPtr();
         return ret[row * cols() + col];
     }
@@ -789,7 +841,7 @@ struct Mat {
     }
 
     float getFloatAt(int row, int col){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
+        //assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetFloat(this, row, col);
     }
 

@@ -875,33 +875,8 @@ enum: int {
     CV_AA = 16
 }
 
-Point[] asInt(Point2f[] ip){
-    
-    Point[] ret;
-    foreach(j; 0..ip.length){
-        Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
-        ret ~= p;
-    }
-    return ret;
-}
-
 void polylines(Mat img, Point[] pts, bool isClosed, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
     Polylines(img, Points(pts.ptr, pts.length.to!int), isClosed, color, thickness, lineType, shift);
-}
-
-Point[][] asInt(Point2f[][] pts){
-    
-    Point[][] ret;
-    foreach(i; 0..pts.length){
-        Point[] iip;
-        Point2f[] ip = pts[i];
-        foreach(j; 0..ip.length){
-            Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
-            iip ~= p;
-        }
-        ret ~= iip;
-    }
-    return ret;
 }
 
 void polylines(Mat img, Point[][] pts, bool isClosed, Scalar color,
