@@ -50,7 +50,7 @@ struct Contours FindContoursWithHier(Mat src, Hierarchy* chierarchy, int mode, i
     Contour* points = (Contour*)malloc(contours.size()*sizeof(Contour));
 
     for (size_t i = 0; i < contours.size(); i++) {
-        Point* pts = new Point[contours[i].size()];
+        Point* pts = (Point*)malloc(contours[i].size()*sizeof(Point));
 
         for (size_t j = 0; j < contours[i].size(); j++) {
             Point pt = {contours[i][j].x, contours[i][j].y};
