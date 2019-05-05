@@ -923,9 +923,21 @@ enum: int {
 
 alias MatType = int;
 
-extern (C) void deleteArr(void* arr);
+extern (C) {
+    void deleteArr(void* arr);
+    
+    void Contours_Close(Contours cs);
+    void KeyPoints_Close(KeyPoints ks);
+    void Rects_Close(Rects rs);
+    void Mats_Close(Mats mats);
+    void Point_Close(Point p);
+    void Points_Close(Points ps);
+    void DMatches_Close(DMatches ds);
+    void MultiDMatches_Close(MultiDMatches mds);
+}
 
 private extern (C) {
+    
     Mat Mat_New();
     Mat Mat_NewWithSize(int rows, int cols, int type);
     Mat Mat_NewFromScalar(const Scalar ar, int type);

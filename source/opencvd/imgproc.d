@@ -338,10 +338,9 @@ Point[][] findContours(Mat src, int mode, int method){
     foreach(i; 0..cnts.length){
         Points pts = cnts.contours[i];
         Point[] dpts = pts.points[0..pts.length].dup;
-        deleteArr(pts.points);
         dcnts ~= dpts;
     }
-    deleteArr(cnts.contours);
+    Contours_Close(cnts);
     return dcnts;
 }
 

@@ -9,7 +9,7 @@ import opencvd.imgcodecs;
 import opencvd.imgproc;
 
 // https://docs.opencv.org/4.1.0/d9/d73/samples_2cpp_2fitellipse_8cpp-example.html
-// runs well. But legend text is a bit bigger.
+// runs well. But legend text does not look Ok.
 
 class canvas{
 public:
@@ -170,8 +170,7 @@ void processImage(int /*h*/, void*)
     Mat bimage = Mat();
     bimage = image.GEInt(sliderPos); // thresholding
     
-    auto c_h = findContoursWithHier(bimage, RETR_CCOMP, CHAIN_APPROX_SIMPLE);
-    Point[][] contours = c_h[0];
+    Point[][] contours = findContours(bimage, RETR_CCOMP, CHAIN_APPROX_SIMPLE);
     
     canvas paper = new canvas();
     paper.init(cast(int)(0.8*MIN(bimage.rows, bimage.cols)), cast(int)(1.2*MAX(bimage.rows, bimage.cols)));
