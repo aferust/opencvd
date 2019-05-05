@@ -95,11 +95,11 @@ struct Net {
     
     void forward(ref Mat[] outputBlobs, string[] outBlobNames){
         CStrings coutBlobNames = {cast(const(char**))outBlobNames.ptr, outBlobNames.length.to!int};
-        Mats* obs;
-        Net_ForwardLayers(this, obs, coutBlobNames);
+        Mats obs;
+        Net_ForwardLayers(this, &obs, coutBlobNames);
         
         outputBlobs = obs.mats[0..obs.length].dup;
-        deleteArr(obs.mats);
+        Mats_Close(obs);
     }
     
     void setPreferableBackend(int backend){
@@ -115,11 +115,11 @@ struct Net {
     }
     
     void getUnconnectedOutLayers(ref int[] res){
-        IntVector* _res;
-        Net_GetUnconnectedOutLayers(this, _res);
+        IntVector _res;
+        Net_GetUnconnectedOutLayers(this, &_res);
         
         res = _res.val[0.._res.length].dup;
-        deleteArr(_res.val);
+        Close_IntVector(_res);
     }
 
     Layer getLayer(int layerid){

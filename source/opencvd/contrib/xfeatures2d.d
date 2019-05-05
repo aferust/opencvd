@@ -48,14 +48,14 @@ struct _SIFT {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = SIFT_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
         KeyPoints kpts = SIFT_DetectAndCompute(&this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -76,14 +76,14 @@ struct _SURF {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = SURF_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
         KeyPoints kpts = SURF_DetectAndCompute(&this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }

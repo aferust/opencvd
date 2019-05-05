@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-void deleteArr(void* arr);
-
 typedef struct Vec4f {
     float val1;
     float val2;
@@ -96,9 +94,15 @@ typedef struct Pointss {
     }
 } Pointss;
 
+void Close_Vec6fs(struct Vec6fs vec6fs);
+void Close_Vec4fs(struct Vec4fs vec4fs);
+void Close_Vec3fs(struct Vec3fs vec3fs);
+void Close_Vec2fs(struct Vec2fs vec2fs);
+void Close_Vec4is(struct Vec4is vec4is);
+void Close_Vec3is(struct Vec3is vec3is);
+void Close_IntVector(struct IntVector iv);
 
 uchar* Mat_RowPtr(Mat m, int i);
-
 void Mat_MultiplyInt(Mat m, int val);
 void Mat_DivideInt(Mat m, int val);
 void Mat_AddDouble(Mat m, double val);

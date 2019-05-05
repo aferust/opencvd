@@ -701,9 +701,11 @@ struct Mat {
     
     string type2str(){
         import std.conv;
+        import core.stdc.stdlib;
+        
         auto chr = _type2str(type());
         string stype = chr.to!string.dup;
-        deleteArr(chr);
+        free(chr);
         return stype;
     }
 
@@ -924,7 +926,13 @@ enum: int {
 alias MatType = int;
 
 extern (C) {
-    void deleteArr(void* arr);
+    void Close_Vec6fs(Vec6fs vec6fs);
+    void Close_Vec4fs(Vec4fs vec4fs);
+    void Close_Vec3fs(Vec3fs vec3fs);
+    void Close_Vec2fs(Vec2fs vec2fs);
+    void Close_Vec4is(Vec4is vec4is);
+    void Close_Vec3is(Vec3is vec3is);
+    void Close_IntVector(IntVector iv);
     
     void Contours_Close(Contours cs);
     void KeyPoints_Close(KeyPoints ks);

@@ -87,14 +87,14 @@ struct _AKAZE {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = AKAZE_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
         KeyPoints kpts = AKAZE_DetectAndCompute(&this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -115,7 +115,7 @@ struct _AgastFeatureDetector{
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = AgastFeatureDetector_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -136,14 +136,14 @@ struct _BRISK {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = BRISK_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
         KeyPoints kpts = BRISK_DetectAndCompute(&this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -164,7 +164,7 @@ struct _FastFeatureDetector {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = FastFeatureDetector_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -185,7 +185,7 @@ struct _GFTTDetector {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = GFTTDetector_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -206,14 +206,14 @@ struct _KAZE {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = KAZE_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
         KeyPoints kpts = KAZE_DetectAndCompute(&this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -234,7 +234,7 @@ struct _MSER {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = MSER_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -254,14 +254,14 @@ struct _ORB {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = ORB_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
         KeyPoints kpts = ORB_DetectAndCompute(&this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -282,7 +282,7 @@ struct _SimpleBlobDetector {
     KeyPoint[] detect(Mat src){
         KeyPoints kpts = SimpleBlobDetector_Detect(&this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
-        deleteArr(kpts.keypoints);
+        KeyPoints_Close(kpts);
         return ret;
     }
 }
@@ -308,10 +308,10 @@ struct _BFMatcher {
         foreach(i; 0..mdms.length){
             DMatches ds = mdms.dmatches[i];
             DMatch[] dmats = ds.dmatches[0..ds.length].dup;
-            deleteArr(ds.dmatches);
+            DMatches_Close(ds);
             ret ~= dmats;
         }
-        deleteArr(mdms.dmatches);
+        MultiDMatches_Close(mdms);
         return ret;
     }
 }

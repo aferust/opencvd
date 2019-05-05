@@ -197,7 +197,7 @@ double arcLength(Point[] curve, bool is_closed){
 Point[] approxPolyDP(Point[] curve, double epsilon, bool isClosed){
     Contour cret = ApproxPolyDP(Contour(curve.ptr, curve.length.to!int), epsilon, isClosed);
     Point[] ret = cret.points[0..cret.length].dup;
-    deleteArr(cret.points);
+    Points_Close(cret);
     return ret;
 }
 
@@ -238,14 +238,14 @@ void convexHull(Point[] points, Mat hull, bool clockwise, bool returnPoints){
 Point[] convexHull(Point[] points, bool clockwise = true){
     Points pts = ConvexHull2(Contour(points.ptr, cast(int)points.length), clockwise);
     Point[] ret = pts.points[0..pts.length].dup;
-    deleteArr(pts.points);
+    Points_Close(pts);
     return ret;
 }
 
 int[] convexHullIdx(Point[] points, bool clockwise = true){
     IntVector iv = ConvexHull3(Contour(points.ptr, cast(int)points.length), clockwise);
     int[] ret = iv.val[0..iv.length].dup;
-    deleteArr(iv.val);
+    Close_IntVector(iv);
     return ret;
 }
 
@@ -308,7 +308,7 @@ double contourArea(Point[] con){
 RotatedRect minAreaRect(Point[] _points){
     RotatedRect rr = MinAreaRect(Points(_points.ptr, _points.length.to!int));
     Point[] ps = rr.pts.points[0..rr.pts.length].dup;
-    deleteArr(rr.pts.points);
+    Points_Close(rr.pts);
     RotatedRect ret = {Contour(ps.ptr, cast(int)ps.length), rr.boundingRect, rr.center, rr.size, rr.angle};
     return ret;
 }
@@ -773,7 +773,7 @@ struct Subdiv2D {
     Vec6f[] getTriangleList(){
         auto v6fs = Subdiv2D_GetTriangleList(this);
         Vec6f[] ret = v6fs.vec6fs[0..v6fs.length].dup;
-        deleteArr(v6fs.vec6fs);
+        Close_Vec6fs(v6fs);
         return ret;
     }
     
@@ -832,7 +832,7 @@ struct Subdiv2D {
     int[] getLeadingEdgeList(){
         IntVector intv = Subdiv2D_GetLeadingEdgeList(this);
         int[] ret = intv.val[0..intv.length].dup;
-        deleteArr(intv.val);
+        Close_IntVector(intv);
         return ret;
     }
     
@@ -928,7 +928,7 @@ RotatedRect fitEllipse(Point[] points){
         rect.size,
         rect.angle
     };
-    deleteArr(rect.pts.points);
+    Points_Close(rect.pts);
     return retRect;
 }
 
@@ -947,7 +947,7 @@ RotatedRect fitEllipseAMS(Point[] points){
         rect.size,
         rect.angle
     };
-    deleteArr(rect.pts.points);
+    Points_Close(rect.pts);
     return retRect;
 }
 
@@ -966,7 +966,7 @@ RotatedRect fitEllipseDirect(Point[] points){
         rect.size,
         rect.angle
     };
-    deleteArr(rect.pts.points);
+    Points_Close(rect.pts);
     return retRect;
 }
 

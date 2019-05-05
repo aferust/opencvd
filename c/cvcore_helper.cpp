@@ -3,8 +3,32 @@
 
 #include <string>
 
-void deleteArr(void* arr){
-    delete[] arr;
+void Close_Vec6fs(struct Vec6fs vec6fs){
+    delete[] vec6fs.vec6fs;
+}
+
+void Close_Vec4fs(struct Vec4fs vec4fs){
+    delete[] vec4fs.vec4fs;
+}
+
+void Close_Vec3fs(struct Vec3fs vec3fs){
+    delete[] vec3fs.vec3fs;
+}
+
+void Close_Vec2fs(struct Vec2fs vec2fs){
+    delete[] vec2fs.vec2fs;
+}
+
+void Close_Vec4is(struct Vec4is vec4is){
+    delete[] vec4is.vec4is;
+}
+
+void Close_Vec3is(struct Vec3is vec3is){
+    delete[] vec3is.vec3is;
+}
+
+void Close_IntVector(struct IntVector iv){
+    delete[] iv.val;
 }
 
 uchar* Mat_RowPtr(Mat m, int i){
@@ -142,7 +166,7 @@ char* _type2str(int type){
     r += "C";
     r += (chans+'0');
 
-    char * cstr = new char [r.length()+1];
+    char * cstr = (char*)malloc((r.length()+1)*sizeof(char));
     std::strcpy (cstr, r.c_str());
 
     return cstr;
