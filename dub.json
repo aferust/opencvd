@@ -16,7 +16,7 @@
     ],
     "copyright": "Copyright © 2019, Ferhat Kurtulmuş",
     "name": "opencvd",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "importPaths": ["source"],
     "sourcePaths": ["source"],
     "dflags-windows": ["-mtriple=x86_64-windows-msvc"],

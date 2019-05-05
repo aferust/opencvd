@@ -49,7 +49,7 @@ Then use dub to build the library.
 In your app's dub.json, you may need to set linker flags like:
 ```
 "dependencies": {
-        "opencvd": "~>0.0.2"
+        "opencvd": "~>0.0.3"
 },
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
@@ -110,7 +110,7 @@ Now you have *.lib files in opencvd folder.
 
 ```
 "dependencies": {
-        "opencvd": "~>0.0.2"
+        "opencvd": "~>0.0.3"
 },
 "libs": [
     "opencv_world410",
@@ -137,7 +137,7 @@ Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app
 {
 	"description": "A minimal D application.",
     "dependencies": {
-        "opencvd": "~>0.0.2"
+        "opencvd": "~>0.0.3"
 	},
 	"authors": [
 		"Ferhat Kurtulmuş"
