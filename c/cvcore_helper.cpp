@@ -246,3 +246,34 @@ Mat Mat_FromContour(Contour points){
     }
     return new cv::Mat(pts);
 }
+
+PCA PCA_New(){
+    return new cv::PCA();
+}
+
+PCA PCA_NewWithMaxComp(Mat data, Mat mean, int flags, int maxComponents){
+    return new cv::PCA(*data, *mean, flags, maxComponents);
+}
+
+PCA PCA_NewWithRetVar(Mat data, Mat mean, int flags, double retainedVariance){
+    return new cv::PCA(*data, *mean, flags, retainedVariance);
+}
+
+void PCA_BackProject(PCA pca, Mat vec, Mat result){
+    pca->backProject(*vec, *result);
+}
+
+void PCA_Project(PCA pca, Mat vec, Mat result){
+    pca->project(*vec, *result);
+}
+
+Mat PCA_Eigenvalues(PCA pca){
+    return new cv::Mat(pca->eigenvalues);
+}
+
+Mat PCA_Eigenvectors(PCA pca){
+    return new cv::Mat(pca->eigenvectors);
+}
+Mat PCA_Mean(PCA pca){
+    return new cv::Mat(pca->mean);
+}

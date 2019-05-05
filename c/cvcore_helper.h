@@ -161,5 +161,24 @@ bool Rect_Contains(Rect r, Point p);
 Mat Mat_FromContour(Contour points);
 
 #ifdef __cplusplus
+typedef cv::PCA* PCA;
+#else
+typedef void* PCA;
+#endif
+
+PCA PCA_New();
+PCA PCA_NewWithMaxComp(Mat data, Mat mean, int flags, int maxComponents);
+PCA PCA_NewWithRetVar(Mat data, Mat mean, int flags, double retainedVariance);
+void PCA_BackProject(PCA pca, Mat vec, Mat result);
+void PCA_Project(PCA pca, Mat vec, Mat result);
+Mat PCA_Eigenvalues(PCA pca);
+Mat PCA_Eigenvectors(PCA pca);
+Mat PCA_Mean(PCA pca);
+
+
+
+
+
+#ifdef __cplusplus
 }
 #endif

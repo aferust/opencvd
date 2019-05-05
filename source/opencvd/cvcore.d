@@ -319,6 +319,24 @@ struct Point {
     Point opMul(double a){
         return Point((x*a).to!int,(y*a).to!int);
     }
+    
+    Point opBinary(string op)(double a){
+        static if (op == "+"){
+            return Point((x+a).to!int,(y+a).to!int);
+        }
+        else static if (op == "-"){
+            return Point((x-a).to!int,(y-a).to!int);
+        }
+    }
+    
+    Point opBinary(string op)(Point a){
+        static if (op == "+"){
+            return Point((x+a.x).to!int,(y+a.y).to!int);
+        }
+        else static if (op == "-"){
+            return Point((x-a.x).to!int,(y-a.y).to!int);
+        }
+    }
 }
 
 struct Point2f {
@@ -420,6 +438,23 @@ Point2f[][] asFloat(Point[][] pts){
         ret ~= iip;
     }
     return ret;
+}
+
+struct Point2d {
+    double x;
+    double y;
+    
+    Point asInt(){
+        return Point(x.to!int, y.to!int);
+    }
+    
+    Point2f asFloat(){
+        return Point2f(x.to!float, y.to!float);
+    }
+    
+    Point2d opMul(double a){
+        return Point2d(double(x*a),double(y*a));
+    }
 }
 
 struct Contours {
@@ -1140,6 +1175,15 @@ private extern (C) {
     Mat Mat_EyeFromRC(int rows, int cols, int type);
     
     bool Rect_Contains(Rect r, Point p);
+    
+    PCA PCA_New();
+    PCA PCA_NewWithMaxComp(Mat data, Mat mean, int flags, int maxComponents);
+    PCA PCA_NewWithRetVar(Mat data, Mat mean, int flags, double retainedVariance);
+    void PCA_BackProject(PCA pca, Mat vec, Mat result);
+    void PCA_Project(PCA pca, Mat vec, Mat result);
+    Mat PCA_Eigenvalues(PCA pca);
+    Mat PCA_Eigenvectors(PCA pca);
+    Mat PCA_Mean(PCA pca);
 }
 
 
@@ -1729,4 +1773,44 @@ Mat eye(int rows, int cols, int type){
 
 Mat eye(Size sz, int type){
     return Mat_EyeFromRC(sz.height, sz.width, type);
+}
+
+struct PCA {
+    void* p;
+    
+    static int DATA_AS_ROW = 0;
+    static int DATA_AS_COL = 1;
+    static int USE_AVG = 2;
+    
+    static PCA opCall(){
+        return PCA_New();
+    }
+    
+    static PCA opCall(Mat data, Mat mean, int flags, int maxComponents = 0){
+        return PCA_NewWithMaxComp(data, mean, flags, maxComponents);
+    }
+    
+    static PCA opCall(Mat data, Mat mean, int flags, double retainedVariance){
+        return PCA_NewWithRetVar(data, mean, flags, retainedVariance);
+    }
+    
+    void backProject(Mat vec, Mat result){
+        PCA_BackProject(this, vec, result);
+    }
+    
+    void project(Mat vec, Mat result){
+        PCA_Project(this, vec, result);
+    }
+    
+    Mat eigenvalues(){
+        return PCA_Eigenvalues(this);
+    }
+    
+    Mat eigenvectors(){
+        return PCA_Eigenvectors(this);
+    }
+    
+    Mat mean(){
+        return PCA_Mean(this);
+    }
 }

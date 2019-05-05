@@ -55,7 +55,7 @@ enum: int { // cv::ImreadModes
     IMREAD_IGNORE_ORIENTATION = 128 
 }
 
-Mat imread(string filename, int flags = 0){
+Mat imread(string filename, int flags = IMREAD_UNCHANGED){
     return Image_IMRead(toStringz(filename), flags);
 }
 
