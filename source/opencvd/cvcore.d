@@ -1161,7 +1161,11 @@ private extern (C) {
     Scalar Mat_Sum(Mat src1);
 
     TermCriteria TermCriteria_New(int typ, int maxCount, double epsilon);
-
+    double Get_TermCriteria_Epsilon(TermCriteria tc);
+    int Get_TermCriteria_MaxCount(TermCriteria tc);
+    int Get_TermCriteria_Type(TermCriteria tc);
+    void TermCriteria_Close(TermCriteria tc);
+    
     int64_t GetCVTickCount();
     double GetTickFrequency();
     
@@ -1745,10 +1749,30 @@ Scalar matSum(Mat src1){
 
 struct TermCriteria {
     void* p;
+    
+    static TermCriteria opCall(int typ, int maxCount, double epsilon){
+        return TermCriteria_New(typ, maxCount, epsilon);
+    }
+    
+    double epsilon(){
+        return Get_TermCriteria_Epsilon(this);
+    }
+    
+    int maxCount(){
+        return Get_TermCriteria_MaxCount(this);
+    }
+    
+    int type(){
+        return Get_TermCriteria_Type(this);
+    }
 }
 
 TermCriteria newTermCriteria(int typ, int maxCount, double epsilon){
     return TermCriteria_New(typ, maxCount, epsilon);
+}
+
+void Destroy(TermCriteria tc){
+    TermCriteria_Close(tc);
 }
 
 int64_t getCVTickCount(){

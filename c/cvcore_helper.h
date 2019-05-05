@@ -175,9 +175,10 @@ Mat PCA_Eigenvalues(PCA pca);
 Mat PCA_Eigenvectors(PCA pca);
 Mat PCA_Mean(PCA pca);
 
-
-
-
+double Get_TermCriteria_Epsilon(TermCriteria tc);
+int Get_TermCriteria_MaxCount(TermCriteria tc);
+int Get_TermCriteria_Type(TermCriteria tc);
+void TermCriteria_Close(TermCriteria tc);
 
 #ifdef __cplusplus
 }

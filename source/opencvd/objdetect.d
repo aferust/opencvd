@@ -77,33 +77,31 @@ CascadeClassifier newCascadeClassifier(){
     return CascadeClassifier_New();
 }
 
-struct _HOGDescriptor {
+struct HOGDescriptor {
     void* p;
     
     void close(){
-        HOGDescriptor_Close(&this);
+        HOGDescriptor_Close(this);
     }
     
     int load(string name){
-        return HOGDescriptor_Load(&this, toStringz(name));
+        return HOGDescriptor_Load(this, toStringz(name));
     }
     
     Rects detectMultiScale(Mat img){
-        return HOGDescriptor_DetectMultiScale(&this, img);
+        return HOGDescriptor_DetectMultiScale(this, img);
     }
     
     Rects detectMultiScaleWithParams(Mat img, double hitThresh, Size winStride,
                 Size padding, double scale, double finalThreshold, bool useMeanshiftGrouping){
-        return HOGDescriptor_DetectMultiScaleWithParams(&this, img, hitThresh, 
+        return HOGDescriptor_DetectMultiScaleWithParams(this, img, hitThresh, 
                             winStride, padding, scale, finalThreshold, useMeanshiftGrouping);
     }
     
     void setSVMDetector(Mat det){
-        HOGDescriptor_SetSVMDetector(&this, det);
+        HOGDescriptor_SetSVMDetector(this, det);
     }
 }
-
-alias HOGDescriptor = _HOGDescriptor*;
 
 HOGDescriptor newHOGDescriptor(){
     return HOGDescriptor_New();

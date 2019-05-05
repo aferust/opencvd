@@ -277,3 +277,19 @@ Mat PCA_Eigenvectors(PCA pca){
 Mat PCA_Mean(PCA pca){
     return new cv::Mat(pca->mean);
 }
+
+double Get_TermCriteria_Epsilon(TermCriteria tc){
+    return tc->epsilon;
+}
+
+int Get_TermCriteria_MaxCount(TermCriteria tc){
+    return tc->maxCount;
+}
+
+int Get_TermCriteria_Type(TermCriteria tc){
+    return tc->type;
+}
+
+void TermCriteria_Close(TermCriteria tc){
+    delete tc;
+}
