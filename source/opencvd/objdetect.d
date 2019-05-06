@@ -25,6 +25,8 @@ DEALINGS IN THE SOFTWARE.
 module opencvd.objdetect;
 
 import std.string;
+import std.typecons;
+import std.conv;
 
 import opencvd.cvcore;
 
@@ -47,9 +49,18 @@ private extern (C){
     void HOGDescriptor_SetSVMDetector(HOGDescriptor hog, Mat det);
     Size HOGDescriptor_GetWinSize(HOGDescriptor hd);
     void HOGDescriptor_SetWinSize(HOGDescriptor hd, Size newSize);
-    
-    
-    
+    void HOGDescriptor_Compute(HOGDescriptor hd, Mat img, FloatVector descriptors, Size winStride, Size padding, Points locations);
+    void HOGDescriptor_DetectMultiScale2(HOGDescriptor hd,
+                                    Mat img,
+                                    Rects* foundLocations,
+                                    DoubleVector* foundWeights,
+                                    double hitThreshold,
+                                    Size winStride,
+                                    Size padding,
+                                    double scale,
+                                    double finalThreshold,
+                                    bool useMeanshiftGrouping);
+                                    
     Rects GroupRectangles(Rects rects, int groupThreshold, double eps);
 }
 
@@ -112,6 +123,39 @@ struct HOGDescriptor {
 
     void winSize(Size newSize) @property {
         HOGDescriptor_SetWinSize(this, newSize);
+    }
+    
+    void compute(Mat img, float[] descriptors, Size winStride = Size(), Size padding = Size(), Point[] locations = []){
+        HOGDescriptor_Compute(this, img, FloatVector(descriptors.ptr, descriptors.length.to!int),
+                winStride, padding, Points(locations.ptr, locations.length.to!int));
+    }
+    
+    Tuple!(Rect[], double[]) detectMultiScale(Mat img,
+                            double hitThreshold = 0,
+                            Size winStride = Size(),
+                            Size padding = Size(),
+                            double scale = 1.05,
+                            double finalThreshold = 2.0,
+                            bool useMeanshiftGrouping = false){
+        Rects* fl;
+        DoubleVector* fw;
+        HOGDescriptor_DetectMultiScale2(this,
+                                    img,
+                                    fl,
+                                    fw,
+                                    hitThreshold,
+                                    winStride,
+                                    padding,
+                                    scale,
+                                    finalThreshold,
+                                    useMeanshiftGrouping);
+        Rect[] dfl = fl.rects[0..fl.length].dup;
+        double[] dfw = fw.val[0..fw.length].dup;
+        
+        Rects_Close(*fl);
+        Close_DoubleVector(*fw);
+        
+        return tuple(dfl, dfw);
     }
 }
 

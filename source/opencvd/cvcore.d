@@ -262,6 +262,15 @@ struct FloatVector {
     }
 }
 
+struct DoubleVector {
+    double* val;
+    int length;
+    
+    double opIndex(int i){
+        return val[i];
+    }
+}
+
 struct Rect {
     int x;
     int y;
@@ -999,6 +1008,7 @@ extern (C) {
     void Close_Vec4is(Vec4is vec4is);
     void Close_Vec3is(Vec3is vec3is);
     void Close_IntVector(IntVector iv);
+    void Close_DoubleVector(DoubleVector iv);
     
     void Contours_Close(Contours cs);
     void KeyPoints_Close(KeyPoints ks);

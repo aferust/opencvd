@@ -35,6 +35,10 @@ void Close_FloatVector(struct FloatVector iv){
     delete[] iv.val;
 }
 
+void Close_DoubleVector(struct DoubleVector iv){
+    delete[] iv.val;
+}
+
 uchar* Mat_RowPtr(Mat m, int i){
     return (*m).ptr(i);
 }

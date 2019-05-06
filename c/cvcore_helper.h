@@ -5,6 +5,16 @@
 extern "C" {
 #endif
 
+
+typedef struct DoubleVector {
+    double* val;
+    int length;
+    
+    double opIndex(int i){
+        return val[i];
+    }
+} DoubleVector;
+
 typedef struct Vec4f {
     float val1;
     float val2;
@@ -101,6 +111,7 @@ void Close_Vec2fs(struct Vec2fs vec2fs);
 void Close_Vec4is(struct Vec4is vec4is);
 void Close_Vec3is(struct Vec3is vec3is);
 void Close_IntVector(struct IntVector iv);
+void Close_DoubleVector(struct DoubleVector iv);
 
 uchar* Mat_RowPtr(Mat m, int i);
 uchar* Mat_RowPtr2(Mat m, int row, int col);
