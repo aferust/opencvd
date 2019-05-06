@@ -28,10 +28,11 @@ import core.stdc.stdint;
 import std.conv;
 
 struct Size {
-    int rows;
-    int cols;
-    alias height = rows;
-    alias width = cols;
+    int width;
+    int height;
+    
+    alias rows = height;
+    alias cols = width;
 }
 
 struct ByteArray {
@@ -593,6 +594,14 @@ struct Mat {
         return newMatFromContour(points);
     }
     
+    static Mat opCall(int[] data){ 
+        return Mat_FromIntVector(IntVector(data.ptr, data.length.to!int));
+    }
+    
+    static Mat opCall(float[] data){ 
+        return Mat_FromFloatVector(FloatVector(data.ptr, data.length.to!int));
+    }
+    
     Mat row(int y){
         return Mat_HeaderFromRow(this, y);
     }
@@ -967,6 +976,19 @@ enum: int {
     CV8UC4 = CV8U + MatChannels4
 }
 
+alias CV_8U = CV8U;
+alias CV_8S = CV8S;
+alias CV_16U = CV16U;
+alias CV_16S = CV16S;
+alias CV_16SC2 = CV16SC2;
+alias CV_32S = CV32S;
+alias CV_32F = CV32F;
+alias CV_64F = CV64F;
+alias CV_8UC1 = CV8UC1;
+alias CV_8UC2 = CV8UC2;
+alias CV_8UC3 = CV8UC3;
+alias CV_8UC4 = CV8UC4;
+
 alias MatType = int;
 
 extern (C) {
@@ -997,6 +1019,8 @@ private extern (C) {
     Mat Mat_NewFromBytes(int rows, int cols, int type, ByteArray buf);
     Mat Mat_FromPtr(Mat m, int rows, int cols, int type, int prows, int pcols);
     Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
+    Mat Mat_FromFloatVector(FloatVector vec);
+    Mat Mat_FromIntVector(IntVector vec);
     Mat Mat_HeaderFromRow(Mat src, int y);
     Mat Mat_HeaderFromCol(Mat src, int x);
     Mat Mat_FromContour(Contour points);

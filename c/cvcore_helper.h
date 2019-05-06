@@ -131,6 +131,8 @@ Mat Mat_ZerosFromSize(Size sz, int type);
 Mat Mat_OnesFromRC(int rows, int cols, int type);
 Mat Mat_OnesFromSize(Size sz, int type);
 Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
+Mat Mat_FromFloatVector(FloatVector vec);
+Mat Mat_FromIntVector(IntVector vec);
 Mat Mat_HeaderFromRow(Mat src, int y);
 Mat Mat_HeaderFromCol(Mat src, int x);
 char* _type2str(int type);

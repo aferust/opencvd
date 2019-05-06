@@ -45,7 +45,11 @@ private extern (C){
             bool useMeanshiftGrouping);
     Mat HOG_GetDefaultPeopleDetector();
     void HOGDescriptor_SetSVMDetector(HOGDescriptor hog, Mat det);
-
+    Size HOGDescriptor_GetWinSize(HOGDescriptor hd);
+    void HOGDescriptor_SetWinSize(HOGDescriptor hd, Size newSize);
+    
+    
+    
     Rects GroupRectangles(Rects rects, int groupThreshold, double eps);
 }
 
@@ -80,8 +84,8 @@ CascadeClassifier newCascadeClassifier(){
 struct HOGDescriptor {
     void* p;
     
-    void close(){
-        HOGDescriptor_Close(this);
+    static HOGDescriptor opCall(){
+        return HOGDescriptor_New();
     }
     
     int load(string name){
@@ -101,6 +105,18 @@ struct HOGDescriptor {
     void setSVMDetector(Mat det){
         HOGDescriptor_SetSVMDetector(this, det);
     }
+    
+    Size winSize() @property {
+        return HOGDescriptor_GetWinSize(this);
+    }
+
+    void winSize(Size newSize) @property {
+        HOGDescriptor_SetWinSize(this, newSize);
+    }
+}
+
+void Destroy(HOGDescriptor hd){
+    HOGDescriptor_Close(hd);
 }
 
 HOGDescriptor newHOGDescriptor(){

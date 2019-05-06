@@ -31,6 +31,10 @@ void Close_IntVector(struct IntVector iv){
     delete[] iv.val;
 }
 
+void Close_FloatVector(struct FloatVector iv){
+    delete[] iv.val;
+}
+
 uchar* Mat_RowPtr(Mat m, int i){
     return (*m).ptr(i);
 }
@@ -148,6 +152,28 @@ void* Mat_DataPtrNoCast(Mat src){
 
 Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data){
     return new cv::Mat(rows, cols, type, data);
+}
+
+Mat Mat_FromFloatVector(FloatVector vec){
+    std::vector<float> fvec;
+    
+    for(int i = 0; i<vec.length; i++){
+        fvec.push_back(vec.val[i]);
+    }
+    
+    return new cv::Mat(fvec, true);
+        
+}
+
+Mat Mat_FromIntVector(IntVector vec){
+    std::vector<int> fvec;
+    
+    for(int i = 0; i<vec.length; i++){
+        fvec.push_back(vec.val[i]);
+    }
+    
+    return new cv::Mat(fvec, true);
+        
 }
 
 Mat Mat_HeaderFromRow(Mat src, int y){
