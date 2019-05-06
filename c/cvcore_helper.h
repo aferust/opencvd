@@ -130,6 +130,8 @@ Mat Mat_ZerosFromSize(Size sz, int type);
 Mat Mat_OnesFromRC(int rows, int cols, int type);
 Mat Mat_OnesFromSize(Size sz, int type);
 Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
+Mat Mat_HeaderFromRow(Mat src, int y);
+Mat Mat_HeaderFromCol(Mat src, int x);
 char* _type2str(int type);
 void Mat_CompareWithScalar(Mat src1, Scalar src2, Mat dst, int ct);
 double Mat_Dot(Mat m1, Mat m2);

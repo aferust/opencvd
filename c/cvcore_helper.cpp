@@ -146,6 +146,14 @@ Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data){
     return new cv::Mat(rows, cols, type, data);
 }
 
+Mat Mat_HeaderFromRow(Mat src, int y){
+    return new cv::Mat( src->row(y) );
+}
+
+Mat Mat_HeaderFromCol(Mat src, int x){
+    return new cv::Mat( src->row(x) );
+}
+
 char* _type2str(int type){
     std::string r;
 

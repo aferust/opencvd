@@ -592,6 +592,14 @@ struct Mat {
         return newMatFromContour(points);
     }
     
+    Mat row(int y){
+        return Mat_HeaderFromRow(this, y);
+    }
+    
+    Mat col(int x){
+        return Mat_HeaderFromCol(this, x);
+    }
+    
     void opAssign(Color c){
         this.setTo(c);
     }
@@ -988,6 +996,8 @@ private extern (C) {
     Mat Mat_NewFromBytes(int rows, int cols, int type, ByteArray buf);
     Mat Mat_FromPtr(Mat m, int rows, int cols, int type, int prows, int pcols);
     Mat Mat_FromArrayPtr(int rows, int cols, int type, void* data);
+    Mat Mat_HeaderFromRow(Mat src, int y);
+    Mat Mat_HeaderFromCol(Mat src, int x);
     Mat Mat_FromContour(Contour points);
     ubyte* Mat_RowPtr(Mat m, int i);
     
