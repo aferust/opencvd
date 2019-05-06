@@ -559,6 +559,7 @@ struct Mat {
     int step() {return Mat_Step(this);}
     int height() {return rows();}
     int width() {return cols();}
+    Size size() {return Size(width(), height());}
     int total() {return Mat_Total(this);}
     int flatLength() {return Mat_FlatLength(this);}
     void* rawDataPtr() {return Mat_DataPtrNoCast(this);}
