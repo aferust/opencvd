@@ -35,6 +35,10 @@ uchar* Mat_RowPtr(Mat m, int i){
     return (*m).ptr(i);
 }
 
+uchar* Mat_RowPtr2(Mat m, int row, int col){
+    return (*m).ptr(row, col);
+}
+
 void Mat_MultiplyInt(Mat m, int val){
     *m *= val;
 }

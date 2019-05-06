@@ -552,7 +552,8 @@ struct Mat {
     int total() {return Mat_Total(this);}
     int flatLength() {return Mat_FlatLength(this);}
     void* rawDataPtr() {return Mat_DataPtrNoCast(this);}
-    ubyte* ptr(int i) { return Mat_RowPtr(this, i);}
+    ubyte* ptr(int i = 0) { return Mat_RowPtr(this, i);}
+    ubyte* ptr(int row, int col) { return Mat_RowPtr2(this, row, col);}
     Scalar mean() {return Mat_Mean(this);}
     Mat sqrt() {return Mat_Sqrt(this);}
     
@@ -1000,6 +1001,7 @@ private extern (C) {
     Mat Mat_HeaderFromCol(Mat src, int x);
     Mat Mat_FromContour(Contour points);
     ubyte* Mat_RowPtr(Mat m, int i);
+    ubyte* Mat_RowPtr2(Mat m, int row, int col);
     
     int Mat_Rows(Mat m);
     int Mat_Cols(Mat m);

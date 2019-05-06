@@ -103,6 +103,7 @@ void Close_Vec3is(struct Vec3is vec3is);
 void Close_IntVector(struct IntVector iv);
 
 uchar* Mat_RowPtr(Mat m, int i);
+uchar* Mat_RowPtr2(Mat m, int row, int col);
 void Mat_MultiplyInt(Mat m, int val);
 void Mat_DivideInt(Mat m, int val);
 void Mat_AddDouble(Mat m, double val);
