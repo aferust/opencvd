@@ -9,10 +9,6 @@ extern "C" {
 typedef struct DoubleVector {
     double* val;
     int length;
-    
-    double opIndex(int i){
-        return val[i];
-    }
 } DoubleVector;
 
 typedef struct Vec4f {
