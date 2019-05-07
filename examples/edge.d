@@ -26,7 +26,7 @@ static void onTrackbar(int, void*)
     cedge = Scalar.all(0);
     copyToWithMask(image, cedge, edge1);
     imshow(window_name1, cedge);
-    Mat dx = newMat(), dy = newMat();
+    Mat dx = Mat(), dy = Mat();
     scharr(blurImage, dx, CV16S, 1, 0, 1, 0, 0);
     scharr(blurImage, dy, CV16S, 0, 1, 1, 0, 0);
     canny( dx, dy, edge2, edgeThreshScharr, edgeThreshScharr*3 );
@@ -37,12 +37,11 @@ static void onTrackbar(int, void*)
 
 int main()
 {
-    //image = newMat();
-    gray = newMat();
-    blurImage = newMat();
-    edge1 = newMat();
-    edge2 = newMat();
-    cedge = newMat();
+    gray = Mat();
+    blurImage = Mat();
+    edge1 = Mat();
+    edge2 = Mat();
+    cedge = Mat();
     
     image = imread("fruits.jpg", 1);
     if(image.isEmpty())

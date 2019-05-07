@@ -191,7 +191,7 @@ void main()
     img.setColorAt(Color(25, 26, 27, 255), 150, 150); // or img[150, 150] = Color(25, 26, 27, 255);
     
     namedWindow("res", 0);
-    Mat imres = newMat(); // or Mat();
+    Mat imres = Mat();
     
     compare(img, Scalar(200, 0, 0, 0), imres, CMP_LT);
     
@@ -299,7 +299,7 @@ int main( )
     src1 = imread("dlanglogo.png", 1);
     src2 = imread("ocvlogo.png", 1);
     
-    dst = newMat();
+    dst = Mat();
     
     if( src1.isEmpty ) { writeln("Error loading src1 \n"); return -1; }
     if( src2.isEmpty ) { writeln("Error loading src2 \n"); return -1; }
@@ -363,7 +363,7 @@ void main()
     if( cap.isOpened() )
     while(true)
     {
-        Mat frame = newMat();
+        Mat frame = Mat();
 
         cap.read(frame);
         
@@ -391,7 +391,7 @@ void detectAndDraw( Mat img, CascadeClassifier cascade,
     
     Rects faces, faces2; 
     Mat gray, smallImg; 
-    gray = newMat(); smallImg = newMat();
+    gray = Mat(); smallImg = Mat();
     
     cvtColor( img, gray, COLOR_BGR2GRAY ); // Convert to Gray Scale
     

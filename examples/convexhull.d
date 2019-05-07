@@ -13,7 +13,7 @@ import opencvd.imgproc;
 
 int main()
 {
-    Mat img = newMatWithSize(500, 500, CV8UC3);
+    Mat img = Mat(500, 500, CV8UC3);
     
     auto rnd = Random(unpredictableSeed);
     

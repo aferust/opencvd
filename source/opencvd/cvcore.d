@@ -1797,6 +1797,12 @@ Scalar matSum(Mat src1){
 struct TermCriteria {
     void* p;
     
+    enum: int { 
+        COUNT =1, 
+        MAX_ITER =COUNT, 
+        EPS =2 
+    }
+    
     static TermCriteria opCall(int typ, int maxCount, double epsilon){
         return TermCriteria_New(typ, maxCount, epsilon);
     }

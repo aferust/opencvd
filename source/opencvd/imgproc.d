@@ -593,6 +593,19 @@ void putText(Mat img, string text, Point org, int fontFace, double fontScale,
     PutText(img, toStringz(text), org, fontFace, fontScale, color, thickness);
 }
 
+
+enum: int { // cv::InterpolationFlags
+    INTER_NEAREST = 0, 
+    INTER_LINEAR = 1, 
+    INTER_CUBIC = 2, 
+    INTER_AREA = 3, 
+    INTER_LANCZOS4 = 4, 
+    INTER_LINEAR_EXACT = 5, 
+    INTER_MAX = 7, 
+    WARP_FILL_OUTLIERS = 8, 
+    WARP_INVERSE_MAP = 16 
+}
+
 void resize(Mat src, Mat dst, Size sz, double fx, double fy, int interp){
     Resize(src, dst, sz, fx, fy, interp);
 }

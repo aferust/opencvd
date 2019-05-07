@@ -25,6 +25,9 @@ void HOGDescriptor_DetectMultiScale2(HOGDescriptor hd,
                                     double scale,
                                     double finalThreshold,
                                     bool useMeanshiftGrouping);	
+
+void HOGDescriptor_Save(HOGDescriptor hd, const char* filename);
+
 #ifdef __cplusplus
 }
 #endif

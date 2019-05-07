@@ -63,3 +63,7 @@ void HOGDescriptor_DetectMultiScale2(HOGDescriptor hd,
     foundWeights->val = fwei;
     foundWeights->length = (int)fw.size();
 }
+
+void HOGDescriptor_Save(HOGDescriptor hd, const char* filename){
+    hd->save(filename);
+}

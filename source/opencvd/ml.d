@@ -63,6 +63,11 @@ private extern (C){
     double ParamGrid_LogStep (ParamGrid pg);
 }
 
+enum: int { // cv::ml::SampleTypes
+    ROW_SAMPLE = 0, 
+    COL_SAMPLE = 1 
+}
+
 struct SVM {
     void* p;
     
@@ -93,6 +98,9 @@ struct SVM {
     }
     
     static SVM opCall(){
+        return SVM_Create();
+    }
+    static SVM create(){
         return SVM_Create();
     }
     

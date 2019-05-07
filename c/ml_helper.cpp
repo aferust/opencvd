@@ -107,7 +107,7 @@ ParamGrid SVM_GetDefaultGridPtr(int param_id){
     );
 }
 
-bool trainAuto0(SVM svm, Mat samples, int layout, Mat responses, int kFold, ParamGrid Cgrid,
+bool SVM_TrainAuto0(SVM svm, Mat samples, int layout, Mat responses, int kFold, ParamGrid Cgrid,
     ParamGrid gammaGrid, ParamGrid pGrid, ParamGrid nuGrid, ParamGrid coeffGrid,
     ParamGrid degreeGrid, bool balanced){
     

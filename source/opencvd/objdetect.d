@@ -60,6 +60,7 @@ private extern (C){
                                     double scale,
                                     double finalThreshold,
                                     bool useMeanshiftGrouping);
+    void HOGDescriptor_Save(HOGDescriptor hd, const char* filename);
                                     
     Rects GroupRectangles(Rects rects, int groupThreshold, double eps);
 }
@@ -102,11 +103,11 @@ struct HOGDescriptor {
     int load(string name){
         return HOGDescriptor_Load(this, toStringz(name));
     }
-    
+    /*
     Rects detectMultiScale(Mat img){
         return HOGDescriptor_DetectMultiScale(this, img);
     }
-    
+    */
     Rects detectMultiScaleWithParams(Mat img, double hitThresh, Size winStride,
                 Size padding, double scale, double finalThreshold, bool useMeanshiftGrouping){
         return HOGDescriptor_DetectMultiScaleWithParams(this, img, hitThresh, 
@@ -156,6 +157,10 @@ struct HOGDescriptor {
         Close_DoubleVector(*fw);
         
         return tuple(dfl, dfw);
+    }
+    
+    void save(string filename){
+        HOGDescriptor_Save(this, filename.toStringz);
     }
 }
 

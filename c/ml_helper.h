@@ -1,5 +1,5 @@
-#ifndef _OPENCV3_ML_H_
-#define _OPENCV3_ML_H_
+#ifndef _OPENCV3_ML_HELPER_H_
+#define _OPENCV3_ML_HELPER_H_
 
 #include <stdbool.h>
 
@@ -60,4 +60,4 @@ double ParamGrid_LogStep (ParamGrid pg);
 }
 #endif
 
-#endif //_OPENCV3_ML_H_
+#endif //_OPENCV3_ML_HELPER_H_
