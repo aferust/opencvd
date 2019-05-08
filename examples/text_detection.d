@@ -12,7 +12,6 @@ import opencvd.videoio;
 import opencvd.dnn;
 
 // https://docs.opencv.org/4.1.0/db/da4/samples_2dnn_2text_detection_8cpp-example.html
-// working but it is kinda slow. Need improvements.
 
 // you can download frozen_east_text_detection.pb from https://github.com/oyyd/frozen_east_text_detection.pb
 // create those empty folders next to your executable:
