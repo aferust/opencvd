@@ -13,7 +13,7 @@ extern "C" {
 #include "cvcore_helper.h"
 #include "dnn.h"
 
-IntVector DNN_NMSBoxes(RotatedRects* rects, FloatVector* _scores, float score_threshold, float nms_threshold, float eta, int top_k);
+IntVector DNN_NMSBoxes(RotatedRects rects, FloatVector _scores, float score_threshold, float nms_threshold, float eta, int top_k);
 
 #ifdef __cplusplus
 }

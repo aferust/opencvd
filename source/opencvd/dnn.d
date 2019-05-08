@@ -41,7 +41,7 @@ private extern (C) {
     Net Net_ReadNetFromTensorflowBytes(ByteArray model);
     Mat Net_BlobFromImage(Mat image, double scalefactor, Size size, Scalar mean, bool swapRB,
                           bool crop);
-    IntVector DNN_NMSBoxes(RotatedRects* rects, FloatVector* _scores, float score_threshold, float nms_threshold, float eta, int top_k);
+    IntVector DNN_NMSBoxes(RotatedRects rects, FloatVector scores, float score_threshold, float nms_threshold, float eta, int top_k);
     void Net_Close(Net net);
     bool Net_Empty(Net net);
     void Net_SetInput(Net net, Mat blob, const char* name);
@@ -171,27 +171,14 @@ Mat blobFromImage(Mat image, double scalefactor=1.0, Size size = Size(), Scalar 
     return Net_BlobFromImage(image, scalefactor, size, mean, swapRB, crop);
 }
 
-Tuple!(int[], RotatedRect[], float[]) NMSBoxes(float score_threshold, float nms_threshold, float eta = 1.0f, int top_k = 0){
-    
-    RotatedRects* rects;
-    FloatVector* _scores;
-    IntVector _indices = DNN_NMSBoxes(rects, _scores, score_threshold, nms_threshold, eta, top_k);
+int[] NMSBoxes(RotatedRect[] rects, float[] scores, float score_threshold, float nms_threshold, float eta = 1.0f, int top_k = 0){
+    IntVector _indices = DNN_NMSBoxes(RotatedRects(rects.ptr, rects.length.to!int),
+        FloatVector(scores.ptr, scores.length.to!int), score_threshold, nms_threshold, eta, top_k);
     
     int[] indices = _indices.val[0.._indices.length].dup;
     Close_IntVector(_indices);
-    float[] scores = _scores.val[0.._scores.length].dup;
-    Close_FloatVector(*_scores);
     
-    RotatedRect[] boxes;
-    for(int i = 0; i < rects.length; i++){
-        RotatedRect rr = rects.rects[i];
-        Point[] ps = rr.pts.points[0..rr.pts.length].dup;
-        Points_Close(rr.pts);
-        RotatedRect rrect = {Contour(ps.ptr, cast(int)ps.length), rr.boundingRect, rr.center, rr.size, rr.angle};
-        boxes ~= rrect;
-    }
-    free((*rects).rects);
-    return tuple(indices, boxes, scores);
+    return indices;
 }
 
 struct Layer {
