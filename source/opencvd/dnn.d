@@ -24,6 +24,7 @@ DEALINGS IN THE SOFTWARE.
 
 module opencvd.dnn;
 
+import core.stdc.stdlib;
 import core.stdc.stdint;
 import std.conv;
 import std.typecons;
@@ -189,6 +190,7 @@ Tuple!(int[], RotatedRect[], float[]) NMSBoxes(float score_threshold, float nms_
         RotatedRect rrect = {Contour(ps.ptr, cast(int)ps.length), rr.boundingRect, rr.center, rr.size, rr.angle};
         boxes ~= rrect;
     }
+    free((*rects).rects);
     return tuple(indices, boxes, scores);
 }
 

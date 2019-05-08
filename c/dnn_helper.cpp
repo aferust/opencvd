@@ -7,7 +7,7 @@ IntVector DNN_NMSBoxes(RotatedRects* rects, FloatVector* _scores, float score_th
     
     cv::dnn::NMSBoxes(boxes, scores, score_threshold, nms_threshold, indices, eta, top_k );
     
-    RotatedRect *cboxes = new RotatedRect[boxes.size()];
+    RotatedRect *cboxes = (RotatedRect*)malloc(boxes.size()*sizeof(RotatedRect));
     
     for (size_t i = 0; i < boxes.size(); ++i){
         cv::RotatedRect cvrect =  boxes[i];
