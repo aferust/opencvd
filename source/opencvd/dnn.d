@@ -142,7 +142,7 @@ void Destroy(Net net){
     Net_Close(net);
 }
 
-Net readNet(string model, string config){
+Net readNet(string model, string config = ""){
     return Net_ReadNet(toStringz(model), toStringz(config));
 }
     
