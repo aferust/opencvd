@@ -98,11 +98,11 @@ struct Net {
     
     void forward(ref Mat[] outputBlobs, string[] outBlobNames){
         CStrings coutBlobNames = {cast(const(char**))outBlobNames.ptr, outBlobNames.length.to!int};
-        Mats obs;
-        Net_ForwardLayers(this, &obs, coutBlobNames);
+        Mats *obs;
+        Net_ForwardLayers(this, obs, coutBlobNames);
         
         outputBlobs = obs.mats[0..obs.length].dup;
-        Mats_Close(obs);
+        Mats_Close(*obs);
     }
     
     void setPreferableBackend(int backend){
