@@ -41,8 +41,8 @@ int main(string[] args)
         ");
         return 1;
     }
-    float confThreshold = 0.0f;
-    float nmsThreshold = 0.0f;
+    float confThreshold = 0.5f;
+    float nmsThreshold = 0.4f;
     int inpWidth = 320;
     int inpHeight = 320;
     string model = "frozen_east_text_detection.pb";
