@@ -373,6 +373,24 @@ struct Point2f {
     Point2f opMul(double a){
         return Point2f(float(x*a),float(y*a));
     }
+    
+    Point2f opBinary(string op)(double a){
+        static if (op == "+"){
+            return Point2f((x+a).to!float,(y+a).to!float);
+        }
+        else static if (op == "-"){
+            return Point2f((x-a).to!float,(y-a).to!float);
+        }
+    }
+    
+    Point2f opBinary(string op)(Point2f a){
+        static if (op == "+"){
+            return Point2f((x+a.x).to!float,(y+a.y).to!float);
+        }
+        else static if (op == "-"){
+            return Point2f((x-a.x).to!float,(y-a.y).to!float);
+        }
+    }
 }
 
 struct Point2fs {
@@ -570,6 +588,7 @@ struct Mat {
     int type() {return Mat_Type(this);}
     int channels(){return Mat_Channels(this);}
     int step() {return Mat_Step(this);}
+    int dims() {return Mat_Dims(this);}
     int height() {return rows();}
     int width() {return cols();}
     Size size() {return Size(width(), height());}
@@ -578,6 +597,8 @@ struct Mat {
     void* rawDataPtr() {return Mat_DataPtrNoCast(this);}
     ubyte* ptr(int i = 0) { return Mat_RowPtr(this, i);}
     ubyte* ptr(int row, int col) { return Mat_RowPtr2(this, row, col);}
+    void* ptr(int i0, int i1, int i2) { return Mat_RowPtr3(this, i0, i1, i2);}
+    
     Scalar mean() {return Mat_Mean(this);}
     Mat sqrt() {return Mat_Sqrt(this);}
     
@@ -1051,12 +1072,14 @@ private extern (C) {
     Mat Mat_FromContour(Contour points);
     ubyte* Mat_RowPtr(Mat m, int i);
     ubyte* Mat_RowPtr2(Mat m, int row, int col);
+    void* Mat_RowPtr3(Mat m, int i0, int i1, int i2);
     
     int Mat_Rows(Mat m);
     int Mat_Cols(Mat m);
     int Mat_Type(Mat m);
     int Mat_Channels(Mat m);
     int Mat_Step(Mat m);
+    int Mat_Dims(Mat m);
     
     char* _type2str(int type);
 

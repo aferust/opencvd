@@ -589,7 +589,7 @@ Size getTextSize(string text, int fontFace, double fontScale, int thickness){
 }
 
 void putText(Mat img, string text, Point org, int fontFace, double fontScale,
-             Scalar color, int thickness){
+             Scalar color, int thickness = 1){
     PutText(img, toStringz(text), org, fontFace, fontScale, color, thickness);
 }
 

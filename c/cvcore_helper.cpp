@@ -65,12 +65,20 @@ void Close_DoubleVector(struct DoubleVector iv){
     delete[] iv.val;
 }
 
+int Mat_Dims(Mat m){
+    return m->dims;
+}
+
 uchar* Mat_RowPtr(Mat m, int i){
     return (*m).ptr(i);
 }
 
 uchar* Mat_RowPtr2(Mat m, int row, int col){
     return (*m).ptr(row, col);
+}
+
+void* Mat_RowPtr3(Mat m, int i0, int i1, int i2){
+    return (*m).ptr(i0, i1, i2);
 }
 
 void Mat_MultiplyInt(Mat m, int val){

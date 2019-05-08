@@ -116,8 +116,11 @@ void Close_IntVector(struct IntVector iv);
 void Close_DoubleVector(struct DoubleVector iv);
 void Close_FloatVector(struct FloatVector iv);
 
+
+int Mat_Dims(Mat m);
 uchar* Mat_RowPtr(Mat m, int i);
 uchar* Mat_RowPtr2(Mat m, int row, int col);
+void* Mat_RowPtr3(Mat m, int i0, int i1, int i2);
 void Mat_MultiplyInt(Mat m, int val);
 void Mat_DivideInt(Mat m, int val);
 void Mat_AddDouble(Mat m, double val);
