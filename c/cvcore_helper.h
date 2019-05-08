@@ -5,6 +5,10 @@
 extern "C" {
 #endif
 
+typedef struct RotatedRects {
+    RotatedRect* rects;
+    int length;
+} RotatedRects;
 
 typedef struct DoubleVector {
     double* val;
@@ -108,6 +112,7 @@ void Close_Vec4is(struct Vec4is vec4is);
 void Close_Vec3is(struct Vec3is vec3is);
 void Close_IntVector(struct IntVector iv);
 void Close_DoubleVector(struct DoubleVector iv);
+void Close_FloatVector(struct FloatVector iv);
 
 uchar* Mat_RowPtr(Mat m, int i);
 uchar* Mat_RowPtr2(Mat m, int row, int col);

@@ -303,6 +303,11 @@ struct RotatedRect {
     }
 }
 
+struct RotatedRects {
+    RotatedRect* rects;
+    int length;
+}
+
 struct Point {
     int x;
     int y;
@@ -1010,6 +1015,7 @@ extern (C) {
     void Close_Vec3is(Vec3is vec3is);
     void Close_IntVector(IntVector iv);
     void Close_DoubleVector(DoubleVector iv);
+    void Close_FloatVector(FloatVector iv);
     
     void Contours_Close(Contours cs);
     void KeyPoints_Close(KeyPoints ks);
