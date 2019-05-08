@@ -3,6 +3,32 @@
 
 #include <string>
 
+RotatedRect New_RotatedRect(Point center, Size size, double angle){
+    cv::Size2f rSize((float)size.width, (float)size.height);
+    cv::Point2f centerPt = {(float)center.x, (float)center.y};
+    cv::RotatedRect cvrect(centerPt, rSize, (float)angle);
+    
+    Point* rpts = new Point[4];
+    cv::Point2f* pts4 = new cv::Point2f[4];
+    cvrect.points(pts4);
+
+    for (size_t j = 0; j < 4; j++) {
+        Point pt = {int(lroundf(pts4[j].x)), int(lroundf(pts4[j].y))};
+        rpts[j] = pt;
+    }
+
+    delete[] pts4;
+
+    cv::Rect bRect = cvrect.boundingRect();
+    Rect r = {bRect.x, bRect.y, bRect.width, bRect.height};
+    Point centrpt = {int(lroundf(cvrect.center.x)), int(lroundf(cvrect.center.y))};
+    Size szsz = {int(lroundf(cvrect.size.width)), int(lroundf(cvrect.size.height))};
+    
+    Contour c = {rpts, 4};
+    RotatedRect retrect = {c, r, centrpt, szsz, cvrect.angle};
+    return retrect;
+}
+
 void Close_Vec6fs(struct Vec6fs vec6fs){
     delete[] vec6fs.vec6fs;
 }

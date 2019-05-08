@@ -104,6 +104,8 @@ typedef struct Pointss {
     }
 } Pointss;
 
+RotatedRect New_RotatedRect(Point center, Size size, double angle);
+
 void Close_Vec6fs(struct Vec6fs vec6fs);
 void Close_Vec4fs(struct Vec4fs vec4fs);
 void Close_Vec3fs(struct Vec3fs vec3fs);

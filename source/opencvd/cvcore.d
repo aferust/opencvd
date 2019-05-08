@@ -301,6 +301,14 @@ struct RotatedRect {
     Point[] points(){
         return pts.points[0..pts.length];
     }
+    
+    static RotatedRect opCall(Point center, Size size, double angle){
+        RotatedRect rr = New_RotatedRect(center, size, angle);
+        Point[] ps = rr.pts.points[0..rr.pts.length].dup;
+        Points_Close(rr.pts);
+        RotatedRect ret = {Contour(ps.ptr, cast(int)ps.length), rr.boundingRect, rr.center, rr.size, rr.angle};
+        return ret;
+    }
 }
 
 struct RotatedRects {
@@ -1212,7 +1220,9 @@ private extern (C) {
     void Mat_Pow(Mat src, double power, Mat dst);
     void Mat_Phase(Mat x, Mat y, Mat angle, bool angleInDegrees);
     Scalar Mat_Sum(Mat src1);
-
+    
+    RotatedRect New_RotatedRect(Point center, Size size, double angle);
+    
     TermCriteria TermCriteria_New(int typ, int maxCount, double epsilon);
     double Get_TermCriteria_Epsilon(TermCriteria tc);
     int Get_TermCriteria_MaxCount(TermCriteria tc);
