@@ -308,6 +308,10 @@ struct Mats Mat_Split2(Mat src){
     return ret;
 }
 
+int Mat_SizeFromInd(Mat m, int i){
+    return m->size[i];
+}
+
 bool Rect_Contains(Rect r, Point p){
     cv::Rect rect = {r.x, r.y, r.width, r.height};
     cv::Point _p = {p.x, p.y};

@@ -592,6 +592,7 @@ struct Mat {
     int height() {return rows();}
     int width() {return cols();}
     Size size() {return Size(width(), height());}
+    int size(int i){return Mat_SizeFromInd(this, i);}
     int total() {return Mat_Total(this);}
     int flatLength() {return Mat_FlatLength(this);}
     void* rawDataPtr() {return Mat_DataPtrNoCast(this);}
@@ -1080,6 +1081,7 @@ private extern (C) {
     int Mat_Channels(Mat m);
     int Mat_Step(Mat m);
     int Mat_Dims(Mat m);
+    int Mat_SizeFromInd(Mat m, int i);
     
     char* _type2str(int type);
 

@@ -161,6 +161,7 @@ int Mat_FlatLength(Mat src);
 void* Mat_DataPtrNoCast(Mat src);
 Scalar Mat_ColorAt(Mat src, int row, int col);
 void Mat_SetColorAt(Mat src, Scalar color, int row, int col);
+int Mat_SizeFromInd(Mat m, int i);
 
 void Mat_MultiplyDouble(Mat m, double val);
 
