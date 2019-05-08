@@ -118,11 +118,11 @@ struct Net {
     }
     
     void getUnconnectedOutLayers(ref int[] res){
-        IntVector _res;
-        Net_GetUnconnectedOutLayers(this, &_res);
+        IntVector *_res;
+        Net_GetUnconnectedOutLayers(this, _res);
         
         res = _res.val[0.._res.length].dup;
-        Close_IntVector(_res);
+        Close_IntVector(*_res);
     }
 
     Layer getLayer(int layerid){
