@@ -262,7 +262,8 @@ void main()
 ```
 
 ## Some screenshots
+![alt text](examples/shots/text_detectionshot.png?raw=true)
+![alt text](examples/shots/facedetectshot.png?raw=true)
+![alt text](examples/shots/trackbarexampleshot.png?raw=true)
 
-![alt text](trackbarexampleshot.png?raw=true)
 
-![alt text](facedetectshot.png?raw=true)
