@@ -625,6 +625,10 @@ struct Mat {
         return Mat_NewWithSize(rows, cols, mt);
     }
     
+    static Mat opCall(Size sz, int mt ){
+        return Mat_NewWithSize(sz.height, sz.width, mt);
+    }
+    
     static Mat opCall( const Scalar ar, int type){
         return Mat_NewFromScalar(ar, type);
     }
