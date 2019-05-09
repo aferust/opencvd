@@ -6,7 +6,7 @@ was taken from [gocv](https://github.com/hybridgroup/gocv), and the implementati
 has been highly influenced by it.
 
 ## Disclaimer
-I don't describe myself as the most brillant d programmer around. I am still learning.
+I don't describe myself as the most brillant d programmer around. 
 Pull requests are welcome for growing and enhancing the binding. I am willing to add more
 contributors to the project. Let's make it a complete binding to opencv.
 
@@ -24,15 +24,19 @@ Opencvd requires the following packages to build:
 - OSX Sierra 10.12.5
 
 ## Notable features
+- cv::Mat and other types like cv::Ptr<cv::ml::SVM> are wrapped using opaque pointers.
+- opencv c++ syntax has been tried to be imitated as much as the d language allows.
 - Uses d arrays when it is possible like: uses Point[][] to wrap std::vector<std::vector<cv::Point> >
+Please take a look at examples folder to understand how it looks like and available functionality
 
 ## Current limitations:
 - There may be unwrapped opencv features.
 - No documentation yet.
-- Most of the functionality has not been tested yet. (need help)
+- Most of the functionality has not been tested yet.
 - No unittests yet.
 
 ## Current roadmap of the project
+- wrap more functionality of opencv.
 - make more examples runnable from https://docs.opencv.org/4.1.0/examples.html or https://www.learnopencv.com/
 
 ## How to build
@@ -256,194 +260,9 @@ void main()
 }
 
 ```
-Translation of [trackbar example](https://docs.opencv.org/4.0.0/dc/dbc/samples_2cpp_2tutorial_code_2HighGUI_2AddingImagesTrackbar_8cpp-example.html) in opencv docs:
-it is very similar to C++ version.
 
-```d
-import std.stdio;
-import std.format;
+## Some screenshots
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.videoio;
-import opencvd.imgproc;
-import opencvd.objdetect;
-import opencvd.ocvversion;
-import opencvd.contrib.ximgproc;
-
-const int alpha_slider_max = 100;
-int alpha_slider;
-double alpha;
-double beta;
-
-/// Matrices to store images
-Mat src1;
-Mat src2;
-Mat dst;
-
-void on_trackbar( int, void*)
-{
-    
-    alpha = cast(double) alpha_slider/alpha_slider_max ;
-    beta = ( 1.0 - alpha );
-    
-    addWeighted( src1, alpha, src2, beta, 0.0, dst);
-
-    imshow( "Linear Blend", dst );
-}
-
-int main( )
-{
-    /// Read image ( same size, same type )
-    src1 = imread("dlanglogo.png", 1);
-    src2 = imread("ocvlogo.png", 1);
-    
-    dst = Mat();
-    
-    if( src1.isEmpty ) { writeln("Error loading src1 \n"); return -1; }
-    if( src2.isEmpty ) { writeln("Error loading src2 \n"); return -1; }
-
-    /// Initialize values
-    alpha_slider = 0;
-
-    /// Create Windows
-    namedWindow("Linear Blend", 1);
-    imshow( "Linear Blend", src1 );
-    /// Create Trackbars
-    
-    string trackbarName = format("Alpha x %d", alpha_slider_max );
-    
-    TrackbarCallback cb = cast(TrackbarCallback)(&on_trackbar);
-    
-    auto myTb = TrackBar(trackbarName, "Linear Blend", &alpha_slider, alpha_slider_max, cb);
-
-    /// Show some stuff
-    on_trackbar( alpha_slider, null );
-
-    /// Wait until user press some key
-    waitKey(0);
-    return 0;
-}
-
-```
 ![alt text](trackbarexampleshot.png?raw=true)
 
-Face detection with webcam (translated from https://www.geeksforgeeks.org/opencv-c-program-face-detection/)
-```d
-import std.stdio;
-
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.videoio;
-import opencvd.imgproc;
-import opencvd.objdetect;
-import opencvd.ocvversion;
-
-void main()
-{
-    auto cap = newVideoCapture();
-    cap.fromDevice(0);
-
-    namedWindow("mywin", WND_PROP_AUTOSIZE);
-    setWindowTitle("mywin", "süper pencere / 超级窗口");
-    
-    // PreDefined trained XML classifiers with facial features 
-    CascadeClassifier cascade, nestedCascade;
-    cascade = newCascadeClassifier();
-    nestedCascade = newCascadeClassifier();
-    
-    double scale=1; 
-  
-    // Load classifiers from "opencv/data/haarcascades" directory  
-    nestedCascade.load( "haarcascade_eye_tree_eyeglasses.xml" ) ;
-    
-    // Change path before execution  
-    cascade.load( "haarcascade_frontalcatface.xml" ) ; 
-    if( cap.isOpened() )
-    while(true)
-    {
-        Mat frame = Mat();
-
-        cap.read(frame);
-        
-        //cvtColor(frame, frame, COLOR_BGR2GRAY);
-        
-        //imshow("mywin", frame);
-        Mat frame1 = frame.clone();
-            detectAndDraw( frame1, cascade, nestedCascade, scale );
-        
-        if (waitKey(10) == 27) break;
-        
-        Destroy(frame);
-        Destroy(frame1);
-    }
-    opencvVersion().writeln;
-    cap.close();
-    
-}
-
-void detectAndDraw( Mat img, CascadeClassifier cascade, 
-                    CascadeClassifier nestedCascade, 
-                    double scale)
-{ 
-    import std.math;
-    
-    Rects faces, faces2; 
-    Mat gray, smallImg; 
-    gray = Mat(); smallImg = Mat();
-    
-    cvtColor( img, gray, COLOR_BGR2GRAY ); // Convert to Gray Scale
-    
-    double fx = 1 / scale; 
-  
-    // Resize the Grayscale Image  
-    resize( gray, smallImg, Size(), fx, fx, 0 );  
-    equalizeHist( smallImg, smallImg ); 
-  
-    // Detect faces of different sizes using cascade classifier  
-    faces = cascade.detectMultiScale(smallImg);
-    // Draw circles around the faces 
-    for ( int i = 0; i < faces.length; i++ ) 
-    { 
-        Rect r = faces[i];
-        Mat smallImgROI; 
-        Rects nestedObjects;
-        Point center; 
-        Scalar color = Scalar(255, 0, 0); // Color for Drawing tool 
-        int radius; 
-  
-        double aspect_ratio = cast(double)r.width/r.height; 
-        if( 0.75 < aspect_ratio && aspect_ratio < 1.3 ) 
-        { 
-            center.x = cast(int)round((r.x + r.width*0.5)*scale); 
-            center.y = cast(int)round((r.y + r.height*0.5)*scale); 
-            radius = cast(int)round((r.width + r.height)*0.25*scale); 
-            circle( img, center, radius, color, 3 );
-        } 
-        else
-            rectangle( img, Rect(cast(int)round(r.x*scale), cast(int)round(r.y*scale), 50, 50), color, 3 );
-        if( !nestedCascade ) 
-            continue; 
-        smallImgROI = smallImg(r);
-        
-        // Detection of eyes int the input image 
-        nestedObjects = nestedCascade.detectMultiScale(smallImgROI);
-          
-        // Draw circles around eyes 
-        for ( int j = 0; j < nestedObjects.length; j++ )  
-        { 
-            Rect nr = nestedObjects[j]; 
-            center.x = cast(int)round((r.x + nr.x + nr.width*0.5)*scale); 
-            center.y = cast(int)round((r.y + nr.y + nr.height*0.5)*scale); 
-            radius = cast(int)round((nr.width + nr.height)*0.25*scale); 
-            circle( img, center, radius, color, 3); 
-        } 
-    } 
-  
-    // Show Processed Image with detected faces 
-    imshow( "mywin", img );  
-}
-
-```
 ![alt text](facedetectshot.png?raw=true)
