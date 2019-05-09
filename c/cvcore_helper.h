@@ -183,6 +183,8 @@ bool Rect_Contains(Rect r, Point p);
 
 Mat Mat_FromContour(Contour points);
 
+int Mat_CV_MAKETYPE(int depth, int cn);
+
 #ifdef __cplusplus
 typedef cv::PCA* PCA;
 #else

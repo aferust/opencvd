@@ -62,6 +62,16 @@ struct Scalar {
     void opIndexAssign(double val, int i){
         *[&val1, &val2, &val3, &val4][i] = val;
     }
+    
+    bool opEquals(Scalar b){
+        if (this is b) return true;
+        if ((this.val1 == b.val1)&&
+            (this.val1 == b.val1)&&
+            (this.val1 == b.val1)&&
+            (this.val1 == b.val1))
+                return true;
+        return false;
+    }
 }
 
 alias Color = Scalar;
@@ -1074,6 +1084,7 @@ private extern (C) {
     ubyte* Mat_RowPtr(Mat m, int i);
     ubyte* Mat_RowPtr2(Mat m, int row, int col);
     void* Mat_RowPtr3(Mat m, int i0, int i1, int i2);
+    int Mat_CV_MAKETYPE(int depth, int cn);
     
     int Mat_Rows(Mat m);
     int Mat_Cols(Mat m);
@@ -1324,6 +1335,10 @@ Mat ones(int rows, int cols, int type){
 }
 Mat ones(Size sz, int type){
     return Mat_OnesFromSize(sz, type);
+}
+
+int CV_MAKETYPE(int depth, int cn){
+    return Mat_CV_MAKETYPE(depth, cn);
 }
 
 Size getSize(Mat m){

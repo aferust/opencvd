@@ -164,7 +164,7 @@ Mat Mat_ZerosFromRC(int rows, int cols, int type){
 }
 
 Mat Mat_ZerosFromSize(Size _sz, int type){
-    cv::Size sz = {_sz.height, _sz.width};
+    cv::Size sz = {_sz.width, _sz.height};
     auto out = cv::Mat::zeros(sz, type);
     return new cv::Mat(out);
 }
@@ -175,7 +175,7 @@ Mat Mat_OnesFromRC(int rows, int cols, int type){
 }
 
 Mat Mat_OnesFromSize(Size _sz, int type){
-    cv::Size sz = {_sz.height, _sz.width};
+    cv::Size sz = {_sz.width, _sz.height};
     auto out = cv::Mat::ones(sz, type);
     return new cv::Mat(out);
 }
@@ -310,6 +310,10 @@ struct Mats Mat_Split2(Mat src){
 
 int Mat_SizeFromInd(Mat m, int i){
     return m->size[i];
+}
+
+int Mat_CV_MAKETYPE(int depth, int cn){
+    return CV_MAKETYPE(depth, cn);
 }
 
 bool Rect_Contains(Rect r, Point p){
