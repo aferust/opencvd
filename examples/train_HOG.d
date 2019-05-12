@@ -29,6 +29,7 @@ string[] listdir(string pathname)
 
     return std.file.dirEntries(pathname, SpanMode.shallow)
         .filter!(a => a.isFile)
+        .filter!(f => f.name.endsWith(".png"))
         .map!(a => baseName(a.name))
         .array;
 }
@@ -247,11 +248,12 @@ int main(string[] args)
     {
         "Wrong number of parameters.\n\n".writeln;
         "Example command line:\n".writeln;
-        args[0].write; " --dw=64 --dh=128 --pd=/INRIAPerson/96X160H96/Train/pos --nd=/INRIAPerson/neg --td=/INRIAPerson/Test/pos --fn=HOGpedestrian64x128.xml --d".writeln;
+        args[0].write; " --dw=64 --dh=128 --pd=/INRIAPerson/96X160H96/Train/pos --nd=/INRIAPerson/Train/neg --td=/INRIAPerson/Test/pos --fn=HOGpedestrian64x128.xml --d".writeln;
         "\nExample command line for testing trained detector:\n".writeln; args[0].write;" --t --fn=HOGpedestrian64x128.xml --td=/INRIAPerson/Test/pos".writeln;
         return 1;
     }
     Mat[] pos_lst, full_neg_lst, neg_lst, gradient_lst;
+    int* _labels;
     int[] labels;
     "Positive images are being loaded...".writeln ;
     load_images( pos_dir, pos_lst, visualization );
@@ -288,7 +290,8 @@ int main(string[] args)
     "Histogram of Gradients are being calculated for positive images...".writeln;
     computeHOGs( pos_image_size, pos_lst, gradient_lst, flip_samples );
     size_t positive_count = gradient_lst.length;
-    labels[ positive_count] = +1 ;
+    _labels[0..positive_count] = +1 ;
+    labels = _labels[0..positive_count];
     writeln("...[done] ( positive count : " ~ positive_count.to!string ~ " )");
     "Histogram of Gradients are being calculated for negative images...".writeln;
     computeHOGs( pos_image_size, neg_lst, gradient_lst, flip_samples );
@@ -360,7 +363,8 @@ int main(string[] args)
         negative_count = gradient_lst.length - positive_count;
         writeln("...[done] ( negative count : " ~ negative_count.to!string ~ " )");
         labels = [];
-        labels[positive_count] = +1;
+        _labels[0..positive_count] = +1 ;
+        labels = _labels[0..positive_count];
         labels.insertInPlace(negative_count, -1);
         "Training SVM again...".writeln;
         convert_to_ml( gradient_lst, train_data );
