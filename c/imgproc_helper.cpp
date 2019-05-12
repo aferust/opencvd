@@ -624,3 +624,7 @@ void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineTyp
     
     cv::ellipse(*img, cvrect, c, thickness, lineType);
 }
+
+void PyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel, TermCriteria termcrit){
+    cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, *termcrit);
+}

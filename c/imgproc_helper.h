@@ -107,6 +107,7 @@ struct RotatedRect FitEllipseAMS2(Mat points);
 struct RotatedRect FitEllipseDirect(Points points);
 struct RotatedRect FitEllipseDirect2(Mat points);
 void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineType);
+void PyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel, TermCriteria termcrit);
 
 #ifdef __cplusplus
 }

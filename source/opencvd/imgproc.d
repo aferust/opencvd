@@ -187,6 +187,8 @@ private extern (C){
     RotatedRect FitEllipseDirect(Points points);
     RotatedRect FitEllipseDirect2(Mat points);
     void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineType);
+    
+    void PyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel, TermCriteria termcrit);
 
 }
 
@@ -1001,6 +1003,11 @@ RotatedRect fitEllipseDirect(Mat points){
 
 void ellipse(Mat img, RotatedRect box, Scalar color, int thickness = 1, int lineType = LINE_8){
     Ellipse2(img, box, color, thickness, lineType);
+}
+
+void pyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel = 1,
+        TermCriteria termcrit = TermCriteria(TermCriteria.MAX_ITER+TermCriteria.EPS, 5, 1)){
+    PyrMeanShiftFiltering(src, dst, sp, sr, maxLevel, termcrit);
 }
 
 enum: int {
