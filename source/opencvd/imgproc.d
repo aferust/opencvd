@@ -141,10 +141,6 @@ private extern (C){
     void SepFilter2D(Mat src, Mat dst, int ddepth, Mat kernelX, Mat kernelY, Point anchor, double delta, int borderType);
     void LogPolar(Mat src, Mat dst, Point center, double m, int flags);
     void FitLine(Contour points, Mat line, int distType, double param, double reps, double aeps);
-    CLAHE CLAHE_Create();
-    CLAHE CLAHE_CreateWithParams(double clipLimit, Size tileGridSize);
-    void CLAHE_Close(CLAHE c);
-    void CLAHE_Apply(CLAHE c, Mat src, Mat dst);
     
     void Watershed(Mat src, Mat markers);
     int FloodFill(Mat image, Mat mask, Point seedPoint, Scalar  newVal,
@@ -189,7 +185,15 @@ private extern (C){
     void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineType);
     
     void PyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel, TermCriteria termcrit);
-
+    
+    CLAHE CLAHE_Create();
+    CLAHE CLAHE_CreateWithParams(double clipLimit, Size tileGridSize);
+    void CLAHE_Close(CLAHE c);
+    void CLAHE_Apply(CLAHE c, Mat src, Mat dst);
+    double CLAHE_GetClipLimit(CLAHE c);
+    Size CLAHE_GetTilesGridSize(CLAHE c);
+    void CLAHE_SetClipLimit(CLAHE c, double clipLimit);
+    void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize);
 }
 
 double arcLength(Point[] curve, bool is_closed){
@@ -922,25 +926,47 @@ void polylines(Mat img, Point[][] pts, bool isClosed, Scalar color,
 }
 
 // Contrast-limited adaptive histogram equalization
-struct _CLAHE{
+struct CLAHE{
 	void* p;
     
-    void close(){
-        CLAHE_Close(&this);
+    static CLAHE opCall(){
+        return newCLAHE();
+    }
+    
+    static CLAHE opCall(double clipLimit, Size tileGridSize){
+        return CLAHE_CreateWithParams(clipLimit, tileGridSize);
+    }
+    
+    double getClipLimit(){
+        return CLAHE_GetClipLimit(this);
+    }
+    
+    Size getTilesGridSize(){
+        return CLAHE_GetTilesGridSize(this);
+    }
+    
+    void setClipLimit(double clipLimit){
+        CLAHE_SetClipLimit(this, clipLimit);
+    }
+    
+    void setTilesGridSize (Size tileGridSize){
+        CLAHE_SetTilesGridSize (this, tileGridSize);
     }
     
     void apply(Mat src, Mat dst){
-        CLAHE_Apply(&this, src, dst);
+        CLAHE_Apply(this, src, dst);
     }
 }
 
-alias CLAHE = _CLAHE*;
+void Destroy(CLAHE c){
+    CLAHE_Close(c);
+}
 
 CLAHE newCLAHE(){ // implement in 'this'?
     return CLAHE_Create();
 }
 
-CLAHE newCLAHEWithParams(double clipLimit, Size tileGridSize){ // implement in 'this'?
+CLAHE newCLAHEWithParams(double clipLimit, Size tileGridSize){
     return CLAHE_CreateWithParams(clipLimit, tileGridSize);
 }
 

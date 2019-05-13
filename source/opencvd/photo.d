@@ -36,6 +36,8 @@ private extern (C){
     void IlluminationChange(Mat src, Mat mask, Mat dst, float alpha, float beta);
     void SeamlessClone(Mat src, Mat dst, Mat mask, Point p, Mat blend, int flags);
     void TextureFlattening(Mat src, Mat mask, Mat dst, float low_threshold, float high_threshold, int kernel_size);
+    
+    void FastNlMeansDenoising2 (Mat src, Mat dst, float h, int templateWindowSize, int searchWindowSize);
 }
 
 enum: int { 
@@ -78,4 +80,8 @@ void seamlessClone(Mat src, Mat dst, Mat mask, Point p, Mat blend, int flags){
 
 void textureFlattening(Mat src, Mat mask, Mat dst, float low_threshold=30, float high_threshold=45, int kernel_size=3){
     TextureFlattening(src, mask, dst, low_threshold, high_threshold, kernel_size);
+}
+
+void fastNlMeansDenoising (Mat src, Mat dst, float h =3, int templateWindowSize = 7,  int searchWindowSize = 21){
+    FastNlMeansDenoising2 (src, dst, h, templateWindowSize, searchWindowSize);
 }

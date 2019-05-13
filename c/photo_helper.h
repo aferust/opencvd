@@ -20,6 +20,7 @@ void IlluminationChange(Mat src, Mat mask, Mat dst, float alpha, float beta);
 void SeamlessClone(Mat src, Mat dst, Mat mask, Point p, Mat blend, int flags);
 void TextureFlattening(Mat src, Mat mask, Mat dst, float low_threshold, float high_threshold, int kernel_size);
 
+void FastNlMeansDenoising2 (Mat src, Mat dst, float h, int templateWindowSize, int searchWindowSize);
 
 #ifdef __cplusplus
 }

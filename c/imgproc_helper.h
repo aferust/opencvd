@@ -9,6 +9,8 @@ extern "C" {
 
 #include "core.h"
 #include "cvcore_helper.h"
+#include "imgproc.h"
+
 
 void Watershed(Mat src, Mat markers );
 
@@ -108,6 +110,11 @@ struct RotatedRect FitEllipseDirect(Points points);
 struct RotatedRect FitEllipseDirect2(Mat points);
 void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineType);
 void PyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel, TermCriteria termcrit);
+
+double CLAHE_GetClipLimit(CLAHE c);
+Size CLAHE_GetTilesGridSize(CLAHE c);
+void CLAHE_SetClipLimit(CLAHE c, double clipLimit);
+void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize);
 
 #ifdef __cplusplus
 }

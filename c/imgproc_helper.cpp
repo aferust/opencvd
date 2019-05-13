@@ -628,3 +628,22 @@ void Ellipse2(Mat img, RotatedRect box, Scalar color, int thickness, int lineTyp
 void PyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel, TermCriteria termcrit){
     cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, *termcrit);
 }
+
+double CLAHE_GetClipLimit(CLAHE c){
+    return (*c)->getClipLimit();
+} 
+
+Size CLAHE_GetTilesGridSize(CLAHE c){
+    cv::Size sz = (*c)->getTilesGridSize();
+    Size _sz = {sz.width, sz.height};
+    return _sz;
+} 
+
+void CLAHE_SetClipLimit(CLAHE c, double clipLimit){
+    (*c)->setClipLimit(clipLimit);
+}
+
+void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize){
+    cv::Size cvSize(tileGridSize.width, tileGridSize.height);
+    (*c)->setTilesGridSize(cvSize);
+}

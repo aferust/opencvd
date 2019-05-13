@@ -33,3 +33,6 @@ void TextureFlattening(Mat src, Mat mask, Mat dst, float low_threshold, float hi
     cv::textureFlattening (*src, *mask, *dst, low_threshold, high_threshold, kernel_size);
 }
 
+void FastNlMeansDenoising2 (Mat src, Mat dst, float h, int templateWindowSize, int searchWindowSize){
+    cv::fastNlMeansDenoising(*src, *dst, h, templateWindowSize, searchWindowSize);
+}
