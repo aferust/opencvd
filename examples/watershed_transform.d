@@ -24,23 +24,23 @@ int main() {
                        Size( 2*erosion_size + 1, 2*erosion_size+1 ),
                        Point( erosion_size, erosion_size ) );
     
-	//Read input image from the disk
-	Mat input = imread("watershed_coins_01.jpg", IMREAD_COLOR );
-	if(input.empty()) {
-		"Image Not Found".writeln;
-		return -1;
-	}
+    //Read input image from the disk
+    Mat input = imread("watershed_coins_01.jpg", IMREAD_COLOR );
+    if(input.empty()) {
+        "Image Not Found".writeln;
+        return -1;
+    }
  
-	//show original image
-	imshow("Original Image", input);
+    //show original image
+    imshow("Original Image", input);
     
     Mat shifted = Mat();
-	pyrMeanShiftFiltering(input, shifted, 21, 51);
+    pyrMeanShiftFiltering(input, shifted, 21, 51);
     imshow("Shifted Image", shifted);
     
     Mat gray = Mat();
     cvtColor(shifted, gray, COLOR_BGR2GRAY);
-	
+    
     Mat thresh = Mat();
     threshold(gray, thresh, 100, 255, THRESH_BINARY);
     //imshow("thresh", thresh);
@@ -97,7 +97,7 @@ int main() {
     
     imshow("result", input);
     
-	waitKey(0);
+    waitKey(0);
     return 0;
 }
 
