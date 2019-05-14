@@ -3,6 +3,11 @@
 
 #include <string>
 
+void Mat_SetToWithMask(Mat m, Scalar value, Mat mask){
+    cv::Scalar c_value(value.val1, value.val2, value.val3, value.val4);
+    m->setTo(c_value, *mask);
+}
+
 RotatedRect New_RotatedRect(Point center, Size size, double angle){
     cv::Size2f rSize((float)size.width, (float)size.height);
     cv::Point2f centerPt = {(float)center.x, (float)center.y};

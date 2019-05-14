@@ -104,6 +104,8 @@ typedef struct Pointss {
     }
 } Pointss;
 
+void Mat_SetToWithMask(Mat m, Scalar value, Mat mask);
+
 RotatedRect New_RotatedRect(Point center, Size size, double angle);
 
 void Close_Vec6fs(struct Vec6fs vec6fs);

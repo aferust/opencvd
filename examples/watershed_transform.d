@@ -73,7 +73,8 @@ int main() {
     
     Mat sheds = Mat(markers.size, CV_8UC1);
     sheds = Scalar.all(0);
-    //int[] labels;
+    /*
+    //int[] labels; // just for debugging
     foreach(int i; 0..markers.rows)
         foreach(int j; 0..markers.cols){
             //labels ~= markers.getIntAt(i,j);
@@ -82,6 +83,8 @@ int main() {
             }
         }
     //labels.length -= labels.sort.uniq().copy(labels).length;
+    */
+    bitwiseAnd(markers.NEInt(255), markers.NEInt(-1), sheds); // better without loops :)
     
     imshow("sheds", sheds);
       

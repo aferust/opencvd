@@ -1121,6 +1121,7 @@ private extern (C) {
     
     void Mat_SetColorAt(Mat src, Scalar color, int row, int col);
     void Mat_SetTo(Mat m, Scalar value);
+    void Mat_SetToWithMask(Mat m, Scalar value, Mat mask);
     void Mat_SetUChar(Mat m, int row, int col, uint8_t val);
     void Mat_SetUChar3(Mat m, int x, int y, int z, uint8_t val);
     void Mat_SetSChar(Mat m, int row, int col, int8_t val);
@@ -1385,6 +1386,10 @@ void convertTo(Mat m, Mat dst, int rtype, double alpha = 1, double beta = 0 ){
 
 void setTo(Mat m, Scalar s){
     Mat_SetTo(m, s);
+}
+
+void setTo(Mat m, Scalar s, Mat mask){
+    Mat_SetToWithMask(m, s, mask);
 }
 
 void patchNaNs(Mat m){
