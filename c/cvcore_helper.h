@@ -207,6 +207,14 @@ int Get_TermCriteria_MaxCount(TermCriteria tc);
 int Get_TermCriteria_Type(TermCriteria tc);
 void TermCriteria_Close(TermCriteria tc);
 
+double Kmeans(Mat data, int K, Mat bestLabels,
+    TermCriteria criteria, int attempts, int flags, Mat centers);
+double Kmeans2(Mat data, int K, Mat bestLabels,
+    TermCriteria criteria, int attempts, int flags, Point2fs* centers);
+Mat Mat_RowRange1(Mat src, int startrow, int endrow);
+void Mat_Fill_Random(uint64_t state, Mat mat, int distType, Scalar a, Scalar b, bool saturateRange);
+void Mat_RandShuffle(uint64_t state, Mat dst, double iterFactor);
+
 #ifdef __cplusplus
 }
 #endif

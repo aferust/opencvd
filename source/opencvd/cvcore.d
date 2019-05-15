@@ -25,6 +25,8 @@ DEALINGS IN THE SOFTWARE.
 module opencvd.cvcore;
 
 import core.stdc.stdint;
+import core.stdc.stdlib;
+
 import std.conv;
 
 struct Size {
@@ -904,8 +906,19 @@ struct Mat {
     
     T at(T)(int row, int col){
         //assert(channels() == 1, "only single channel Mats are supported for at");
-        T* ret = cast(T*)rawDataPtr();
-        return ret[row * cols() + col];
+        static if (T.stringof == "float"){
+            return getFloatAt(row, col);
+        } else static if (T.stringof == "double"){
+            return getDoubleAt(row, col);
+        } else static if (T.stringof == "int"){
+            return getIntAt(row, col);
+        } else static if (T.stringof == "ubyte"){
+            return getUCharAt(row, col);
+        } else static if (T.stringof == "byte"){
+            return getSCharAt(row, col);
+        } else static if (T.stringof == "short"){
+            return getShortAt(row, col);
+        }
     }
     
     T at(T)(int flatInd){
@@ -970,6 +983,10 @@ struct Mat {
 
     double getDouble3At(int x, int y, int z){
         return Mat_GetDouble3(this, x, y, z);
+    }
+    
+    Mat rowRange(int startrow, int endrow){
+        return Mat_RowRange1(this, startrow, endrow);
     }
     
 }
@@ -1084,6 +1101,7 @@ private extern (C) {
     Mat Mat_FromIntVector(IntVector vec);
     Mat Mat_HeaderFromRow(Mat src, int y);
     Mat Mat_HeaderFromCol(Mat src, int x);
+    Mat Mat_RowRange1(Mat src, int startrow, int endrow);
     Mat Mat_FromContour(Contour points);
     ubyte* Mat_RowPtr(Mat m, int i);
     ubyte* Mat_RowPtr2(Mat m, int row, int col);
@@ -1292,6 +1310,13 @@ private extern (C) {
     Mat PCA_Eigenvalues(PCA pca);
     Mat PCA_Eigenvectors(PCA pca);
     Mat PCA_Mean(PCA pca);
+    
+    double Kmeans(Mat data, int K, Mat bestLabels,
+        TermCriteria criteria, int attempts, int flags, Mat centers);
+    double Kmeans2(Mat data, int K, Mat bestLabels,
+        TermCriteria criteria, int attempts, int flags, Point2fs* centers);
+    void Mat_Fill_Random(uint64_t state, Mat mat, int distType, Scalar a, Scalar b, bool saturateRange);
+    void Mat_RandShuffle(uint64_t state, Mat dst, double iterFactor);
 }
 
 
@@ -1955,4 +1980,37 @@ struct PCA {
     Mat mean(){
         return PCA_Mean(this);
     }
+}
+
+enum: int { // cv::KmeansFlags
+    KMEANS_RANDOM_CENTERS = 0, 
+    KMEANS_PP_CENTERS = 2, 
+    KMEANS_USE_INITIAL_LABELS = 1 
+}
+
+double kmeans(Mat data, int K, Mat bestLabels,
+        TermCriteria criteria, int attempts, int flags, Mat centers = Mat()){
+    return Kmeans(data, K, bestLabels, criteria, attempts, flags, centers);
+}
+
+double kmeans(Mat data, int K, Mat bestLabels,
+        TermCriteria criteria, int attempts, int flags, ref Point2f[] centers){
+    Point2fs _centers;
+    double ret = Kmeans2(data, K, bestLabels, criteria, attempts, flags, &_centers);
+    centers = _centers.points[0.._centers.length.to!int].dup;
+    free(_centers.points);
+    return ret;
+}
+
+enum { // 
+    RNG_UNIFORM = 0, 
+    RNG_NORMAL = 1
+}
+
+void fillRandom(uint64_t state, Mat mat, int distType, Scalar a, Scalar b, bool saturateRange = false){
+    Mat_Fill_Random(state, mat, distType, a, b, saturateRange);
+}
+
+void randShuffle(uint64_t state, Mat dst, double iterFactor=1.0){
+    Mat_RandShuffle(state, dst, iterFactor);
 }

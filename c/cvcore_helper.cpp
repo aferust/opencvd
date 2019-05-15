@@ -382,3 +382,41 @@ int Get_TermCriteria_Type(TermCriteria tc){
 void TermCriteria_Close(TermCriteria tc){
     delete tc;
 }
+
+double Kmeans(Mat data, int K, Mat bestLabels,
+    TermCriteria criteria, int attempts, int flags, Mat centers){
+    return cv::kmeans(*data, K, *bestLabels, *criteria, attempts, flags, *centers);
+}
+
+double Kmeans2(Mat data, int K, Mat bestLabels,
+    TermCriteria criteria, int attempts, int flags, Point2fs* centers){
+    
+    std::vector<cv::Point2f> _centers;
+    double ret = cv::kmeans(*data, K, *bestLabels, *criteria, attempts, flags, _centers);
+    
+    Point2f* points = (Point2f*)malloc(_centers.size()*sizeof(Point2f));
+    for(int i = 0; i < _centers.size(); i++){
+        Point2f p = {_centers[i].x, _centers[i].y};
+        points[i] = p;
+    }
+    centers->points = points;
+    centers->length = (int)_centers.size();
+    
+    return ret;
+}
+
+Mat Mat_RowRange1(Mat src, int startrow, int endrow){
+    return new cv::Mat(src->rowRange(startrow, endrow));
+}
+
+void Mat_Fill_Random(uint64_t state, Mat mat, int distType, Scalar a, Scalar b, bool saturateRange){
+    cv::RNG rng(state);
+    cv::Scalar aa = cv::Scalar(a.val1, a.val2, a.val3, a.val4);
+    cv::Scalar bb = cv::Scalar(b.val1, b.val2, b.val3, b.val4);
+    rng.fill(*mat, distType, aa, bb, saturateRange);
+}
+
+void Mat_RandShuffle(uint64_t state, Mat dst, double iterFactor){
+    cv::RNG rng(state);
+    cv::randShuffle(*dst, iterFactor, &rng);
+}
