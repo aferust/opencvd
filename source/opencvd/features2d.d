@@ -75,6 +75,21 @@ private extern (C){
     MultiDMatches BFMatcher_KnnMatch(BFMatcher b, Mat query, Mat train, int k);
 
     void DrawKeyPoints(Mat src, KeyPoints kp, Mat dst, const Scalar s, int flags);
+    
+    FlannBasedMatcher FlannBasedMatcher_Create1();
+    void FlannBasedMatcher_Close(FlannBasedMatcher fbm);
+    MultiDMatches FlannBasedMatcher_KnnMatch(FlannBasedMatcher fbm,
+        Mat queryDescriptors, Mat trainDescriptors, int k, Mat mask, bool compactResult);
+    void DrawMatches1(Mat img1,
+                KeyPoints kp1,
+                Mat img2,
+                KeyPoints kp2,
+                DMatches matches1to2,
+                Mat outImg,
+                Scalar matchColor,
+                Scalar singlePointColor,
+                CharVector matchesMask,
+                int flags);
 }
 
 struct _AKAZE {
@@ -336,4 +351,54 @@ enum: int { // cv::DrawMatchesFlags
 void drawKeyPoints(Mat src, KeyPoint[] kp, Mat dst,
         const Scalar s = Scalar.all(-1), int flags = DrawMatchesFlags_DEFAULT){
     DrawKeyPoints(src, KeyPoints(kp.ptr, kp.length.to!int), dst, s, flags);
+}
+
+struct FlannBasedMatcher {
+    void* p;
+    
+    static FlannBasedMatcher opCall(){
+        return FlannBasedMatcher_Create1();
+    }
+    
+    DMatch[][] knnMatch(
+        Mat queryDescriptors, Mat trainDescriptors, int k, Mat mask = Mat(), bool compactResult=false){
+        
+        MultiDMatches mdms = FlannBasedMatcher_KnnMatch(this, queryDescriptors, trainDescriptors, k, mask, compactResult);
+        
+        DMatch[][] ret;
+        foreach(i; 0..mdms.length){
+            DMatches ds = mdms.dmatches[i];
+            DMatch[] dmats = ds.dmatches[0..ds.length].dup;
+            DMatches_Close(ds);
+            ret ~= dmats;
+        }
+        MultiDMatches_Close(mdms);
+        return ret;
+    }
+}
+
+void Destroy(FlannBasedMatcher fbm){
+    FlannBasedMatcher_Close(fbm);
+}
+
+void drawMatches(Mat img1,
+                KeyPoint[] kp1,
+                Mat img2,
+                KeyPoint[] kp2,
+                DMatch[] matches1to2,
+                Mat outImg,
+                Scalar matchColor = Scalar.all(-1),
+                Scalar singlePointColor = Scalar.all(-1),
+                char[] matchesMask = [],
+                int flags = DrawMatchesFlags_DEFAULT){
+    DrawMatches1(img1,
+                KeyPoints(kp1.ptr, kp1.length.to!int),
+                img2,
+                KeyPoints(kp2.ptr, kp2.length.to!int),
+                DMatches(matches1to2.ptr, matches1to2.length.to!int),
+                outImg,
+                matchColor,
+                singlePointColor,
+                CharVector(matchesMask.ptr, matchesMask.length.to!int),
+                flags);
 }

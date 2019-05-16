@@ -283,6 +283,15 @@ struct DoubleVector {
     }
 }
 
+struct CharVector {
+    char* val;
+    int length;
+    
+    double opIndex(int i){
+        return val[i];
+    }
+}
+
 struct Rect {
     int x;
     int y;
@@ -527,6 +536,10 @@ struct KeyPoint {
     double response;
     int octave;
     int classID;
+    
+    Point2f pt(){
+        return Point2f(x.to!float, y.to!float);
+    }
 }
 
 struct KeyPoints {
@@ -1822,6 +1835,27 @@ double norm(Mat src1, int normType){
 
 void perspectiveTransform(Mat src, Mat dst, Mat tm){
     Mat_PerspectiveTransform(src, dst, tm);
+}
+
+void perspectiveTransform(Point2f[] src, ref Point2f[] dst, Mat tm){
+    
+    Mat srcmat = zeros(src.length.to!int, 2, CV_MAKETYPE(CV_32F, 2));
+    foreach(int i; 0..src.length.to!int){
+        srcmat.set!float(i, 0, src[i].x);
+        srcmat.set!float(i, 1, src[i].y);
+    }
+    
+    Mat dstmat = zeros(src.length.to!int, 2, CV_MAKETYPE(CV_32F, 2));
+    
+    Mat_PerspectiveTransform(srcmat, dstmat, tm);
+    
+    foreach(int i; 0..dst.length.to!int){
+        float xx = srcmat.at!float(i, 0);
+        float yy = srcmat.at!float(i, 1);
+        dst ~= Point2f(xx, yy);
+    }
+    
+    Destroy(srcmat);
 }
 
 bool solve(Mat src1, Mat src2, Mat dst, int flags){

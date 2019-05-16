@@ -36,60 +36,124 @@ private extern (C){
     void SURF_Close(SURF f);
     KeyPoints SURF_Detect(SURF f, Mat src);
     KeyPoints SURF_DetectAndCompute(SURF f, Mat src, Mat mask, Mat desc);
+    SURF SURF_CreateWithParams(double hessianThreshold, int nOctaves, int nOctaveLayers, bool extended, bool upright);
+    bool SURF_GetExtended(SURF s);
+    double SURF_GetHessianThreshold(SURF s);
+    int SURF_GetNOctaveLayers(SURF s);
+    int SURF_GetNOctaves(SURF s);
+    bool SURF_GetUpright(SURF s);
+    void SURF_SetExtended(SURF s, bool extended);
+    void SURF_SetHessianThreshold (SURF s, double hessianThreshold);
+    void SURF_SetNOctaveLayers (SURF s, int nOctaveLayers);
+    void SURF_SetNOctaves (SURF s, int nOctaves);
+    void SURF_SetUpright (SURF s, bool upright);
+    KeyPoints SURF_DetectAndCompute2(SURF s, Mat image, Mat mask, Mat descriptors, bool useProvidedKeypoints);
 }
 
-struct _SIFT {
+struct SIFT {
     void* p;
     
     void close(){
-        SIFT_Close(&this);
+        SIFT_Close(this);
+    }
+    
+    static SIFT opCall(){
+        return SIFT_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = SIFT_Detect(&this, src);
+        KeyPoints kpts = SIFT_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
-        KeyPoints kpts = SIFT_DetectAndCompute(&this, src, mask, desc);
+        KeyPoints kpts = SIFT_DetectAndCompute(this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
-
-alias SIFT = _SIFT*;
 
 SIFT newSIFT(){
     return SIFT_Create();
 }
 
-struct _SURF {
+void Destroy(SIFT s){
+    SIFT_Close(s);
+}
+
+struct SURF {
     void* p;
     
     void close(){
-        SURF_Close(&this);
+        SURF_Close(this);
+    }
+    
+    static SURF opCall(){
+        return SURF_Create();
+    }
+    
+    static SURF opCall(double hessianThreshold=100, int nOctaves=4, int nOctaveLayers=3, bool extended=false, bool upright=false){
+        return SURF_CreateWithParams(hessianThreshold, nOctaves, nOctaveLayers, extended, upright);
+    }
+    
+    bool getExtended(){
+        return SURF_GetExtended(this);
+    }
+    
+    double getHessianThreshold(){
+        return SURF_GetHessianThreshold(this);
+    }
+    
+    int getNOctaveLayers(){
+        return SURF_GetNOctaveLayers(this);
+    }
+    
+    int getNOctaves(){
+        return SURF_GetNOctaves(this);
+    }
+    
+    bool getUpright(){
+        return SURF_GetUpright(this);
+    }
+    
+    void setExtended(bool extended){
+        SURF_SetExtended(this, extended);
+    }
+    
+    void setHessianThreshold (double hessianThreshold){
+        SURF_SetHessianThreshold (this, hessianThreshold);
+    }
+    
+    void setNOctaveLayers (int nOctaveLayers){
+        SURF_SetNOctaveLayers (this, nOctaveLayers);
+    }
+    
+    void setNOctaves (int nOctaves){
+        SURF_SetNOctaves (this, nOctaves);
+    }
+    
+    void setUpright (bool upright){
+        SURF_SetUpright (this, upright);
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = SURF_Detect(&this, src);
+        KeyPoints kpts = SURF_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
     
-    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
-        KeyPoints kpts = SURF_DetectAndCompute(&this, src, mask, desc);
+    KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc, bool useProvidedKeypoints = false){
+        KeyPoints kpts = SURF_DetectAndCompute2(this, src, mask, desc, useProvidedKeypoints);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias SURF = _SURF*;
-
-SURF newSURF(){
-    return SURF_Create();
+void Destroy(SURF s){
+    SURF_Close(s);
 }

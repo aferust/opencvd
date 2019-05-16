@@ -24,6 +24,8 @@ DEALINGS IN THE SOFTWARE.
 
 module opencvd.calib3d;
 
+import std.conv;
+
 import opencvd.cvcore;
 
 private extern (C){
@@ -32,6 +34,8 @@ private extern (C){
 
     void InitUndistortRectifyMap(Mat cameraMatrix,Mat distCoeffs,Mat r,Mat newCameraMatrix,Size size,int m1type,Mat map1,Mat map2);
     Mat GetOptimalNewCameraMatrixWithParams(Mat cameraMatrix,Mat distCoeffs,Size size,double alpha,Size newImgSize,Rect* validPixROI,bool centerPrincipalPoint);
+    Mat FindHomography1(Point2fs srcPoints, Point2fs dstPoints, int method,
+        double ransacReprojThreshold, Mat mask, int maxIters, double confidence);
 }
 
 void fisheye_UndistortImage(Mat distorted, Mat undistorted, Mat k, Mat d){
@@ -48,4 +52,18 @@ void initUndistortRectifyMap(Mat cameraMatrix,Mat distCoeffs, Mat r, Mat newCame
 
 Mat getOptimalNewCameraMatrixWithParams(Mat cameraMatrix,Mat distCoeffs,Size size,double alpha,Size newImgSize,Rect* validPixROI,bool centerPrincipalPoint){
     return GetOptimalNewCameraMatrixWithParams(cameraMatrix, distCoeffs, size, alpha, newImgSize, validPixROI, centerPrincipalPoint);
+}
+
+enum: int{ 
+    LMEDS = 4, 
+    RANSAC = 8, 
+    RHO = 16 
+}
+
+Mat findHomography(Point2f[] srcPoints, Point2f[] dstPoints, int method=0,
+        double ransacReprojThreshold=3, Mat mask=Mat(), int maxIters=2000, double confidence=0.995){
+    
+    return FindHomography1(Point2fs(srcPoints.ptr, srcPoints.length.to!int),
+                        Point2fs(dstPoints.ptr, dstPoints.length.to!int),
+                        method, ransacReprojThreshold, mask, maxIters, confidence);
 }

@@ -70,6 +70,10 @@ void Close_DoubleVector(struct DoubleVector iv){
     delete[] iv.val;
 }
 
+void Close_CharVector(struct CharVector chv){
+    delete[] chv.val;
+}
+
 int Mat_Dims(Mat m){
     return m->dims;
 }
