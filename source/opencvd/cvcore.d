@@ -906,17 +906,17 @@ struct Mat {
     
     T at(T)(int row, int col){
         //assert(channels() == 1, "only single channel Mats are supported for at");
-        static if (T.stringof == "float"){
+        static if (is(T == float)){
             return getFloatAt(row, col);
-        } else static if (T.stringof == "double"){
+        } else static if (is(T == double)){
             return getDoubleAt(row, col);
-        } else static if (T.stringof == "int"){
+        } else static if (is(T == int)){
             return getIntAt(row, col);
-        } else static if (T.stringof == "ubyte"){
+        } else static if (is(T == ubyte)){
             return getUCharAt(row, col);
-        } else static if (T.stringof == "byte"){
+        } else static if (is(T == byte)){
             return getSCharAt(row, col);
-        } else static if (T.stringof == "short"){
+        } else static if (is(T == short)){
             return getShortAt(row, col);
         }
     }
