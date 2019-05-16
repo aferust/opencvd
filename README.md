@@ -192,7 +192,7 @@ void main()
     
     Color color = img.at(20, 62); // or img[20, 62];
     
-    img.setColorAt(Color(25, 26, 27, 255), 150, 150); // or img[150, 150] = Color(25, 26, 27, 255);
+    img.setColorAt(Color(25, 26, 27), 150, 150); // or img[150, 150] = Color(25, 26, 27);
     
     namedWindow("res", 0);
     Mat imres = Mat();
@@ -205,7 +205,7 @@ void main()
     
     foreach(int i; 100..200)
         foreach(int j; 100..200)
-            img.setUCharAt(i, j, 125);
+            img.set!ubyte(i, j, 125);
     
     writeln(img.type2str());
     writeln(img.getSize());

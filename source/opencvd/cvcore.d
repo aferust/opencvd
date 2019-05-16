@@ -846,6 +846,22 @@ struct Mat {
         Mat_SetColorAt(this, color, row, col);
     }
     
+    void set(T)(int row, int col, T val){
+        //assert(channels() == 1, "only single channel Mats are supported for at");
+        static if (is(T == float)){
+            setFloatAt(row, col, val);
+        } else static if (is(T == double)){
+            setDoubleAt(row, col, val);
+        } else static if (is(T == int)){
+            setIntAt(row, col, val);
+        } else static if (is(T == ubyte)){
+            setUCharAt(row, col, val);
+        } else static if (is(T == byte)){
+            setSCharAt(row, col, val);
+        } else static if (is(T == short)){
+            setShortAt(row, col, val);
+        }
+    }
     
     void setUCharAt(int row, int col, ubyte val){
         assert((row < rows()) && (col < cols()), "index out of bounds!");
