@@ -1849,7 +1849,7 @@ void perspectiveTransform(Point2f[] src, ref Point2f[] dst, Mat tm){
     
     Mat_PerspectiveTransform(srcmat, dstmat, tm);
     
-    foreach(int i; 0..dst.length.to!int){
+    foreach(int i; 0..dstmat.rows){
         float xx = srcmat.at!float(i, 0);
         float yy = srcmat.at!float(i, 1);
         dst ~= Point2f(xx, yy);

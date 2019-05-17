@@ -26,6 +26,12 @@ module opencvd.contrib.xfeatures2d;
 
 import opencvd.cvcore;
 
+/* !!! WARNING !!!
+ * Your opencv must be compiled with this cmake parameter to use this
+ * module: -DOPENCV_ENABLE_NONFREE:BOOL=ON
+ * Otherwise you will encounter crashes!!!
+ */
+
 private extern (C){
     SIFT SIFT_Create();
     void SIFT_Close(SIFT f);
@@ -152,6 +158,13 @@ struct SURF {
         KeyPoints_Close(kpts);
         return ret;
     }
+}
+
+SURF newSURF(){
+    return SURF_Create();
+}
+SURF newSURFWithParams(double hessianThreshold=100, int nOctaves=4, int nOctaveLayers=3, bool extended=false, bool upright=false){
+    return SURF_CreateWithParams(hessianThreshold, nOctaves, nOctaveLayers, extended, upright);
 }
 
 void Destroy(SURF s){

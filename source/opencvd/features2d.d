@@ -369,7 +369,6 @@ struct FlannBasedMatcher {
         foreach(i; 0..mdms.length){
             DMatches ds = mdms.dmatches[i];
             DMatch[] dmats = ds.dmatches[0..ds.length].dup;
-            DMatches_Close(ds);
             ret ~= dmats;
         }
         MultiDMatches_Close(mdms);
