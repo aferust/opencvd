@@ -287,7 +287,7 @@ struct CharVector {
     char* val;
     int length;
     
-    double opIndex(int i){
+    char opIndex(int i){
         return val[i];
     }
 }
