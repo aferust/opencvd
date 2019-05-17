@@ -1840,6 +1840,7 @@ void perspectiveTransform(Point2f[] src, ref Point2f[] dst, Mat tm){
     }
     
     Destroy(srcmat);
+    Destroy(dstmat);
 }
 
 bool solve(Mat src1, Mat src2, Mat dst, int flags){
