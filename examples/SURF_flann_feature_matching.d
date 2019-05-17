@@ -69,7 +69,8 @@ void main()
 	//-- Step 5: Draw lines between the good matching points
 	Mat img_matches = Mat();
 	drawMatches( img_object, keypoints_object, img_scene, keypoints_scene,
-			good_matches, img_matches);
+			good_matches, img_matches, Scalar.all(-1), Scalar.all(-1),
+			[], DrawMatchesFlags_DEFAULT);
     
 	//-- Step 6: Localize the object inside the scene image with a square
 	localizeInImage( good_matches, keypoints_object, keypoints_scene, img_object, img_matches );
