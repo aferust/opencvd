@@ -92,238 +92,223 @@ private extern (C){
                 int flags);
 }
 
-struct _AKAZE {
+struct AKAZE {
     void* p;
     
-    void close(){
-        AKAZE_Close(&this);
+    static AKAZE opCall(){
+        return AKAZE_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = AKAZE_Detect(&this, src);
+        KeyPoints kpts = AKAZE_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
-        KeyPoints kpts = AKAZE_DetectAndCompute(&this, src, mask, desc);
+        KeyPoints kpts = AKAZE_DetectAndCompute(this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias AKAZE = _AKAZE*;
-
-AKAZE newAKAZE(){
-    return AKAZE_Create();
+void Destroy(AKAZE a){
+    AKAZE_Close(a);
 }
 
-struct _AgastFeatureDetector{
+struct AgastFeatureDetector{
     void* p;
     
-    void close(AgastFeatureDetector a){
-        AgastFeatureDetector_Close(&this);
+    static AgastFeatureDetector opCall(){
+        return AgastFeatureDetector_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = AgastFeatureDetector_Detect(&this, src);
+        KeyPoints kpts = AgastFeatureDetector_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias AgastFeatureDetector = _AgastFeatureDetector*;
-
-AgastFeatureDetector newAgastFeatureDetector(){
-    return AgastFeatureDetector_Create();
+void Destroy(AgastFeatureDetector a){
+    AgastFeatureDetector_Close(a);
 }
 
-struct _BRISK {
+struct BRISK {
     void* p;
     
-    void close(){
-        BRISK_Close(&this);
+    static BRISK opCall(){
+        return BRISK_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = BRISK_Detect(&this, src);
+        KeyPoints kpts = BRISK_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
-        KeyPoints kpts = BRISK_DetectAndCompute(&this, src, mask, desc);
+        KeyPoints kpts = BRISK_DetectAndCompute(this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias BRISK = _BRISK*;
-
-BRISK newBRISK(){
-    return BRISK_Create();
+void Destroy(BRISK a){
+    BRISK_Close(a);
 }
 
-struct _FastFeatureDetector {
+struct FastFeatureDetector {
     void* p;
     
-    void close(){
-        FastFeatureDetector_Close(&this);
+    static FastFeatureDetector opCall(){
+        return FastFeatureDetector_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = FastFeatureDetector_Detect(&this, src);
+        KeyPoints kpts = FastFeatureDetector_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias FastFeatureDetector = _FastFeatureDetector*;
-
-FastFeatureDetector newFastFeatureDetector(){
-    return FastFeatureDetector_Create();
+void Destroy(FastFeatureDetector a){
+    FastFeatureDetector_Close(a);
 }
 
-struct _GFTTDetector {
+struct GFTTDetector {
     void* p;
     
-    void close(){
-        GFTTDetector_Close(&this);
+    static GFTTDetector opCall(){
+        return GFTTDetector_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = GFTTDetector_Detect(&this, src);
+        KeyPoints kpts = GFTTDetector_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias GFTTDetector = _GFTTDetector*;
-
-GFTTDetector newGFTTDetector(){
-    return GFTTDetector_Create();
+void Destroy(GFTTDetector a){
+    GFTTDetector_Close(a);
 }
 
-struct _KAZE {
+struct KAZE {
     void* p;
     
-    void close(){
-        KAZE_Close(&this);
+    static KAZE opCall(){
+        return KAZE_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = KAZE_Detect(&this, src);
+        KeyPoints kpts = KAZE_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
-        KeyPoints kpts = KAZE_DetectAndCompute(&this, src, mask, desc);
+        KeyPoints kpts = KAZE_DetectAndCompute(this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias KAZE = _KAZE*;
-
-KAZE newKAZE(){
-    return KAZE_Create();
+void Destroy(KAZE a){
+    KAZE_Close(a);
 }
 
-struct _MSER {
+struct MSER {
     void* p;
     
-    void close(){
-        MSER_Close(&this);
+    static MSER opCall(){
+        return MSER_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = MSER_Detect(&this, src);
+        KeyPoints kpts = MSER_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
-alias MSER = _MSER*;
-
-MSER newMSER(){
-    return MSER_Create();
+void Destroy(MSER a){
+    MSER_Close(a);
 }
 
-struct _ORB {
+struct ORB {
     void* p;
     
-    void close(){
-        ORB_Close(&this);
+    static ORB opCall(){
+        return ORB_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = ORB_Detect(&this, src);
+        KeyPoints kpts = ORB_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
     
     KeyPoint[] detectAndCompute(Mat src, Mat mask, Mat desc){
-        KeyPoints kpts = ORB_DetectAndCompute(&this, src, mask, desc);
+        KeyPoints kpts = ORB_DetectAndCompute(this, src, mask, desc);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias ORB = _ORB*;
-
-ORB newORB(){
-    return ORB_Create();
+void Destroy(ORB a){
+    ORB_Close(a);
 }
 
-struct _SimpleBlobDetector {
+struct SimpleBlobDetector {
     void* p;
     
-    void close(){
-        SimpleBlobDetector_Close(&this);
+    static SimpleBlobDetector opCall(){
+        return SimpleBlobDetector_Create();
     }
     
     KeyPoint[] detect(Mat src){
-        KeyPoints kpts = SimpleBlobDetector_Detect(&this, src);
+        KeyPoints kpts = SimpleBlobDetector_Detect(this, src);
         KeyPoint[] ret = kpts.keypoints[0..kpts.length].dup;
         KeyPoints_Close(kpts);
         return ret;
     }
 }
 
-alias SimpleBlobDetector = _SimpleBlobDetector*;
-
-SimpleBlobDetector newSimpleBlobDetector(){
-    return SimpleBlobDetector_Create();
+void Destroy(SimpleBlobDetector a){
+    SimpleBlobDetector_Close(a);
 }
 
-struct _BFMatcher {
+struct BFMatcher {
     void* p;
-    
-    void close(){
-        BFMatcher_Close(&this);
+    /*
+    static BFMatcher opCall(){
+        return BFMatcher_Create();
+    }
+    */
+    static BFMatcher opCall(int normType=NORM_L2, bool crossCheck=false){
+        return BFMatcher_CreateWithParams(normType, crossCheck);
     }
     
     DMatch[][] knnMatch(Mat query, Mat train, int k){
         
-        MultiDMatches mdms = BFMatcher_KnnMatch(&this, query, train, k);
+        MultiDMatches mdms = BFMatcher_KnnMatch(this, query, train, k);
         
         DMatch[][] ret;
         foreach(i; 0..mdms.length){
             DMatches ds = mdms.dmatches[i];
             DMatch[] dmats = ds.dmatches[0..ds.length].dup;
-            DMatches_Close(ds);
             ret ~= dmats;
         }
         MultiDMatches_Close(mdms);
@@ -331,14 +316,8 @@ struct _BFMatcher {
     }
 }
 
-alias BFMatcher = _BFMatcher*;
-
-BFMatcher newBFMatcher(){
-    return BFMatcher_Create();
-}
-
-BFMatcher newBFMatcherWithParams(int normType, bool crossCheck){
-    return BFMatcher_CreateWithParams(normType, crossCheck);
+void Destroy(BFMatcher a){
+    BFMatcher_Close(a);
 }
 
 enum: int { // cv::DrawMatchesFlags 

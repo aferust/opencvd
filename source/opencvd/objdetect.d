@@ -68,10 +68,6 @@ private extern (C){
 struct _CascadeClassifier {
     void* p;
     
-    void close(){
-        CascadeClassifier_Close(&this);
-    }
-    
     int load(string name){
         return CascadeClassifier_Load(&this, toStringz(name));
     }
@@ -80,14 +76,17 @@ struct _CascadeClassifier {
         return CascadeClassifier_DetectMultiScale(&this, img);
     }
     
-    Rects detectMultiScaleWithParams(Mat img, double scale, int minNeighbors,
+    Rects detectMultiScale(Mat img, double scale, int minNeighbors,
                                     int flags, Size minSize, Size maxSize){
         return CascadeClassifier_DetectMultiScaleWithParams(&this, img, scale, 
             minNeighbors, flags, minSize, maxSize);
     }
 }
-
 alias CascadeClassifier = _CascadeClassifier*;
+
+void Destroy(CascadeClassifier c){
+    CascadeClassifier_Close(c);
+}
 
 CascadeClassifier newCascadeClassifier(){
     return CascadeClassifier_New();
@@ -107,13 +106,13 @@ struct HOGDescriptor {
     Rects detectMultiScale(Mat img){
         return HOGDescriptor_DetectMultiScale(this, img);
     }
-    */
+    
     Rects detectMultiScaleWithParams(Mat img, double hitThresh, Size winStride,
                 Size padding, double scale, double finalThreshold, bool useMeanshiftGrouping){
         return HOGDescriptor_DetectMultiScaleWithParams(this, img, hitThresh, 
                             winStride, padding, scale, finalThreshold, useMeanshiftGrouping);
     }
-    
+    */
     void setSVMDetector(Mat det){
         HOGDescriptor_SetSVMDetector(this, det);
     }
