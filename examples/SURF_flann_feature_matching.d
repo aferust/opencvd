@@ -44,7 +44,7 @@ void main()
 	Mat descriptors_object = Mat(), descriptors_scene = Mat(); // descriptors (features)
 
 	//-- Steps 1 + 2, detect the keypoints and compute descriptors, both in one method
-	SURF surf = SURF(); 
+	SURF surf = SURF(minHessian); 
 	keypoints_object = surf.detectAndCompute( img_object, Mat(), descriptors_object );
 	keypoints_scene = surf.detectAndCompute( img_scene, Mat(), descriptors_scene );
 
