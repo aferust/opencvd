@@ -2,6 +2,7 @@ import std.stdio;
 import std.conv;
 import std.math;
 import std.algorithm.comparison;
+import std.datetime.stopwatch;
 
 import opencvd.cvcore;
 import opencvd.imgcodecs;
@@ -39,7 +40,9 @@ void main()
 		"Error reading images.".writeln;
 		return;
 	}
-
+    
+    auto sw = StopWatch(AutoStart.no); sw.start();
+    
 	KeyPoint[] keypoints_object, keypoints_scene; // keypoints
 	Mat descriptors_object = Mat(), descriptors_scene = Mat(); // descriptors (features)
 
@@ -52,6 +55,8 @@ void main()
 	FlannBasedMatcher matcher = FlannBasedMatcher(); // FLANN - Fast Library for Approximate Nearest Neighbors
 	
 	DMatch[][] matches = matcher.knnMatch( descriptors_object, descriptors_scene, 2 ); // find the best 2 matches of each descriptor
+    
+    sw.stop(); long msecs = sw.peek.total!"msecs"; float sec = msecs/1000.0f; writefln("%f", sec);
     
 	//-- Step 4: Select only goot matches
 	DMatch[] good_matches;

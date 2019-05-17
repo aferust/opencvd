@@ -860,7 +860,6 @@ struct Mat {
     }
     
     void set(T)(int row, int col, T val){
-        //assert(channels() == 1, "only single channel Mats are supported for at");
         static if (is(T == float)){
             setFloatAt(row, col, val);
         } else static if (is(T == double)){
@@ -877,17 +876,14 @@ struct Mat {
     }
     
     void setUCharAt(int row, int col, ubyte val){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         Mat_SetUChar(this, row, col, val);
     }
 
     void setUChar3At( int x, int y, int z, ubyte val){
-        // assert((x < rows()) && (y < cols()) && (z < channels()), "index out of bounds!"); // ??
         Mat_SetUChar3(this, x, y, z, val);
     }
 
     void setSCharAt(int row, int col, byte val){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         Mat_SetSChar(this, row, col, val);
     }
 
@@ -896,7 +892,6 @@ struct Mat {
     }
     
     void setShortAt(int row, int col, short val){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         Mat_SetShort(this, row, col, val);    
     }
     
@@ -905,7 +900,6 @@ struct Mat {
     }
     
     void setIntAt(int row, int col, int val){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         Mat_SetInt(this, row, col, val);
     }
     
@@ -914,7 +908,6 @@ struct Mat {
     }
     
     void setFloatAt(int row, int col, float val){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         Mat_SetFloat(this, row, col, val);
     }
     
@@ -923,7 +916,6 @@ struct Mat {
     }
     
     void setDoubleAt(int row, int col, double val){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         Mat_SetDouble(this, row, col, val);
     }
 
@@ -934,7 +926,6 @@ struct Mat {
     /* Getters */
     
     T at(T)(int row, int col){
-        //assert(channels() == 1, "only single channel Mats are supported for at");
         static if (is(T == float)){
             return getFloatAt(row, col);
         } else static if (is(T == double)){
@@ -951,7 +942,6 @@ struct Mat {
     }
     
     T at(T)(int flatInd){
-        assert(channels() == 1, "only single channel Mats are supported for at");
         T* ret = cast(T*)rawDataPtr();
         return ret[flatInd];
     }
@@ -961,7 +951,6 @@ struct Mat {
     }
     
     ubyte getUCharAt(int row, int col){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetUChar(this, row, col);
     }
 
@@ -970,7 +959,6 @@ struct Mat {
     }
 
     byte getSCharAt(int row, int col){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetSChar(this, row, col);
     }
 
@@ -979,7 +967,6 @@ struct Mat {
     }
 
     short getShortAt(int row, int col){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetShort(this, row, col);
     }
 
@@ -988,7 +975,6 @@ struct Mat {
     }
 
     int getIntAt(int row, int col){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetInt(this, row, col);
     }
 
@@ -997,7 +983,6 @@ struct Mat {
     }
 
     float getFloatAt(int row, int col){
-        //assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetFloat(this, row, col);
     }
 
@@ -1006,7 +991,6 @@ struct Mat {
     }
 
     double getDoubleAt(int row, int col){
-        assert((row < rows()) && (col < cols()), "index out of bounds!");
         return Mat_GetDouble(this, row, col);
     }
 
@@ -1839,19 +1823,19 @@ void perspectiveTransform(Mat src, Mat dst, Mat tm){
 
 void perspectiveTransform(Point2f[] src, ref Point2f[] dst, Mat tm){
     
-    Mat srcmat = zeros(src.length.to!int, 2, CV_MAKETYPE(CV_32F, 2));
+    Mat srcmat = zeros(src.length.to!int, 1, CV_MAKETYPE(CV_32F, 2));
     foreach(int i; 0..src.length.to!int){
         srcmat.set!float(i, 0, src[i].x);
         srcmat.set!float(i, 1, src[i].y);
     }
     
-    Mat dstmat = zeros(src.length.to!int, 2, CV_MAKETYPE(CV_32F, 2));
+    Mat dstmat = zeros(src.length.to!int, 1, CV_MAKETYPE(CV_32F, 2));
     
     Mat_PerspectiveTransform(srcmat, dstmat, tm);
     
     foreach(int i; 0..dstmat.rows){
-        float xx = srcmat.at!float(i, 0);
-        float yy = srcmat.at!float(i, 1);
+        float xx = dstmat.at!float(i, 0);
+        float yy = dstmat.at!float(i, 1);
         dst ~= Point2f(xx, yy);
     }
     
