@@ -1,5 +1,9 @@
 #include "objdetect_helper.h"
 
+bool CascadeClassifier_Empty(CascadeClassifier cs) {
+    return cs->empty();
+}
+
 Size HOGDescriptor_GetWinSize(HOGDescriptor hd){
     cv::Size csz = hd->winSize;
     Size sz = {csz.width, csz.height};

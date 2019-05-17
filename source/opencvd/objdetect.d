@@ -32,6 +32,7 @@ import opencvd.cvcore;
 
 private extern (C){
     CascadeClassifier CascadeClassifier_New();
+    bool CascadeClassifier_Empty(CascadeClassifier cs);
     void CascadeClassifier_Close(CascadeClassifier cs);
     int CascadeClassifier_Load(CascadeClassifier cs, const char* name);
     Rects CascadeClassifier_DetectMultiScale(CascadeClassifier cs, Mat img);
@@ -65,24 +66,31 @@ private extern (C){
     Rects GroupRectangles(Rects rects, int groupThreshold, double eps);
 }
 
-struct _CascadeClassifier {
+struct CascadeClassifier {
     void* p;
     
+    static CascadeClassifier opCall(){
+        return CascadeClassifier_New();
+    }
+    
+    bool empty(){
+        return CascadeClassifier_Empty(this);
+    }
+    
     int load(string name){
-        return CascadeClassifier_Load(&this, toStringz(name));
+        return CascadeClassifier_Load(this, toStringz(name));
     }
     
     Rects detectMultiScale(Mat img){
-        return CascadeClassifier_DetectMultiScale(&this, img);
+        return CascadeClassifier_DetectMultiScale(this, img);
     }
     
     Rects detectMultiScale(Mat img, double scale, int minNeighbors,
                                     int flags, Size minSize, Size maxSize){
-        return CascadeClassifier_DetectMultiScaleWithParams(&this, img, scale, 
+        return CascadeClassifier_DetectMultiScaleWithParams(this, img, scale, 
             minNeighbors, flags, minSize, maxSize);
     }
 }
-alias CascadeClassifier = _CascadeClassifier*;
 
 void Destroy(CascadeClassifier c){
     CascadeClassifier_Close(c);

@@ -12,6 +12,8 @@ extern "C" {
 #include "cvcore_helper.h"
 #include "objdetect.h"
 
+bool CascadeClassifier_Empty(CascadeClassifier cs);
+
 Size HOGDescriptor_GetWinSize(HOGDescriptor hd);
 void HOGDescriptor_SetWinSize(HOGDescriptor hd, Size newSize);
 void HOGDescriptor_Compute(HOGDescriptor hd, Mat img, FloatVector descriptors, Size winStride, Size padding, Points locations);

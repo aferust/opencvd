@@ -19,8 +19,8 @@ void main()
     
     // PreDefined trained XML classifiers with facial features 
     CascadeClassifier cascade, nestedCascade;
-    cascade = newCascadeClassifier();
-    nestedCascade = newCascadeClassifier();
+    cascade = CascadeClassifier();
+    nestedCascade = CascadeClassifier();
     
     double scale=1; 
   
@@ -92,7 +92,7 @@ void detectAndDraw( Mat img, CascadeClassifier cascade,
         } 
         else
             rectangle( img, Rect(cast(int)round(r.x*scale), cast(int)round(r.y*scale), 50, 50), color, 3 );
-        if( !nestedCascade ) 
+        if( nestedCascade.empty ) 
             continue; 
         smallImgROI = smallImg(r);
         
