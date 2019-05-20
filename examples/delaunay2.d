@@ -4,10 +4,7 @@ import std.random;
 import std.math;
 import std.conv;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 // https://github.com/opencv/opencv/blob/master/samples/cpp/delaunay2.cpp
 // tested and working!

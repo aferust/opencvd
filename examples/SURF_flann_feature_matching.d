@@ -4,13 +4,7 @@ import std.math;
 import std.algorithm.comparison;
 import std.datetime.stopwatch;
 
-import opencvd.cvcore;
-import opencvd.imgcodecs;
-import opencvd.highgui;
-import opencvd.imgproc;
-import opencvd.features2d;
-import opencvd.contrib.xfeatures2d;
-import opencvd.calib3d;
+import opencvd;
 
 // http://www.coldvision.io/2016/06/27/object-detection-surf-knn-flann-opencv-3-x-cuda/
 

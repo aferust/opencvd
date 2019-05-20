@@ -4,12 +4,7 @@ import std.math;
 import std.conv;
 import std.getopt;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
-import opencvd.videoio;
-import opencvd.dnn;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/db/da4/samples_2dnn_2text_detection_8cpp-example.html
 

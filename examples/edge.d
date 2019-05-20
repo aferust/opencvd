@@ -3,14 +3,7 @@ import std.stdio;
 import std.format;
 import std.random;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.videoio;
-import opencvd.imgproc;
-import opencvd.objdetect;
-import opencvd.ocvversion;
-import opencvd.contrib.ximgproc;
+import opencvd;
 
 int edgeThresh = 1;
 int edgeThreshScharr=1;

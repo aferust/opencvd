@@ -3,10 +3,7 @@ import std.random;
 import std.math;
 import std.conv;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/d5/df9/samples_2cpp_2tutorial_code_2ImgTrans_2houghlines_8cpp-example.html
 // tested and working!

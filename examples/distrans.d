@@ -2,10 +2,7 @@ import std.stdio;
 import std.conv;
 import std.math;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/d4/dc6/samples_2cpp_2distrans_8cpp-example.html
 // tested and working

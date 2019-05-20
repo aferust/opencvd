@@ -5,10 +5,7 @@ import std.conv;
 import std.algorithm.comparison: MIN = min;
 import std.algorithm.comparison: MAX = max;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/d9/dde/samples_2cpp_2kmeans_8cpp-example.html
 // works like a charm!

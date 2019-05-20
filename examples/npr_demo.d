@@ -1,10 +1,6 @@
 import std.stdio;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
-import opencvd.photo;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/de/dd9/samples_2cpp_2tutorial_code_2photo_2non_photorealistic_rendering_2npr_demo_8cpp-example.html
 

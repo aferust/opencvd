@@ -1,10 +1,7 @@
 import std.stdio;
 import std.conv;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 // https://www.learnopencv.com/filling-holes-in-an-image-using-opencv-python-c/
 // tested and working!

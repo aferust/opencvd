@@ -1,10 +1,7 @@
 import std.stdio;
 import std.conv;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/d1/de6/samples_2cpp_2tutorial_code_2ImgTrans_2houghcircles_8cpp-example.html
 // tested and working!

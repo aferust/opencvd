@@ -3,11 +3,7 @@ import std.format;
 import std.random;
 import std.math;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
-import opencvd.photo;
+import opencvd;
 
 // idea is from Freddie Honohan
 

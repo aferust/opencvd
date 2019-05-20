@@ -2,10 +2,7 @@ import std.stdio;
 import std.format;
 import std.random;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 
 // https://docs.opencv.org/4.1.0/d5/d04/samples_2cpp_2convexhull_8cpp-example.html

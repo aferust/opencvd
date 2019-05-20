@@ -3,10 +3,7 @@ import std.conv;
 import std.algorithm.comparison: MIN = min;
 import std.algorithm.comparison: MAX = max;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/d9/d73/samples_2cpp_2fitellipse_8cpp-example.html
 // runs well. But legend text does not look Ok.

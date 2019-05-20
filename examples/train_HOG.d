@@ -8,13 +8,7 @@ import std.random;
 import std.getopt;
 import core.stdc.string;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
-import opencvd.videoio;
-import opencvd.objdetect;
-import opencvd.ml;
+import opencvd;
 
 // https://docs.opencv.org/4.1.0/d0/df8/samples_2cpp_2train_HOG_8cpp-example.html
 

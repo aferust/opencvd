@@ -1,11 +1,7 @@
 import std.stdio;
 import std.conv;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.imgcodecs;
-import opencvd.imgproc;
-import opencvd.stitching;
+import opencvd;
 
 // based on: https://docs.opencv.org/4.1.0/db/db4/samples_2cpp_2stitching_8cpp-example.html
 

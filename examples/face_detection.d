@@ -1,11 +1,6 @@
 import std.stdio;
 
-import opencvd.cvcore;
-import opencvd.highgui;
-import opencvd.videoio;
-import opencvd.imgproc;
-import opencvd.objdetect;
-import opencvd.ocvversion;
+import opencvd;
 
 // https://www.geeksforgeeks.org/opencv-c-program-face-detection
 
