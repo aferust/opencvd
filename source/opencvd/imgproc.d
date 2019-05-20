@@ -222,7 +222,7 @@ void calcHist(Mats mats, int[] chans, Mat mask, Mat hist, IntVector sz, FloatVec
 void calcHist(Mat images, int nimages, int[] channels,
             Mat mask, Mat hist, int dims, int[] histSize, float[][2] _ranges, bool uniform = true, bool accumulate = false){
     
-    float*[] __ranges = new float*[channels.length];
+    float** __ranges = cast(float**)malloc(channels.length*(float*).sizeof);
     
     foreach(i; 0..channels.length){
         float[] rng = [_ranges[i][0], _ranges[i][1]];
@@ -230,7 +230,7 @@ void calcHist(Mat images, int nimages, int[] channels,
     }
     
     CalcHist1(images, nimages, channels.ptr, mask, hist, dims, histSize.ptr, cast(const float**)__ranges, uniform, accumulate);
-    destroy(__ranges);
+    free(__ranges);
 }
 
 void calcHist(Mat dst, Mat mask, Mat hist, int* histSize){
