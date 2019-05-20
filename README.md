@@ -10,6 +10,10 @@ I don't describe myself as the most brillant d programmer around.
 Pull requests are welcome for growing and enhancing the binding. I am willing to add more
 contributors to the project. Let's make it a complete binding to opencv.
 
+## Important note
+Please always use updated git repo (~master). The library on the dub repo only exists for increasing the visibility
+of the library.
+
 ## Requirements
 Opencvd requires the following packages to build:
 
