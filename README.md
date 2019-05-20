@@ -25,7 +25,7 @@ Opencvd requires the following packages to build:
 
 ## Notable features
 - cv::Mat and other types like cv::Ptr<cv::ml::SVM> are wrapped using opaque pointers.
-- opencv c++ syntax has been tried to be imitated as much as the d language allows.
+- opencv c++ syntax has been tried to imitate as much as the d language allows.
 - Uses d arrays when it is possible like: uses Point[][] to wrap std::vector<std::vector<cv::Point> >
 Please take a look at examples folder to understand how it looks like and available functionality
 
@@ -170,13 +170,7 @@ determined by its community.
 ```d
 import std.stdio;
 
-import opencvd.cvcore;
-import opencvd.imgcodecs;
-import opencvd.highgui;
-import opencvd.videoio;
-import opencvd.imgproc;
-import opencvd.objdetect;
-import opencvd.ocvversion;
+import opencvd;
 
 void main()
 {
