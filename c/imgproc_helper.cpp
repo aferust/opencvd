@@ -647,3 +647,11 @@ void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize){
     cv::Size cvSize(tileGridSize.width, tileGridSize.height);
     (*c)->setTilesGridSize(cvSize);
 }
+
+void Dilate2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
+    cv::dilate(*src, *dst, *kernel, cv::Point(anchor.x,anchor.y), iterations);
+}
+
+void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
+    cv::erode(*src, *dst, *kernel, cv::Point(anchor.x,anchor.y), iterations);
+}

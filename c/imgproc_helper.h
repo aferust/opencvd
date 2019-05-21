@@ -116,6 +116,9 @@ Size CLAHE_GetTilesGridSize(CLAHE c);
 void CLAHE_SetClipLimit(CLAHE c, double clipLimit);
 void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize);
 
+void Dilate2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
+void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
+
 #ifdef __cplusplus
 }
 #endif

@@ -51,8 +51,10 @@ private extern (C){
     void Blur(Mat src, Mat dst, Size ps);
     void BoxFilter(Mat src, Mat dst, int ddepth, Size ps);
     void SqBoxFilter(Mat src, Mat dst, int ddepth, Size ps);
-    void Dilate(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
-    void Erode(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
+    void Dilate(Mat src, Mat dst, Mat kernel);
+    void Dilate2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
+    void Erode(Mat src, Mat dst, Mat kernel);
+    void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
     void MatchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask);
     Moment Moments(Mat src, bool binaryImage);
     void PyrDown(Mat src, Mat dst, Size dstsize, int borderType);
@@ -275,12 +277,20 @@ void sqBoxFilter(Mat src, Mat dst, int ddepth, Size ps){
     SqBoxFilter(src, dst, ddepth, ps);
 }
 
+void dilate(Mat src, Mat dst, Mat kernel){
+    Dilate(src, dst, kernel);
+}
+
 void dilate(Mat src, Mat dst, Mat kernel, Point anchor=Point(-1,-1), int iterations=1){
-    Dilate(src, dst, kernel, anchor, iterations);
+    Dilate2(src, dst, kernel, anchor, iterations);
+}
+
+void erode(Mat src, Mat dst, Mat kernel){
+    Erode(src, dst, kernel);
 }
 
 void erode(Mat src, Mat dst, Mat kernel, Point anchor=Point(-1,-1), int iterations=1){
-    Erode(src, dst, kernel, anchor, iterations);
+    Erode2(src, dst, kernel, anchor, iterations);
 }
 
 void matchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask){
