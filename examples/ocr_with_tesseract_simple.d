@@ -7,10 +7,6 @@ import tesseractd;
 
 /*  text recognition (OCR) with tesseract
     you need this wrapper to run the example: https://github.com/aferust/tesseract-d-wrapper
-    
-    I could not test it on any OS other than Ubuntu.
-    Actually, I had linking problems with the tesseract on windows.
-    
 */    
 
 int main()
