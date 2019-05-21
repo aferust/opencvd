@@ -36,8 +36,8 @@ static void morphLinesTest(Mat src)
     // Create structure element for extracting horizontal lines through morphology operations
     Mat horizontalStructure = getStructuringElement(MORPH_RECT, Size(horizontalsize,1));
     // Apply morphology operations
-    erode(horizontal, horizontal, horizontalStructure, Point(-1, -1));
-    dilate(horizontal, horizontal, horizontalStructure, Point(-1, -1));
+    erode(horizontal, horizontal, horizontalStructure);
+    dilate(horizontal, horizontal, horizontalStructure);
     // Show extracted horizontal lines
     imshow("horizontal", horizontal);
     // Specify size on vertical axis
@@ -45,8 +45,8 @@ static void morphLinesTest(Mat src)
     // Create structure element for extracting vertical lines through morphology operations
     Mat verticalStructure = getStructuringElement(MORPH_RECT, Size( 1,verticalsize));
     // Apply morphology operations
-    erode(vertical, vertical, verticalStructure, Point(-1, -1));
-    dilate(vertical, vertical, verticalStructure, Point(-1, -1));
+    erode(vertical, vertical, verticalStructure);
+    dilate(vertical, vertical, verticalStructure);
     // Show extracted vertical lines
     imshow("vertical", vertical);
     // Inverse vertical image
