@@ -109,12 +109,12 @@ void SqBoxFilter(Mat src, Mat dst, int ddepth, Size ps) {
     cv::sqrBoxFilter(*src, *dst, ddepth, sz);
 }
 
-void Dilate(Mat src, Mat dst, Mat kernel) {
-    cv::dilate(*src, *dst, *kernel);
+void Dilate(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
+    cv::dilate(*src, *dst, *kernel, cv::Point(anchor.x,anchor.y), iterations);
 }
 
-void Erode(Mat src, Mat dst, Mat kernel) {
-    cv::erode(*src, *dst, *kernel);
+void Erode(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
+    cv::erode(*src, *dst, *kernel, cv::Point(anchor.x,anchor.y), iterations);
 }
 
 void MatchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask) {
