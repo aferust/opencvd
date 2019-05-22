@@ -52,7 +52,9 @@ private extern (C){
     void BoxFilter(Mat src, Mat dst, int ddepth, Size ps);
     void SqBoxFilter(Mat src, Mat dst, int ddepth, Size ps);
     void Dilate(Mat src, Mat dst, Mat kernel);
+    void Dilate2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
     void Erode(Mat src, Mat dst, Mat kernel);
+    void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
     void MatchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask);
     Moment Moments(Mat src, bool binaryImage);
     void PyrDown(Mat src, Mat dst, Size dstsize, int borderType);
@@ -279,8 +281,16 @@ void dilate(Mat src, Mat dst, Mat kernel){
     Dilate(src, dst, kernel);
 }
 
+void dilate(Mat src, Mat dst, Mat kernel, Point anchor=Point(-1,-1), int iterations=1){
+    Dilate2(src, dst, kernel, anchor, iterations);
+}
+
 void erode(Mat src, Mat dst, Mat kernel){
     Erode(src, dst, kernel);
+}
+
+void erode(Mat src, Mat dst, Mat kernel, Point anchor=Point(-1,-1), int iterations=1){
+    Erode2(src, dst, kernel, anchor, iterations);
 }
 
 void matchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask){
@@ -397,7 +407,7 @@ enum: int { // cv::MorphShapes
 }
 
 Mat getStructuringElement(int shape, Size ksize){
-    return getStructuringElement(shape, ksize);
+    return GetStructuringElement(shape, ksize);
 }
 
 Mat getStructuringElement(int shape, Size ksize, Point anchor){
@@ -512,6 +522,11 @@ enum: int {
     THRESH_MASK,
     THRESH_OTSU,
     THRESH_TRIANGLE
+}
+  
+enum: int {
+  ADAPTIVE_THRESH_MEAN_C =0,
+  ADAPTIVE_THRESH_GAUSSIAN_C =1
 }
 
 void threshold(Mat src, Mat dst, double thresh, double maxvalue, int typ){
