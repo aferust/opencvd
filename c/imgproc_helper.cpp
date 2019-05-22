@@ -655,3 +655,7 @@ void Dilate2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
 void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
     cv::erode(*src, *dst, *kernel, cv::Point(anchor.x,anchor.y), iterations);
 }
+
+double MinEnclosingTriangle(Mat points, Mat triangle){
+    return cv::minEnclosingTriangle(*points, *triangle);
+}

@@ -196,6 +196,8 @@ private extern (C){
     Size CLAHE_GetTilesGridSize(CLAHE c);
     void CLAHE_SetClipLimit(CLAHE c, double clipLimit);
     void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize);
+    
+    double MinEnclosingTriangle(Mat points, Mat triangle);
 }
 
 double arcLength(Point[] curve, bool is_closed){
@@ -1049,6 +1051,65 @@ void ellipse(Mat img, RotatedRect box, Scalar color, int thickness = 1, int line
 void pyrMeanShiftFiltering(Mat src, Mat dst, double sp, double sr, int maxLevel = 1,
         TermCriteria termcrit = TermCriteria(TermCriteria.MAX_ITER+TermCriteria.EPS, 5, 1)){
     PyrMeanShiftFiltering(src, dst, sp, sr, maxLevel, termcrit);
+}
+
+double minEnclosingTriangle(Mat points, Mat triangle){
+    return MinEnclosingTriangle(points, triangle);
+}
+
+double minEnclosingTriangle(Point[] points, ref Point2f[] triangle){
+    import opencvd.cvcore: Destroy;
+    
+    Mat srcmat = zeros(points.length.to!int, 1, CV_MAKETYPE(CV_32S, 2));
+    Mat dstmat = zeros(6, 1, CV_32F);
+    
+    scope(exit){
+        Destroy(srcmat);
+        Destroy(dstmat);
+    }
+    
+    foreach(int i; 0..points.length.to!int){
+        srcmat.set!int(i, 0, points[i].x);
+        srcmat.set!int(i, 1, points[i].y);
+    }
+    
+    
+    double retval = MinEnclosingTriangle(srcmat, dstmat);
+    
+    foreach(int i; 0..dstmat.rows){
+        float xx = dstmat.at!float(i, 0);
+        float yy = dstmat.at!float(i, 1);
+        triangle ~= Point2f(xx, yy);
+    }
+    
+    return retval;
+}
+
+double minEnclosingTriangle(Point2f[] points, ref Point2f[] triangle){
+    import opencvd.cvcore: Destroy;
+    
+    Mat srcmat = zeros(points.length.to!int, 1, CV_MAKETYPE(CV_32F, 2));
+    Mat dstmat = zeros(6, 1, CV_32F);
+    
+    scope(exit){
+        Destroy(srcmat);
+        Destroy(dstmat);
+    }
+    
+    foreach(int i; 0..points.length.to!int){
+        srcmat.set!float(i, 0, points[i].x);
+        srcmat.set!float(i, 1, points[i].y);
+    }
+    
+    double retval = MinEnclosingTriangle(srcmat, dstmat);
+    
+    foreach(int i; 0..dstmat.rows){
+        float xx = dstmat.at!float(i, 0);
+        float yy = dstmat.at!float(i, 1);
+        triangle ~= Point2f(xx, yy);
+    }
+    
+    return retval;
 }
 
 enum: int {

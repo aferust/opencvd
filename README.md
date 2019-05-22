@@ -2,7 +2,7 @@
 
 ## Unofficial OpenCV binding for D programming language
 This is an initial attempt to create an opencv binding for dlang. The C interface
-was taken from [gocv](https://github.com/hybridgroup/gocv), and the implementation
+was borrowed from [gocv](https://github.com/hybridgroup/gocv), and the implementation
 has been highly influenced by it.
 
 ## Disclaimer

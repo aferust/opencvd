@@ -119,6 +119,9 @@ void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize);
 void Dilate2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
 void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
 
+double MinEnclosingTriangle(Mat points, Mat triangle);
+
+
 #ifdef __cplusplus
 }
 #endif
