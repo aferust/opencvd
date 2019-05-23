@@ -195,9 +195,16 @@ int Mat_CV_MAKETYPE(int depth, int cn);
 
 #ifdef __cplusplus
 typedef cv::PCA* PCA;
+typedef cv::Range* Range;
 #else
 typedef void* PCA;
+typedef void* Range;
 #endif
+
+typedef struct RangeVector {
+    Range* ranges;
+    int length;
+} RangeVector;
 
 PCA PCA_New();
 PCA PCA_NewWithMaxComp(Mat data, Mat mean, int flags, int maxComponents);
@@ -220,6 +227,17 @@ double Kmeans2(Mat data, int K, Mat bestLabels,
 Mat Mat_RowRange1(Mat src, int startrow, int endrow);
 void Mat_Fill_Random(uint64_t state, Mat mat, int distType, Scalar a, Scalar b, bool saturateRange);
 void Mat_RandShuffle(uint64_t state, Mat dst, double iterFactor);
+
+Range Range_New();
+Range Range_NewWithParams(int _start, int _end);
+Range Range_All();
+bool Range_Empty(Range rng);
+int Range_Size(Range rng);
+int Range_GetStart(Range rng);
+int Range_GetEnd(Range rng);
+
+Mat Mat_FromRanges(Mat src, Range rowRange, Range colRange);
+Mat Mat_FromMultiRanges(Mat src, RangeVector rngs);
 
 #ifdef __cplusplus
 }

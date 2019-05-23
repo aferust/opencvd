@@ -676,6 +676,14 @@ struct Mat {
         return Mat_FromFloatVector(FloatVector(data.ptr, data.length.to!int));
     }
     
+    Mat opCall(Range rowRange, Range colRange = Range.all()){
+        return Mat_FromRanges(this, rowRange, colRange);
+    }
+    
+    Mat opCall(Range[] ranges){
+        return Mat_FromMultiRanges(this, RangeVector(ranges.ptr, ranges.length.to!int));
+    }
+    
     Mat row(int y){
         return Mat_HeaderFromRow(this, y);
     }
@@ -1115,6 +1123,8 @@ private extern (C) {
     Mat Mat_HeaderFromRow(Mat src, int y);
     Mat Mat_HeaderFromCol(Mat src, int x);
     Mat Mat_RowRange1(Mat src, int startrow, int endrow);
+    Mat Mat_FromRanges(Mat src, Range rowRange, Range colRange);
+    Mat Mat_FromMultiRanges(Mat src, RangeVector rngs);
     Mat Mat_FromContour(Contour points);
     ubyte* Mat_RowPtr(Mat m, int i);
     ubyte* Mat_RowPtr2(Mat m, int row, int col);
@@ -1330,6 +1340,14 @@ private extern (C) {
         TermCriteria criteria, int attempts, int flags, Point2fs* centers);
     void Mat_Fill_Random(uint64_t state, Mat mat, int distType, Scalar a, Scalar b, bool saturateRange);
     void Mat_RandShuffle(uint64_t state, Mat dst, double iterFactor);
+    
+    Range Range_New();
+    Range Range_NewWithParams(int _start, int _end);
+    Range Range_All();
+    bool Range_Empty(Range rng);
+    int Range_Size(Range rng);
+    int Range_GetStart(Range rng);
+    int Range_GetEnd(Range rng);
 }
 
 
@@ -2048,4 +2066,41 @@ void fillRandom(uint64_t state, Mat mat, int distType, Scalar a, Scalar b, bool 
 
 void randShuffle(uint64_t state, Mat dst, double iterFactor=1.0){
     Mat_RandShuffle(state, dst, iterFactor);
+}
+
+struct Range {
+    void* p;
+    
+    static Range opCall(){
+        return Range_New();
+    }
+    
+    static Range opCall(int _start, int _end){
+        return Range_NewWithParams(_start, _end);
+    }
+    
+    static Range all(){
+        return Range_All();
+    }
+    
+    bool empty(){
+        return Range_Empty(this);
+    }
+    
+    int size(){
+        return Range_Size(this);
+    }
+    
+    int start(){
+        return Range_GetStart(this);
+    } 
+     
+    int end(){
+        return Range_GetEnd(this);
+    }
+}
+
+struct RangeVector {
+    Range* ranges;
+    int length;
 }

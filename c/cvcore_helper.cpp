@@ -424,3 +424,52 @@ void Mat_RandShuffle(uint64_t state, Mat dst, double iterFactor){
     cv::RNG rng(state);
     cv::randShuffle(*dst, iterFactor, &rng);
 }
+
+Range Range_New(){
+    return new cv::Range();
+}
+
+Range Range_NewWithParams(int _start, int _end){
+    return new cv::Range(_start, _end);
+}
+
+Range Range_All(){
+    return new cv::Range(cv::Range::all());
+}
+bool Range_Empty(Range rng){
+    return rng->empty();
+}
+
+int Range_Size(Range rng){
+    return rng->size();
+}
+
+int Range_GetStart(Range rng){
+    return rng->start;
+}
+
+int Range_GetEnd(Range rng){
+    return rng->end;
+}
+
+Mat Mat_FromRanges(Mat src, Range rowRange, Range colRange){
+    int st1 = Range_GetStart(rowRange);
+    int en1 = Range_GetEnd(rowRange);
+    int st2 = Range_GetStart(colRange);
+    int en2 = Range_GetEnd(colRange);
+    return new cv::Mat(*src, cv::Range(st1, en1), cv::Range(st2, en2));
+}
+
+Mat Mat_FromMultiRanges(Mat src, RangeVector rngs){
+    
+    std::vector<cv::Range> ranges;
+    
+    for(int i = 0; i < rngs.length; i++){
+        Range r = rngs.ranges[i];
+        int st = Range_GetStart(r);
+        int en = Range_GetEnd(r);
+        ranges.push_back(cv::Range(st, en));
+    }
+    
+    return new cv::Mat(*src, ranges);
+}
