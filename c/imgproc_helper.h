@@ -120,7 +120,7 @@ void Dilate2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
 void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
 
 double MinEnclosingTriangle(Mat points, Mat triangle);
-
+double CompareHist(Mat H1, Mat H2, int method);
 
 #ifdef __cplusplus
 }

@@ -198,6 +198,7 @@ private extern (C){
     void CLAHE_SetTilesGridSize (CLAHE c, Size tileGridSize);
     
     double MinEnclosingTriangle(Mat points, Mat triangle);
+    double CompareHist(Mat H1, Mat H2, int method);
 }
 
 double arcLength(Point[] curve, bool is_closed){
@@ -1115,6 +1116,20 @@ double minEnclosingTriangle(Point2f[] points, ref Point2f[] triangle){
     }
     
     return retval;
+}
+
+enum: int { // cv::HistCompMethods 
+    HISTCMP_CORREL = 0, 
+    HISTCMP_CHISQR = 1, 
+    HISTCMP_INTERSECT = 2, 
+    HISTCMP_BHATTACHARYYA = 3, 
+    HISTCMP_HELLINGER = HISTCMP_BHATTACHARYYA, 
+    HISTCMP_CHISQR_ALT = 4, 
+    HISTCMP_KL_DIV = 5 
+}
+
+double compareHist(Mat H1, Mat H2, int method){
+    return CompareHist(H1, H2, method);
 }
 
 enum: int {

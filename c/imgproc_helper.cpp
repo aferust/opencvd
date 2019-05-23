@@ -659,3 +659,7 @@ void Erode2(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
 double MinEnclosingTriangle(Mat points, Mat triangle){
     return cv::minEnclosingTriangle(*points, *triangle);
 }
+
+double CompareHist(Mat H1, Mat H2, int method){
+    return cv::compareHist(*H1, *H2, method);
+}
