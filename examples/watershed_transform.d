@@ -95,7 +95,7 @@ int main() {
         Point2f center;
         float radius;
         minEnclosingCircle(contours2[i], &center, &radius);
-        circle(input, center.asInt, round(radius).to!int, Scalar(0,255,0), 3);
+        circle(input, center.asInt, round(radius).to!int + erosion_size, Scalar(0,255,0), 3);
     }
     
     imshow("result", input);
@@ -111,6 +111,8 @@ Mat imOpen(Mat src) // Morphological Opening
                       
     erode( src, erosion_dst, element );
     dilate( erosion_dst, dilation_dst, element );
+    
+    Destroy(erosion_dst);
     
     return dilation_dst;
 }
