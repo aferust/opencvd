@@ -43,5 +43,6 @@ public {
     import opencvd.contrib.xfeatures2d;
     import opencvd.contrib.imghash;
     import opencvd.contrib.face;
+    import opencvd.contrib.ximgproc;
 
 }
