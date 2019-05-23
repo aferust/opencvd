@@ -234,7 +234,7 @@ void main()
     
     Destroy(img);
     
-    auto mt = Mat(20, 20, CV8U);
+    auto mt = Mat(20, 20, CV_8U);
     
     mt[2, 3] = Color(5,6,7,255);
     mt[2, 3].writeln;
@@ -245,7 +245,7 @@ void main()
                     1, 1, 1
     ];
     
-    Mat mymat = Mat(4, 3, CV8U, data.ptr);
+    Mat mymat = Mat(4, 3, CV_8U, data.ptr);
     
     mymat = mymat * 2;
     mymat = mymat + 3;
