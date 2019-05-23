@@ -1060,8 +1060,11 @@ double minEnclosingTriangle(Mat points, Mat triangle){
 double minEnclosingTriangle(Point[] points, ref Point2f[] triangle){
     import opencvd.cvcore: Destroy;
     
-    Mat srcmat = zeros(points.length.to!int, 1, CV_MAKETYPE(CV_32S, 2));
-    Mat dstmat = zeros(6, 1, CV_32F);
+    const int cv32f2 = CV_MAKETYPE(CV_32F, 2);
+    const int cv32s2 = CV_MAKETYPE(CV_32S, 2);
+    
+    Mat srcmat = zeros(points.length.to!int, 1, cv32s2);
+    Mat dstmat = zeros(6, 1, cv32f2);
     
     scope(exit){
         Destroy(srcmat);
@@ -1088,8 +1091,10 @@ double minEnclosingTriangle(Point[] points, ref Point2f[] triangle){
 double minEnclosingTriangle(Point2f[] points, ref Point2f[] triangle){
     import opencvd.cvcore: Destroy;
     
-    Mat srcmat = zeros(points.length.to!int, 1, CV_MAKETYPE(CV_32F, 2));
-    Mat dstmat = zeros(6, 1, CV_32F);
+    const int cv32f2 = CV_MAKETYPE(CV_32F, 2);
+    
+    Mat srcmat = zeros(points.length.to!int, 1, cv32f2);
+    Mat dstmat = zeros(6, 1, cv32f2);
     
     scope(exit){
         Destroy(srcmat);
