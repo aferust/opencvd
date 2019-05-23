@@ -38,6 +38,7 @@ public {
     import opencvd.photo;
     import opencvd.stitching;
     import opencvd.ml;
+    import opencvd.dnn;
     
     import opencvd.contrib.xfeatures2d;
     import opencvd.contrib.imghash;
