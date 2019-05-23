@@ -628,6 +628,18 @@ struct Mat {
     Scalar mean() {return Mat_Mean(this);}
     Mat sqrt() {return Mat_Sqrt(this);}
     
+    bool isContinuous(){
+        return Mat_IsContinuous(this);
+    }
+    
+    bool isSubmatrix(){
+        return Mat_IsSubmatrix(this);
+    }
+    
+    void locateROI(Size* wholeSize, Point* ofs){
+        Mat_LocateROI(this, wholeSize, ofs);
+    }
+    
     Mat opCall(Rect r){
         return matFromRect(this, r);
     }
@@ -1138,6 +1150,9 @@ private extern (C) {
     int Mat_Step(Mat m);
     int Mat_Dims(Mat m);
     int Mat_SizeFromInd(Mat m, int i);
+    bool Mat_IsContinuous(Mat src);
+    bool Mat_IsSubmatrix(Mat src);
+    void Mat_LocateROI(Mat src, Size* wholeSize, Point* ofs);
     
     char* _type2str(int type);
 

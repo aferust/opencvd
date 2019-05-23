@@ -239,6 +239,10 @@ int Range_GetEnd(Range rng);
 Mat Mat_FromRanges(Mat src, Range rowRange, Range colRange);
 Mat Mat_FromMultiRanges(Mat src, RangeVector rngs);
 
+bool Mat_IsContinuous(Mat src);
+bool Mat_IsSubmatrix(Mat src);
+void Mat_LocateROI(Mat src, Size* wholeSize, Point* ofs);
+
 #ifdef __cplusplus
 }
 #endif

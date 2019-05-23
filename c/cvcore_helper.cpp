@@ -473,3 +473,22 @@ Mat Mat_FromMultiRanges(Mat src, RangeVector rngs){
     
     return new cv::Mat(*src, ranges);
 }
+
+bool Mat_IsContinuous(Mat src){
+    return src->isContinuous();
+}
+
+bool Mat_IsSubmatrix(Mat src){
+    return src->isSubmatrix();
+}
+
+
+void Mat_LocateROI(Mat src, Size* wholeSize, Point* ofs){
+    cv::Size sz;
+    cv::Point p;
+    src->locateROI(sz, p);
+    wholeSize->height = sz.height;
+    wholeSize->width = sz.width;
+    ofs->x = p.x;
+    ofs->y = p.y;
+}
