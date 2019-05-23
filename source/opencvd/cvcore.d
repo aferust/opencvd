@@ -1319,7 +1319,7 @@ private extern (C) {
     Mat Mat_OnesFromRC(int rows, int cols, int type);
     Mat Mat_OnesFromSize(Size sz, int type);
     
-    double Mat_Dot(Mat m1, Mat m2); // TODO: implement operator overload
+    double Mat_Dot(Mat m1, Mat m2);
     Mat Mat_Diag(Mat src, int d);
     Mat Mat_EyeFromRC(int rows, int cols, int type);
     
