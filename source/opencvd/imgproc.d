@@ -225,7 +225,7 @@ void calcHist(Mats mats, int[] chans, Mat mask, Mat hist, IntVector sz, FloatVec
 }
 
 void calcHist(Mat images, int nimages, int[] channels,
-            Mat mask, Mat hist, int dims, int[] histSize, float[][2] _ranges, bool uniform = true, bool accumulate = false){
+            Mat mask, Mat hist, int dims, int[] histSize, float[][] _ranges, bool uniform = true, bool accumulate = false){
     
     float** __ranges = cast(float**)malloc(channels.length*(float*).sizeof);
     
