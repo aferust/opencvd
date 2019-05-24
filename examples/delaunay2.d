@@ -7,7 +7,6 @@ import std.conv;
 import opencvd;
 
 // https://github.com/opencv/opencv/blob/master/samples/cpp/delaunay2.cpp
-// tested and working!
 
 static void draw_subdiv_point( Mat img, Point2f fp, Scalar color )
 {

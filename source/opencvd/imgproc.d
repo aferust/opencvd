@@ -159,8 +159,8 @@ private extern (C){
     void Subdiv2D_InsertMultiple(Subdiv2D sd, Point2fs ptvec);
     Vec6fs Subdiv2D_GetTriangleList(Subdiv2D sd);
     Point2fss Subdiv2D_GetVoronoiFacetList(Subdiv2D sd, IntVector idx, Point2fs* faceCenters);
-    int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt);
-    int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt);
+    int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f* orgpt);
+    int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f* dstpt);
     int Subdiv2D_NextEdge(Subdiv2D sd, int edge);
     int Subdiv2D_RotateEdge(Subdiv2D sd, int edge, int rotate);
     int Subdiv2D_SymEdge(Subdiv2D sd, int edge);
@@ -854,16 +854,12 @@ struct Subdiv2D {
     static int PREV_AROUND_RIGHT = 0x02;
     
     int edgeOrg(int edge, ref Point2f orgpt){
-        Point2f *pt;
-        int retVal = Subdiv2D_EdgeOrg(this, edge, &pt);
-        orgpt = *pt;
+        int retVal = Subdiv2D_EdgeOrg(this, edge, &orgpt);
         return retVal;
     }
     
     int edgeDst(int edge, ref Point2f dstpt){
-        Point2f *pt;
-        int retVal = Subdiv2D_EdgeDst(this, edge, &pt);
-        dstpt = *pt;
+        int retVal = Subdiv2D_EdgeDst(this, edge, &dstpt);
         return retVal;
     }
     

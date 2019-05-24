@@ -343,19 +343,19 @@ int Subdiv2D_Locate(Subdiv2D sd, Point2f _pt, int &edge, int &vertex){
     return sd->locate(pt, edge, vertex);
 }
 
-int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f** orgpt){
+int Subdiv2D_EdgeOrg(Subdiv2D sd, int edge, Point2f* orgpt){
     cv::Point2f op;
     int retInt = sd->edgeOrg(edge, &op);
-    Point2f opp = {op.x, op.y};
-    *orgpt = &opp;
+    orgpt->x = op.x;
+    orgpt->y = op.y;
     return retInt;
 }
 
-int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f** dstpt){
+int Subdiv2D_EdgeDst(Subdiv2D sd, int edge, Point2f* dstpt){
     cv::Point2f op;
     int retInt = sd->edgeDst(edge, &op);
-    Point2f opp = {op.x, op.y};
-    *dstpt = &opp;
+    dstpt->x = op.x;
+    dstpt->y = op.y;
     return retInt;
 }
 
@@ -375,12 +375,12 @@ int Subdiv2D_SymEdge(Subdiv2D sd, int edge){
     return sd->symEdge(edge);
 }
 
-int Subdiv2D_FindNearest(Subdiv2D sd, Point2f pt, Point2f** _nearestPt){
+int Subdiv2D_FindNearest(Subdiv2D sd, Point2f pt, Point2f* _nearestPt){
     cv::Point2f p = {pt.x, pt.y};
     cv::Point2f np;
     int retInt = sd->findNearest(p, &np);
-    Point2f rp = {np.x, np.y};
-    *_nearestPt = &rp;
+    _nearestPt->x = np.x;
+    _nearestPt->y = np.y;
     return retInt;
 }
 
