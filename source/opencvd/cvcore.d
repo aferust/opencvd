@@ -454,50 +454,51 @@ alias Contour = Points;
 
 Point[] asInt(Point2f[] ip){
     
-    Point[] ret;
+    Point[] ret; ret.length = ip.length;
     foreach(j; 0..ip.length){
         Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
-        ret ~= p;
+        ret[j] = p;
     }
     return ret;
 }
 
 Point[][] asInt(Point2f[][] pts){
     
-    Point[][] ret;
+    Point[][] ret; ret.length = pts.length;
     foreach(i; 0..pts.length){
-        Point[] iip;
         Point2f[] ip = pts[i];
+        Point[] iip; iip.length = ip.length;
         foreach(j; 0..ip.length){
             Point p = Point(ip[j].x.to!int, ip[j].y.to!int);
-            iip ~= p;
+            iip[j] = p;
         }
-        ret ~= iip;
+        ret[i] = iip;
     }
     return ret;
 }
 
 Point2f[] asFloat(Point[] ip){
     
-    Point2f[] ret;
+    Point2f[] ret; ret.length = ip.length;
     foreach(j; 0..ip.length){
         Point2f p = Point2f(ip[j].x.to!float, ip[j].y.to!float);
-        ret ~= p;
+        ret[j] = p;
     }
     return ret;
 }
 
 Point2f[][] asFloat(Point[][] pts){
     
-    Point2f[][] ret;
+    Point2f[][] ret; ret.length = pts.length;
     foreach(i; 0..pts.length){
         Point2f[] iip;
         Point[] ip = pts[i];
+        iip.length = ip.length;
         foreach(j; 0..ip.length){
             Point2f p = Point2f(ip[j].x.to!float, ip[j].y.to!float);
-            iip ~= p;
+            iip[j] = p;
         }
-        ret ~= iip;
+        ret[i] = iip;
     }
     return ret;
 }
@@ -1866,10 +1867,11 @@ void perspectiveTransform(Point2f[] src, ref Point2f[] dst, Mat tm){
     
     Mat_PerspectiveTransform(srcmat, dstmat, tm);
     
+    dst.length = dstmat.rows.to!size_t; 
     foreach(int i; 0..dstmat.rows){
         float xx = dstmat.at!float(i, 0);
         float yy = dstmat.at!float(i, 1);
-        dst ~= Point2f(xx, yy);
+        dst[i] = Point2f(xx, yy);
     }
     
     Destroy(srcmat);

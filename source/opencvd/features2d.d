@@ -305,11 +305,11 @@ struct BFMatcher {
         
         MultiDMatches mdms = BFMatcher_KnnMatch(this, query, train, k);
         
-        DMatch[][] ret;
+        DMatch[][] ret; ret.length = mdms.length;
         foreach(i; 0..mdms.length){
             DMatches ds = mdms.dmatches[i];
             DMatch[] dmats = ds.dmatches[0..ds.length].dup;
-            ret ~= dmats;
+            ret[i] = dmats;
         }
         MultiDMatches_Close(mdms);
         return ret;
@@ -344,11 +344,11 @@ struct FlannBasedMatcher {
         
         MultiDMatches mdms = FlannBasedMatcher_KnnMatch(this, queryDescriptors, trainDescriptors, k, mask, compactResult);
         
-        DMatch[][] ret;
+        DMatch[][] ret; ret.length = mdms.length;
         foreach(i; 0..mdms.length){
             DMatches ds = mdms.dmatches[i];
             DMatch[] dmats = ds.dmatches[0..ds.length].dup;
-            ret ~= dmats;
+            ret[i] = dmats;
         }
         MultiDMatches_Close(mdms);
         return ret;

@@ -353,11 +353,11 @@ enum: int {
 
 Point[][] findContours(Mat src, int mode, int method){
     Contours cnts = FindContours(src, mode, method);
-    Point[][] dcnts;
+    Point[][] dcnts; dcnts.length = cnts.length;
     foreach(i; 0..cnts.length){
         Points pts = cnts.contours[i];
         Point[] dpts = pts.points[0..pts.length].dup;
-        dcnts ~= dpts;
+        dcnts[i] = dpts;
     }
     Contours_Close(cnts);
     return dcnts;
@@ -370,13 +370,13 @@ Tuple!(Point[][], Scalar[]) findContoursWithHier(Mat src, int mode, int method){
     Scalar[] hier = chier.scalars[0..chier.length].dup;
     free(chier.scalars);
     
-    Point[][] rc;
+    Point[][] rc; rc.length = cntrs.length;
     
     foreach(i; 0..cntrs.length){
         Contour cp = cntrs.contours[i];
         Point[] dp = cp.points[0..cp.length].dup;
         free(cp.points);
-        rc ~= dp;
+        rc[i] = dp;
     }
     free(cntrs.contours);
     return tuple(rc, hier);
@@ -832,12 +832,12 @@ struct Subdiv2D {
        
        Point2f[] faceCenters = _faceCenters.points[0.._faceCenters.length].dup;
        free(_faceCenters.points);
-       Point2f[][] retFL;
+       Point2f[][] retFL; retFL.length = _facetList.length;
        for(size_t i = 0; i < _facetList.length; i++){
            Point2fs fl = _facetList.point2fss[i];
            Point2f[] point2fs = fl.points[0..fl.length].dup;
            free(fl.points);
-           retFL ~= point2fs;
+           retFL[i] = point2fs;
        }
        free(_facetList.point2fss);
        return tuple(retFL, faceCenters);
@@ -1076,10 +1076,11 @@ double minEnclosingTriangle(Point[] points, ref Point2f[] triangle){
     
     double retval = MinEnclosingTriangle(srcmat, dstmat);
     
+    triangle.length = dstmat.rows.to!size_t;
     foreach(int i; 0..dstmat.rows){
         float xx = dstmat.at!float(i, 0);
         float yy = dstmat.at!float(i, 1);
-        triangle ~= Point2f(xx, yy);
+        triangle[i] = Point2f(xx, yy);
     }
     
     return retval;
@@ -1105,10 +1106,11 @@ double minEnclosingTriangle(Point2f[] points, ref Point2f[] triangle){
     
     double retval = MinEnclosingTriangle(srcmat, dstmat);
     
+    triangle.length = dstmat.rows.to!size_t;
     foreach(int i; 0..dstmat.rows){
         float xx = dstmat.at!float(i, 0);
         float yy = dstmat.at!float(i, 1);
-        triangle ~= Point2f(xx, yy);
+        triangle[i] = Point2f(xx, yy);
     }
     
     return retval;
