@@ -283,8 +283,8 @@ Scalar Mat_ColorAt(Mat src, int row, int col){
 }
 
 void Mat_SetColorAt(Mat src, Scalar color, int row, int col){
-    cv::Scalar c_value(color.val1, color.val2, color.val3, color.val4);
-    src->at<cv::Vec4b>(row, col) = c_value;
+    cv::Vec3b c_value(color.val1, color.val2, color.val3);
+    src->at<cv::Vec3b>(row, col) = c_value;
 }
 
 void Mat_MultiplyDouble(Mat m, double val) {

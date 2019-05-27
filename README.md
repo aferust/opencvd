@@ -185,6 +185,8 @@ void main()
     auto roi = Rect(0, 0, 100, 200 );
     Mat subIm2 = img(roi); // no copy, just new Mat header to windowed data
     
+    img[200..$-50, 50..200] = Scalar.all(255);
+    
     ubyte[] my_ubyte_array = img.array!ubyte; // access flat array of Mat as ubyte
     // my_ubyte_array.writeln;
     

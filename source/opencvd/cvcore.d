@@ -731,6 +731,12 @@ struct Mat {
         return Mat_FromRanges(this, ranges[0], ranges[1]);
     }
     
+    Mat opIndexAssign(A...)(Scalar value, A arguments){
+        Mat subMatrix = opIndex(arguments);
+        subMatrix = value;
+        return subMatrix;
+    }
+    
     Mat opCall(Range[] ranges){
         return Mat_FromMultiRanges(this, RangeVector(ranges.ptr, ranges.length.to!int));
     }
@@ -911,6 +917,8 @@ struct Mat {
     
     /* Setters */
     void opIndexAssign(Scalar color, int row, int col){
+        // This has some problems when the Mat is single-channelled
+        // TODO: find a more generic approach working for both 1 and 3 channel Mats
         Mat_SetColorAt(this, color, row, col);
     }
     
