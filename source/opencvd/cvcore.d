@@ -917,12 +917,16 @@ struct Mat {
     
     /* Setters */
     void opIndexAssign(Scalar color, int row, int col){
-        // This has some problems when the Mat is single-channelled
-        // TODO: find a more generic approach working for both 1 and 3 channel Mats
-        Mat_SetColorAt(this, color, row, col);
+        setColorAt(color, row, col);
+    }
+    
+    void opIndexAssign(T)(T val, int row, int col){
+        assert(this.channels == 1, "This is only allowed for single-channel Mat types!");
+        this.set!T(row, col, cast(T)val);
     }
     
     void setColorAt(Scalar color, int row, int col){
+        assert(this.channels > 1, "Color assignment is only allowed for multi-channel Mat types!");
         Mat_SetColorAt(this, color, row, col);
     }
     

@@ -79,7 +79,7 @@ int main() {
         foreach(int j; 0..markers.cols){
             //labels ~= markers.getIntAt(i,j);
             if ((markers.getIntAt(i,j) != 255) && (markers.getIntAt(i,j) != -1)){
-                sheds.setUCharAt(i,j,255);
+                sheds[i,j] = ubyte(255);
             }
         }
     //labels.length -= labels.sort.uniq().copy(labels).length;

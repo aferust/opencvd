@@ -197,7 +197,8 @@ void main()
     
     Color color = img.at(20, 62); // or img[20, 62];
     
-    img.setColorAt(Color(25, 26, 27), 150, 150); // or img[150, 150] = Color(25, 26, 27);
+    img[20, 20] = Color(25, 26, 27); // assign like this if it is a 3 channel mat
+    // img[20, 20] = ubyte(255); // assign like this if it is a single-channel mat
     
     namedWindow("res", 0);
     Mat imres = Mat();
