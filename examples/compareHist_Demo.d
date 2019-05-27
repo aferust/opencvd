@@ -25,7 +25,7 @@ int main( )
     cvtColor( src_test1, hsv_test1, COLOR_BGR2HSV );
     cvtColor( src_test2, hsv_test2, COLOR_BGR2HSV );
 
-    hsv_half_down = hsv_base( Range( hsv_base.rows/2, hsv_base.rows - 1 ), Range( 0, hsv_base.cols - 1 ) );
+    hsv_half_down = hsv_base[hsv_base.rows/2 .. hsv_base.rows - 1, 0 .. hsv_base.cols - 1]; // multidim slicing
 
     /// Using 50 bins for hue and 60 for saturation
     int h_bins = 50; int s_bins = 60;

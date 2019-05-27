@@ -180,6 +180,11 @@ void main()
 {
     Mat img = imread("test.png", 0);
     
+    Mat subIm1 = img[0..$, 200..300]; // no copy, just new Mat header to windowed data
+    
+    auto roi = Rect(0, 0, 100, 200 );
+    Mat subIm2 = img(roi); // no copy, just new Mat header to windowed data
+    
     ubyte[] my_ubyte_array = img.array!ubyte; // access flat array of Mat as ubyte
     // my_ubyte_array.writeln;
     

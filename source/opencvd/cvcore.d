@@ -693,6 +693,44 @@ struct Mat {
         return Mat_FromRanges(this, rowRange, colRange);
     }
     
+    int opDollar(int dimension)() {
+        static if (dimension == 0) {
+            return this.rows;
+
+        } else static if (dimension == 1){
+            return this.cols;
+        }
+    }
+    
+    Range opSlice(size_t dimension)(int start, int end){
+        return Range(start, end);
+    }
+    
+    /* syntactic sugar for Mat slicing
+     * Based on: http://ddili.org/ders/d.en/templates_more.html
+     * Mat m = img[0..$-50, 50 .. 200];
+    */
+    Mat opIndex(A...)(A arguments){
+        Range rowRange = Range(0, this.rows);
+        Range colRange = Range(0, this.cols);
+        
+        Range[2] ranges = [rowRange, colRange];
+        
+        foreach (dimension, a; arguments) {
+            static if (is (typeof(a) == Range)) {
+                ranges[dimension] = a;
+            } else
+            static if (is (typeof(a) : int) || is (typeof(a) : size_t)) {
+                ranges[dimension] = Range(a, a + 1);
+            }
+            else {
+                static assert( false, "Invalid index type!");
+            }
+        }
+        
+        return Mat_FromRanges(this, ranges[0], ranges[1]);
+    }
+    
     Mat opCall(Range[] ranges){
         return Mat_FromMultiRanges(this, RangeVector(ranges.ptr, ranges.length.to!int));
     }
