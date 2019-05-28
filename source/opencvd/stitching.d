@@ -37,13 +37,18 @@ private extern (C) {
 struct Stitcher {
     void* p;
     
-    static int PANORAMA = 0;
-    static int SCANS = 1;
+    enum: int{
+        PANORAMA = 0,
+        SCANS = 1
+    }
     
-    static int OK = 0;
-    static int ERR_NEED_MORE_IMGS = 1;
-    static int ERR_HOMOGRAPHY_EST_FAIL = 2;
-    static int ERR_CAMERA_PARAMS_ADJUST_FAIL = 3;
+    enum: int{
+        OK = 0,
+        ERR_NEED_MORE_IMGS = 1,
+        ERR_HOMOGRAPHY_EST_FAIL = 2,
+        ERR_CAMERA_PARAMS_ADJUST_FAIL = 3
+    }
+    
     
     
     static Stitcher create(int mode=Stitcher.PANORAMA){
