@@ -26,11 +26,11 @@ double getOrientation(Point[] pts, Mat img)
 {
     //Construct a buffer used by the pca analysis
     int sz = cast(int)(pts.length);
-    Mat data_pts = Mat(sz, 2, CV64F);
+    Mat data_pts = Mat(sz, 2, CV_64F);
     for (int i = 0; i < data_pts.rows; i++)
     {
-        data_pts.setDoubleAt(i, 0, pts[i].x.to!double);
-        data_pts.setDoubleAt(i, 1, pts[i].y.to!double);
+        data_pts[i, 0] = double(pts[i].x); // data_pts.setDoubleAt(i, 0, pts[i].x.to!double); 
+        data_pts[i, 1] = double(pts[i].y); // data_pts.setDoubleAt(i, 1, pts[i].y.to!double);
     }
     
     //Perform PCA analysis
