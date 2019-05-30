@@ -49,8 +49,6 @@ struct Stitcher {
         ERR_CAMERA_PARAMS_ADJUST_FAIL = 3
     }
     
-    
-    
     static Stitcher create(int mode=Stitcher.PANORAMA){
         return Stitcher_Create(mode);
     }
