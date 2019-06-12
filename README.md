@@ -45,7 +45,19 @@ Please take a look at examples folder to understand how it looks like and availa
 
 ## How to build
 ### Ubuntu - Raspbian
-First, you have to compile C/C++ interface files:
+First, compile opencv4 + opencv_contrib for your machine. Clone opencv and opencv_contrib repositories and execute:
+
+```
+cd <opencv_source_root>
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=RELEASE -DOPENCV_GENERATE_PKGCONFIG=YES -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules/ ..
+make -j4
+sudo make -j4 install
+sudo ldconfig
+```
+
+Then, you have to compile C/C++ interface files:
 ```
 cd opencvd/c && mkdir build
 cd build
