@@ -26,7 +26,7 @@
         "opencv_world410",
         "opencv_img_hash410",
         "opencvcapi",
-        "opencvcapi_contrib",
+        "opencvcapi_contrib"
     ],
     "configurations": [
         {
