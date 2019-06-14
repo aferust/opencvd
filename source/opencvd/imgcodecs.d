@@ -25,6 +25,7 @@ DEALINGS IN THE SOFTWARE.
 module opencvd.imgcodecs;
 
 import std.string;
+import std.conv;
 
 import opencvd.cvcore;
 
@@ -63,19 +64,21 @@ bool imwrite(string filename, Mat img){
     return Image_IMWrite(toStringz(filename), img);
 }
 
-bool imwriteWithParams(string filename, Mat img, IntVector params){
-    return Image_IMWrite_WithParams(toStringz(filename), img, params);
+bool imwrite(string filename, Mat img, int[] params){
+    return Image_IMWrite_WithParams(toStringz(filename), img, IntVector(params.ptr, params.length.to!int));
 }
 
-ByteArray imencode(string fileExt, Mat img){
-    return Image_IMEncode(toStringz(fileExt), img);
+ubyte[] imencode(string fileExt, Mat img){
+    ByteArray ba = Image_IMEncode(toStringz(fileExt), img);
+    return ba.data[0..ba.length];
 }
 
-ByteArray imencodeWithParams(string fileExt, Mat img, IntVector params){
-    return Image_IMEncode_WithParams(toStringz(fileExt), img, params);
+ubyte[] imencode(string fileExt, Mat img, int[] params){
+    ByteArray ba = Image_IMEncode_WithParams(toStringz(fileExt), img, IntVector(params.ptr, params.length.to!int));
+    return ba.data[0..ba.length];
 }
 
-Mat imdecode(ByteArray buf, int flags){
-    return Image_IMDecode(buf, flags);
+Mat imdecode(ubyte[] buf, int flags){
+    return Image_IMDecode(ByteArray(buf.ptr, buf.length.to!int), flags);
 }
 
