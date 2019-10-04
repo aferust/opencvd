@@ -6,12 +6,15 @@ was borrowed from [gocv](https://github.com/hybridgroup/gocv), and the implement
 has been highly influenced by it.
 
 ## Disclaimer
-I don't describe myself as the most brillant d programmer around. 
-Pull requests are welcome for growing and enhancing the binding. I am willing to add more
-contributors to the project. Let's make it a complete binding to opencv.
+I don't describe myself as the most brillant d programmer around.
+
+## Contributions
+* Found a bug or missing feature? open an issue or it is better you fix/wrap it and make a pull request.
+* If you think that some implementation would be rewritten in a more d-idiomatic way, please implement it and make a pull request.
+* I was super lazy to add @nogc attributes to the wrapper functions. I am planning doing it if I find some free time. If you know what you are exactly doing well, please go for it and make pull requests.
 
 ## Important note
-Please always use updated git repo (~master). The library on the dub repo only exists for increasing the visibility
+Please always use git repo (~master) which is up to date. The library on the dub repo only exists for increasing the visibility
 of the library.
 
 ## Requirements
