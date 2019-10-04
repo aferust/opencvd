@@ -582,17 +582,23 @@ void rectangle(Mat img, Point _pt1, Point _pt2, Scalar color, int thickness = 1,
     Rectangle2(img, _pt1, _pt2, color, thickness, lineType, shift);
 }
 
-void fillPoly(Mat img, Point[][] _points, Scalar color){
-    Points[] incpts = new Points[_points.length];
+void fillPoly(Mat img, Point[][] _points, Scalar color) @nogc nothrow {
+    Points* incpts = cast(Points*)malloc(_points.length*Points.sizeof);
+    scope(exit){
+        foreach(i; 0.._points.length)
+            free(incpts[i].points);
+        free(incpts);
+    }
+
     foreach(i; 0.._points.length){
-        Point[] inception = new Point[_points[i].length];
+        Point* inception = cast(Point*)malloc(_points[i].length*Point.sizeof);
         foreach(j; 0.._points[i].length){
             inception[j] = _points[i][j];
         }
         
-        incpts[i] = Points(inception.ptr, _points[i].length.to!int);
+        incpts[i] = Points(inception, cast(int)_points[i].length);
     }
-    Contours param = {incpts.ptr, _points.length.to!int};
+    auto param = Contours(incpts, cast(int)_points.length);
     FillPoly(img, param, color);
 }
 
@@ -943,7 +949,7 @@ void polylines(Mat img, Point[][] pts, bool isClosed, Scalar color,
             free(incpts[i].points);
         free(incpts);
     }
-    
+
     foreach(i; 0..pts.length){
         Point* inception = cast(Point*)malloc(pts[i].length*Point.sizeof);
         foreach(j; 0..pts[i].length){
