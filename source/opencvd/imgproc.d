@@ -930,23 +930,29 @@ enum: int {
     CV_AA = 16
 }
 
-void polylines(Mat img, Point[] pts, bool isClosed, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0){
-    Polylines(img, Points(pts.ptr, pts.length.to!int), isClosed, color, thickness, lineType, shift);
+void polylines(Mat img, Point[] pts, bool isClosed, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0) @nogc nothrow {
+    Polylines(img, Points(pts.ptr, cast(int)pts.length), isClosed, color, thickness, lineType, shift);
 }
 
 void polylines(Mat img, Point[][] pts, bool isClosed, Scalar color,
-    int thickness = 1, int lineType = LINE_8, int shift = 0){
+    int thickness = 1, int lineType = LINE_8, int shift = 0) @nogc nothrow {
     
-    Points[] incpts = new Points[pts.length];
+    Points* incpts = cast(Points*)malloc(pts.length*Points.sizeof);
+    scope(exit){
+        foreach(i; 0..pts.length)
+            free(incpts[i].points);
+        free(incpts);
+    }
+    
     foreach(i; 0..pts.length){
-        Point[] inception = new Point[pts[i].length];
+        Point* inception = cast(Point*)malloc(pts[i].length*Point.sizeof);
         foreach(j; 0..pts[i].length){
             inception[j] = pts[i][j];
         }
         
-        incpts[i] = Points(inception.ptr, pts[i].length.to!int);
+        incpts[i] = Points(inception, cast(int)pts[i].length);
     }
-    Pointss param = {incpts.ptr, pts.length.to!int}; 
+    Pointss param = {incpts, cast(int)pts.length}; 
     Polylines2ss(img, param, isClosed, color, thickness, lineType, shift);
 }
 
