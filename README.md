@@ -11,7 +11,7 @@ I don't describe myself as the most brillant d programmer around.
 ## Contributions
 * Found a bug or missing feature? open an issue or it is better you fix/wrap it and make a pull request.
 * If you think that some implementation would be rewritten in a more d-idiomatic way, please implement it and make a pull request.
-* I was super lazy to add @nogc attributes to the wrapper functions. I am planning doing it if I find some free time. If you know what you are exactly doing well, please go for it and make pull requests.
+* There are some functions that makes GC allocations. I am planning to make it entirely GC-free. Pull requests are welcome for this also.
 
 ## Important note
 Please always use git repo (~master) which is up to date. The library on the dub repo only exists for increasing the visibility
