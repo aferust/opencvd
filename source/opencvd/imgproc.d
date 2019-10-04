@@ -33,7 +33,7 @@ import core.stdc.stdlib;
 
 import opencvd.cvcore;
 
-private extern (C){
+private extern (C) @nogc nothrow {
 
     double ArcLength(Contour curve, bool is_closed);
     Contour ApproxPolyDP(Contour curve, double epsilon, bool closed);
@@ -663,17 +663,23 @@ Mat getPerspectiveTransform(Point[] src, Point[] dst){
     return GetPerspectiveTransform(Contour(src.ptr, src.length.to!int), Contour(dst.ptr, dst.length.to!int));
 }
 
-void drawContours(Mat src, Point[][] contours, int contourIdx, Scalar color, int thickness){
-    Points[] incpts = new Points[contours.length];
+void drawContours(Mat src, Point[][] contours, int contourIdx, Scalar color, int thickness) @nogc nothrow {
+    Points* incpts = cast(Points*)malloc(contours.length*Points.sizeof);
+    scope(exit){
+        foreach(i; 0..contours.length)
+            free(incpts[i].points);
+        free(incpts);
+    }
+
     foreach(i; 0..contours.length){
-        Point[] inception = new Point[contours[i].length];
+        Point* inception = cast(Point*)malloc(contours[i].length*Point.sizeof);
         foreach(j; 0..contours[i].length){
             inception[j] = contours[i][j];
         }
         
-        incpts[i] = Points(inception.ptr, contours[i].length.to!int);
+        incpts[i] = Points(inception, cast(int)contours[i].length);
     }
-    Contours param = {incpts.ptr, contours.length.to!int};
+    Contours param = {incpts, cast(int)contours.length};
     DrawContours(src, param, contourIdx, color, thickness);
 }
 
@@ -687,19 +693,24 @@ void drawContours(
             Scalar[] hierarchy,
             int maxLevel,
             Point offset = Point(0,0)
-        ){
-    Points[] incpts = new Points[contours.length];
+        ) @nogc nothrow {
+    Points* incpts = cast(Points*)malloc(contours.length*Points.sizeof);
+    scope(exit){
+        foreach(i; 0..contours.length)
+            free(incpts[i].points);
+        free(incpts);
+    }
     foreach(i; 0..contours.length){
-        Point[] inception = new Point[contours[i].length];
+        Point* inception = cast(Point*)malloc(contours[i].length*Point.sizeof);
         foreach(j; 0..contours[i].length){
             inception[j] = contours[i][j];
         }
         
-        incpts[i] = Points(inception.ptr, contours[i].length.to!int);
+        incpts[i] = Points(inception, cast(int)contours[i].length);
     }
-    Contours param = {incpts.ptr, contours.length.to!int};
+    Contours param = {incpts, cast(int)contours.length};
     
-    Hierarchy chie = {hierarchy.ptr, hierarchy.length.to!int};
+    Hierarchy chie = {hierarchy.ptr, cast(int)hierarchy.length};
     
     DrawContours2(image, param, contourIdx, color, thickness, lineType, chie, maxLevel, offset);
 }
