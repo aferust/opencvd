@@ -29,7 +29,7 @@ import std.string;
 import opencvd.cvcore;
 
 // function pointers
-extern (C) {
+extern (C) @nogc nothrow {
     alias TrackbarCallback = void function(int, void*);
     alias MouseCallback = void function(int, int, int, int, void*);
 }
@@ -57,7 +57,7 @@ enum: int {
     EVENT_FLAG_SHIFTKEY  = 16,//!< indicates that SHIFT Key is pressed.
     EVENT_FLAG_ALTKEY    = 32 //!< indicates that ALT Key is pressed.
 }
-private extern (C){
+private extern (C) @nogc nothrow {
     // Window
     void Window_New(const char* winname, int flags);
     void Window_Close(const char* winname);
@@ -94,20 +94,20 @@ enum: int { // cv::WindowFlags
        WINDOW_GUI_NORMAL = 0x00000010, //!< old fashious way
 }
 
-void namedWindow(string winname, int flags = 0){
-    Window_New(toStringz(winname), flags);
+void namedWindow(string winname, int flags = 0) @nogc nothrow {
+    Window_New(winname.ptr, flags);
 }
 
-int waitKey(int val = 0){
+int waitKey(int val = 0) @nogc nothrow {
     return Window_WaitKey(val);
 }
 
-void destroyWindow(string winname){
-    Window_Close(toStringz(winname));
+void destroyWindow(string winname) @nogc nothrow {
+    Window_Close(winname.ptr);
 }
 
-void imshow(string winname, Mat mat){
-    Window_IMShow(toStringz(winname), mat);
+void imshow(string winname, Mat mat) @nogc nothrow {
+    Window_IMShow(winname.ptr, mat);
 }
 
 enum: int {
@@ -118,32 +118,32 @@ enum: int {
 }
 
 
-double getWindowProperty(string winname, int flag){
-    return Window_GetProperty(toStringz(winname), flag);
+double getWindowProperty(string winname, int flag) @nogc nothrow {
+    return Window_GetProperty(winname.ptr, flag);
 }
 
-void setWindowProperty(string winname, int flag, double value){
-    Window_SetProperty(toStringz(winname), flag, value);
+void setWindowProperty(string winname, int flag, double value) @nogc nothrow {
+    Window_SetProperty(winname.ptr, flag, value);
 }
 
-void setWindowTitle(string winname, string title){
-    Window_SetTitle(toStringz(winname), toStringz(title));
+void setWindowTitle(string winname, string title) @nogc nothrow {
+    Window_SetTitle(winname.ptr, title.ptr);
 }
 
-void moveWindow(string winname, int x, int y){
-    Window_Move(toStringz(winname), x, y);
+void moveWindow(string winname, int x, int y) @nogc nothrow {
+    Window_Move(winname.ptr, x, y);
 }
 
-void resizeWindow(string winname, int width, int height){
-    Window_Resize(toStringz(winname), width, height);
+void resizeWindow(string winname, int width, int height) @nogc nothrow {
+    Window_Resize(winname.ptr, width, height);
 }
 
-Rect selectROI(string winname, Mat img){
-    return Window_SelectROI(toStringz(winname), img);
+Rect selectROI(string winname, Mat img) @nogc nothrow {
+    return Window_SelectROI(winname.ptr, img);
 }
 
 Rects selectROIs(string winname, Mat img){
-    return Window_SelectROIs(toStringz(winname), img);
+    return Window_SelectROIs(winname.ptr, img);
 }
 
 struct TrackBar {
@@ -151,42 +151,42 @@ struct TrackBar {
 	string winname;
     int max;
     
-    this(string _name, string _winname, int _max){
+    this(string _name, string _winname, int _max) @nogc nothrow {
        name = _name;
        winname = _winname;
        max = _max;
        
-       Trackbar_Create(toStringz(winname), toStringz(name), _max);
+       Trackbar_Create(winname.ptr, name.ptr, _max);
     }
     
-    this(string _name, string _winname, int* value, int count, TrackbarCallback on_trackbar, void* userdata = null){
+    this(string _name, string _winname, int* value, int count, TrackbarCallback on_trackbar, void* userdata = null) @nogc nothrow {
         name = _name;
         winname = _winname;
         max = count;
-        Trackbar_CreateWithCallBack(toStringz(name), toStringz(winname), value, count, on_trackbar, userdata);
+        Trackbar_CreateWithCallBack(name.ptr, winname.ptr, value, count, on_trackbar, userdata);
     }
     
-    int getPos(){
-        return Trackbar_GetPos(toStringz(winname), toStringz(name));
+    int getPos() @nogc nothrow {
+        return Trackbar_GetPos(winname.ptr, name.ptr);
     }
     
-    void setPos(int pos){
-        Trackbar_SetPos(toStringz(winname), toStringz(name), pos);
+    void setPos(int pos) @nogc nothrow {
+        Trackbar_SetPos(winname.ptr, name.ptr, pos);
     }
     
-    void setMin(int pos){
-        Trackbar_SetMin(toStringz(winname), toStringz(name), pos);
+    void setMin(int pos) @nogc nothrow {
+        Trackbar_SetMin(winname.ptr, name.ptr, pos);
     }
     
-    void setMax(int pos){
-        Trackbar_SetMax(toStringz(winname), toStringz(name), pos);
+    void setMax(int pos) @nogc nothrow {
+        Trackbar_SetMax(winname.ptr, name.ptr, pos);
     }
 }
 
-void setMouseCallback(string winname, MouseCallback onMouse, void *userdata = null){
-    Win_setMouseCallback(toStringz(winname), onMouse, userdata);
+void setMouseCallback(string winname, MouseCallback onMouse, void *userdata = null) @nogc nothrow {
+    Win_setMouseCallback(winname.ptr, onMouse, userdata);
 }
 
-void createTrackbar(string trackname, string winname, int* value, int count, TrackbarCallback on_trackbar, void* userdata = null){
-    Trackbar_CreateWithCallBack(toStringz(trackname), toStringz(winname), value, count, on_trackbar, userdata);
+void createTrackbar(string trackname, string winname, int* value, int count, TrackbarCallback on_trackbar, void* userdata = null) @nogc nothrow {
+    Trackbar_CreateWithCallBack(trackname.ptr, winname.ptr, value, count, on_trackbar, userdata);
 }

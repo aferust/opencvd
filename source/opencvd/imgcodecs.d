@@ -25,12 +25,11 @@ DEALINGS IN THE SOFTWARE.
 module opencvd.imgcodecs;
 
 import std.string;
-import std.conv;
 
 import opencvd.cvcore;
 
 private {
-    extern (C){
+    extern (C) @nogc nothrow {
         Mat Image_IMRead(const char* filename, int flags);
         bool Image_IMWrite(const char* filename, Mat img);
         bool Image_IMWrite_WithParams(const char* filename, Mat img, IntVector params);
@@ -99,29 +98,29 @@ enum: int { // ImwritePNGFlags
     IMWRITE_PNG_STRATEGY_FIXED = 4 
 }
 
-Mat imread(string filename, int flags = IMREAD_UNCHANGED){
-    return Image_IMRead(toStringz(filename), flags);
+Mat imread(string filename, int flags = IMREAD_UNCHANGED) @nogc nothrow {
+    return Image_IMRead(filename.ptr, flags);
 }
 
-bool imwrite(string filename, Mat img){
-    return Image_IMWrite(toStringz(filename), img);
+bool imwrite(string filename, Mat img) @nogc nothrow {
+    return Image_IMWrite(filename.ptr, img);
 }
 
-bool imwrite(string filename, Mat img, int[] params){
-    return Image_IMWrite_WithParams(toStringz(filename), img, IntVector(params.ptr, params.length.to!int));
+bool imwrite(string filename, Mat img, int[] params) @nogc nothrow {
+    return Image_IMWrite_WithParams(filename.ptr, img, IntVector(params.ptr, cast(int)params.length));
 }
 
-ubyte[] imencode(string fileExt, Mat img){
-    ByteArray ba = Image_IMEncode(toStringz(fileExt), img);
+ubyte[] imencode(string fileExt, Mat img) @nogc nothrow {
+    ByteArray ba = Image_IMEncode(fileExt.ptr, img);
     return ba.data[0..ba.length];
 }
 
-ubyte[] imencode(string fileExt, Mat img, int[] params){
-    ByteArray ba = Image_IMEncode_WithParams(toStringz(fileExt), img, IntVector(params.ptr, params.length.to!int));
+ubyte[] imencode(string fileExt, Mat img, int[] params) @nogc nothrow {
+    ByteArray ba = Image_IMEncode_WithParams(fileExt.ptr, img, IntVector(params.ptr, cast(int)params.length));
     return ba.data[0..ba.length];
 }
 
-Mat imdecode(ubyte[] buf, int flags){
-    return Image_IMDecode(ByteArray(buf.ptr, buf.length.to!int), flags);
+Mat imdecode(ubyte[] buf, int flags) @nogc nothrow {
+    return Image_IMDecode(ByteArray(buf.ptr, cast(int)buf.length), flags);
 }
 
