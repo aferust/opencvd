@@ -13,10 +13,8 @@ I don't describe myself as the most brillant d programmer around.
 * If you think that some implementation would be rewritten in a more d-idiomatic way, please implement it and make a pull request.
 * There are some functions that makes GC allocations. Some of them can be easily made GC-free. Pull requests are welcome for this.
 
-## Ambiguous road map for the project about garbage collection
-GC provides comfort, but many developers don't want to use it for understandable reasons. With the current implementation of the
-project there are some GC allocations in intermediate code between D and C++ such as convexHullIdx which returns an int[].
-One solution can be using std.container.array (or any GC-free container) for this kind of situations leaving the responsibiliy for memory management to the user. However, I don't want to decide this alone. Please share your thoughts, recommendations, or PRs about this.
+## GC-free version
+* Experimental gc-free version [opencvdnogc](https://gitlab.com/aferust/opencvdnogc) can be found here.
 
 ## Important note
 Please always use git repo (~master) which is up to date. The library on the dub repo only exists for increasing the visibility
