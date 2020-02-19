@@ -58,11 +58,13 @@ struct Scalar {
     }
     
     double opIndex(int i){
-        return [val1, val2, val3, val4][i];
+        double[4] tmp = [val1, val2, val3, val4];
+        return tmp[i];
     }
     
     void opIndexAssign(double val, int i){
-        *[&val1, &val2, &val3, &val4][i] = val;
+        double*[4] tmp = [&val1, &val2, &val3, &val4];
+        *tmp[i] = val;
     }
     
     bool opEquals(Scalar b){
@@ -89,18 +91,20 @@ struct Vec4f {
     }
     
     float opIndex(int i){
-        return [val1, val2, val3, val4][i];
+        float[4] tmp = [val1, val2, val3, val4];
+        return tmp[i];
     }
     
     void opIndexAssign(float val, int i){
-        *[&val1, &val2, &val3, &val4][i] = val;
+        float*[4] tmp = [&val1, &val2, &val3, &val4];
+        *tmp[i] = val;
     }
 }
 
 struct Vec4fs {
     Vec4f* vec4fs;
     int length;
-    
+    // alias vec4fs this;// todo for all
     Vec4f opIndex(int i){
         return vec4fs[i];
     }
@@ -116,11 +120,13 @@ struct Vec3f {
     }
     
     float opIndex(int i){
-        return [val1, val2, val3][i];
+        float[3] tmp = [val1, val2, val3];
+        return tmp[i];
     }
     
     void opIndexAssign(float val, int i){
-        *[&val1, &val2, &val3][i] = val;
+        float*[3] tmp = [&val1, &val2, &val3];
+        *tmp[i] = val;
     }
 }
 
@@ -144,11 +150,13 @@ struct Vec4i {
     }
     
     int opIndex(int i){
-        return [val1, val2, val3, val4][i];
+        int[4] tmp = [val1, val2, val3, val4];
+        return tmp[i];
     }
     
     void opIndexAssign(int val, int i){
-        *[&val1, &val2, &val3, &val4][i] = val;
+        int*[4] tmp = [&val1, &val2, &val3, &val4];
+        *tmp[i] = val;
     }
 }
 
@@ -171,11 +179,13 @@ struct Vec3i {
     }
     
     int opIndex(int i){
-        return [val1, val2, val3][i];
+        int[3] tmp = [val1, val2, val3];
+        return tmp[i];
     }
     
     void opIndexAssign(int val, int i){
-        *[&val1, &val2, &val3][i] = val;
+        int*[3] tmp = [&val1, &val2, &val3];
+        *tmp[i] = val;
     }
 }
 
@@ -197,11 +207,13 @@ struct Vec2f {
     }
     
     float opIndex(int i){
-        return [val1, val2][i];
+        float[2] tmp = [val1, val2];
+        return tmp[i];
     }
     
     void opIndexAssign(float val, int i){
-        *[&val1, &val2][i] = val;
+        float*[2] tmp = [&val1, &val2];
+        *tmp[i] = val;
     }
     
 }
@@ -228,11 +240,13 @@ struct Vec6f {
     }
     
     float opIndex(int i){
-        return [val1, val2, val3, val4, val5, val6][i];
+        float[6] tmp = [val1, val2, val3, val4, val5, val6];
+        return tmp[i];
     }
     
     void opIndexAssign(float val, int i){
-        *[&val1, &val2, &val3, &val4, &val5, &val6][i] = val;
+        float*[6] tmp = [&val1, &val2, &val3, &val4, &val5, &val6];
+        *tmp[i] = val;
     }
 }
 
