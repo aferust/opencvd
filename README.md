@@ -16,9 +16,11 @@ I don't describe myself as the most brillant d programmer around.
 ## GC-free version
 * Experimental gc-free version [opencvdnogc](https://gitlab.com/aferust/opencvdnogc) can be found here.
 
-## Important note
-Please always use git repo (~master) which is up to date. The library on the dub repo only exists for increasing the visibility
+## Some notes
+* All instances of Mat and some types are allocated by C++ must be free-ed using Destroy(). There may be some examples that I forgot to call Destroy. To be sure please take a look at the cpp files. If there are "new"s or "malloc"s, you have to call Destroy() explicitly.
+* Please always use git repo (~master) which is up to date. The library on the dub repo only exists for increasing the visibility
 of the library.
+
 
 ## Requirements
 Opencvd requires the following packages to build:
