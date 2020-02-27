@@ -374,16 +374,15 @@ struct Point {
         return Point2f(x.to!float, y.to!float);
     }
     
-    Point opMul(double a){
-        return Point((x*a).to!int,(y*a).to!int);
-    }
-    
     Point opBinary(string op)(double a){
         static if (op == "+"){
             return Point((x+a).to!int,(y+a).to!int);
         }
         else static if (op == "-"){
             return Point((x-a).to!int,(y-a).to!int);
+        }
+        else static if (op == "*"){
+            return Point((x*a).to!int,(y*a).to!int);
         }
     }
     
@@ -405,16 +404,14 @@ struct Point2f {
         return Point(x.to!int, y.to!int);
     }
     
-    Point2f opMul(double a){
-        return Point2f(float(x*a),float(y*a));
-    }
-    
     Point2f opBinary(string op)(double a){
         static if (op == "+"){
             return Point2f((x+a).to!float,(y+a).to!float);
         }
         else static if (op == "-"){
             return Point2f((x-a).to!float,(y-a).to!float);
+        }else static if (op == "*"){
+            return Point2f(float(x*a),float(y*a));
         }
     }
     
@@ -529,8 +526,10 @@ struct Point2d {
         return Point2f(x.to!float, y.to!float);
     }
     
-    Point2d opMul(double a){
-        return Point2d(double(x*a),double(y*a));
+    Point2d opBinary(string op)(double a){
+        static if(op == "*")
+            return Point2d(double(x*a),double(y*a));
+        else static assert(0, "Operator "~op~" not implemented");
     }
 }
 
@@ -767,71 +766,70 @@ struct Mat {
         this.setTo(c);
     }
     
-    Mat opMul(ubyte a){
-        multiplyUChar(this, a);
-        return this;
-    }
-    
-    Mat opMul(int a){
-        Mat_MultiplyInt(this, a);
-        return this;
-    }
-    
-    Mat opMul(float a){
-        Mat_MultiplyFloat(this, a);
-        return this;
-    }
-    
-    Mat opBinary(string op)(float a){
+    Mat opBinary(string op, V)(V a){
+        static if (op == "*"){
+            static if (is(V == ubyte)){
+                multiplyUChar(this, a);
+            } else
+            static if (is(V == int)){
+                Mat_MultiplyInt(this, a);
+            } else
+            static if (is(V == float)){
+                Mat_MultiplyFloat(this, a);
+            } else
+            static if (is(V == double)){
+                Mat_MultiplyDouble(this, a);
+            }
+            static if (is(V == Mat)){
+                Mat_Multiply(this, m, this);
+            }
+            return this;
+        } else
         static if (op == "/"){
-            Mat_MultiplyFloat(this, 1.0f/a);
+            static if (is(V == float)){
+                Mat_MultiplyFloat(this, 1.0f/a);
+            } else
+            static if (is(V == int)){
+                Mat_DivideInt(this, a);
+            } else
+            static if (is(V == double)){
+                Mat_MultiplyDouble(this, 1.0/a);
+            }
             return this;
-        }
-        else static if (op == "+"){
-            Mat_AddFloat(this, a);
+        } else
+        static if (op == "+"){
+            static if (is(V == int)){
+                Mat_AddInt(this, a);
+            } else
+            static if (is(V == float)){
+                Mat_AddFloat(this, a);
+            }else
+            static if (is(V == Mat)){
+                add(this, m, this);
+            } else
+            static if (is(V == Scalar)){
+                Mat_AddScalar(this, s);
+            }
             return this;
-        }
-        else static if (op == "-"){
-            Mat_SubtractFloat(this, a);
+        } else
+        static if (op == "-"){
+            static if (is(V == int)){
+                Mat_SubtractInt(this, a);
+            } else
+            static if (is(V == float)){
+                Mat_SubtractFloat(this, a);
+            } else
+            static if (is(V == Mat)){
+                matSubtract(this, m, this);
+            } else
+            static if (is(V == Scalar)){
+                Mat_AddScalar(this, Scalar(-s.val1, -s.val2, -s.val3, -s.val4));
+            }
             return this;
-        }
+        } else
+        static assert(0, "Operator "~op~" not implemented for type " ~ V.stringof);
     }
-    
-    Mat opMul(double a){
-        Mat_MultiplyDouble(this, a);
-        return this;
-    }
-    
-    Mat opBinary(string op)(int a){
-        static if (op == "/"){
-            Mat_DivideInt(this, a);
-            return this;
-        }
-        else static if (op == "+"){
-            Mat_AddInt(this, a);
-            return this;
-        }
-        else static if (op == "-"){
-            Mat_SubtractInt(this, a);
-            return this;
-        }
-    }
-    
-    Mat opBinary(string op)(double a){
-        static if (op == "/"){
-            Mat_MultiplyDouble(this, 1.0/a);
-            return this;
-        }
-        else static if (op == "+"){
-            Mat_AddDouble(this, a);
-            return this;
-        }
-        else static if (op == "-"){
-            Mat_SubtractDouble(this, a);
-            return this;
-        }
-    }
-    
+
     // so sad that the D does not support struct > 5
     Mat EQInt(int a){
         return Mat_EQInt(this, a);
@@ -878,31 +876,6 @@ struct Mat {
     
     Mat NEDouble(double a){
         return Mat_NEDouble(this, a);
-    }
-    
-    Mat opBinary(string op)(Mat m){
-        static if (op == "+"){
-            add(this, m, this);
-        }
-        else static if (op == "-"){
-            matSubtract(this, m, this);
-        }
-        return this;
-    }
-    
-    Mat opBinary(string op)(Scalar s){
-        static if (op == "+"){
-            Mat_AddScalar(this, s);
-        }
-        else static if (op == "-"){
-            Mat_AddScalar(this, Scalar(-s.val1, -s.val2, -s.val3, -s.val4));
-        }
-        return this;
-    }
-    
-    Mat opMul(Mat m){
-        Mat_Multiply(this, m, this);
-        return this;
     }
     
     string type2str(){
