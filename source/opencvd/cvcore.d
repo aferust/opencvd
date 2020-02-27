@@ -781,7 +781,7 @@ struct Mat {
                 Mat_MultiplyDouble(this, a);
             }
             static if (is(V == Mat)){
-                Mat_Multiply(this, m, this);
+                Mat_Multiply(this, a, this);
             }
             return this;
         } else
@@ -805,10 +805,10 @@ struct Mat {
                 Mat_AddFloat(this, a);
             }else
             static if (is(V == Mat)){
-                add(this, m, this);
+                add(this, a, this);
             } else
             static if (is(V == Scalar)){
-                Mat_AddScalar(this, s);
+                Mat_AddScalar(this, a);
             }
             return this;
         } else
@@ -820,10 +820,10 @@ struct Mat {
                 Mat_SubtractFloat(this, a);
             } else
             static if (is(V == Mat)){
-                matSubtract(this, m, this);
+                matSubtract(this, a, this);
             } else
             static if (is(V == Scalar)){
-                Mat_AddScalar(this, Scalar(-s.val1, -s.val2, -s.val3, -s.val4));
+                Mat_AddScalar(this, Scalar(-a.val1, -a.val2, -a.val3, -a.val4));
             }
             return this;
         } else
