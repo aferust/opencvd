@@ -262,7 +262,7 @@ void main()
     
     Destroy(img);
     
-    auto mt = Mat(20, 20, CV_8U);
+    auto mt = Mat(20, 20, CV_8UC3);
     
     mt[2, 3] = Color(5,6,7,255);
     mt[2, 3].writeln;
