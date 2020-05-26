@@ -12,8 +12,10 @@ extern "C" {
 
 #ifdef __cplusplus
 typedef cv::FlannBasedMatcher* FlannBasedMatcher;
+typedef cv::Ptr<cv::SIFT>* SIFT;
 #else
 typedef void* FlannBasedMatcher;
+typedef void* SIFT;
 #endif
 
 FlannBasedMatcher FlannBasedMatcher_Create1();
@@ -31,6 +33,11 @@ void DrawMatches1(Mat img1,
                 Scalar singlePointColor,
                 CharVector matchesMask,
                 int flags);
+
+SIFT SIFT_Create();
+void SIFT_Close(SIFT f);
+struct KeyPoints SIFT_Detect(SIFT f, Mat src);
+struct KeyPoints SIFT_DetectAndCompute(SIFT f, Mat src, Mat mask, Mat desc);
 
 #ifdef __cplusplus
 }

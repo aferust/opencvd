@@ -5,18 +5,15 @@ This is an initial attempt to create an opencv binding for dlang. The C interfac
 was borrowed from [gocv](https://github.com/hybridgroup/gocv), and the implementation
 has been highly influenced by it.
 
-## Disclaimer
-I don't describe myself as the most brillant d programmer around.
-
 ## Contributions
 * Found a bug or missing feature? open an issue or it is better you fix/wrap it and make a pull request.
 * If you think that some implementation would be rewritten in a more d-idiomatic way, please implement it and make a pull request.
-* There are some functions that makes GC allocations. Some of them can be easily made GC-free. Pull requests are welcome for this.
 
 ## GC-free version
 * Experimental gc-free version [opencvdnogc](https://gitlab.com/aferust/opencvdnogc) can be found here.
 
 ## Some notes
+* It does not wrap c++ code directly, it uses a c wrapper around c++ code.
 * All instances of Mat and some types are allocated by C++. They must be free-ed using Destroy(). There may be some examples that I forgot to call Destroy. To be sure please take a look at the cpp files. If there are "new"s or "malloc"s, you have to call Destroy() explicitly.
 * Please always use git repo (~master) which is up to date. The library on the dub repo only exists for increasing the visibility
 of the library.
@@ -25,31 +22,26 @@ of the library.
 ## Requirements
 Opencvd requires the following packages to build:
 
-* OpenCV ~>4.0 ( must be built with contrib repo)
-* cmake (version of 3.10.2 is installed in my system)
+* OpenCV ~>4.3 ( must be built with contrib repo)
+* cmake (version 3.10.2 seems working)
 
 ## Tested Systems
-- Ubuntu 18.04.2 LTS 64 bit - ldc2-1.8.0 - Opencv 4.0.0 built from source
-- Windows 10 64 bit - ldc2-1.14.0-windows-x64 - OpenCV-master (4.10.0 AFAIK) - Visual Studio 2017 community Ed.
-- Raspberry Pi 3 - Raspbian Stretch Opencv 4.1.0 built from source with some pain!:
+- Ubuntu 18.04.2 LTS 64 bit - ldc2-1.8.0
+- Windows 10 64 bit - ldc2-1.19.0-windows-x64 - Visual Studio 2017 community Ed.
+- Raspberry Pi 3
     (https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/)
 - OSX Sierra 10.12.5
 
 ## Notable features
-- cv::Mat and other types like cv::Ptr<cv::ml::SVM> are wrapped using opaque pointers.
 - opencv c++ syntax has been tried to imitate as much as the d language allows.
 - Uses d arrays when it is possible like: uses Point[][] to wrap std::vector<std::vector<cv::Point> >
 Please take a look at examples folder to understand how it looks like and available functionality
 
 ## Current limitations:
 - There may be unwrapped opencv features.
-- No documentation yet.
+- No documentation.
 - Most of the functionality has not been tested yet.
-- No unittests yet.
-
-## Current roadmap of the project
-- wrap more functionality of opencv.
-- make more examples runnable from https://docs.opencv.org/4.1.0/examples.html or https://www.learnopencv.com/
+- No unittests.
 
 ## How to build
 ### Ubuntu - Raspbian
@@ -77,7 +69,7 @@ Then use dub to build the library.
 In your app's dub.json, you may need to set linker flags like:
 ```
 "dependencies": {
-        "opencvd": "~>0.0.5"
+        "opencvd": "~>0.0.6"
 },
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
@@ -138,11 +130,11 @@ Now you have *.lib files in opencvd folder.
 
 ```
 "dependencies": {
-        "opencvd": "~>0.0.5"
+        "opencvd": "~>0.0.6"
 },
 "libs": [
-    "opencv_world410",
-    "opencv_img_hash410",
+    "opencv_world430",
+    "opencv_img_hash430",
     "opencvcapi",
     "opencvcapi_contrib",
 ]
@@ -165,7 +157,7 @@ Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app
 {
 	"description": "A minimal D application.",
     "dependencies": {
-        "opencvd": "~>0.0.5"
+        "opencvd": "~>0.0.6"
 	},
 	"authors": [
 		"Ferhat Kurtulmuş"
