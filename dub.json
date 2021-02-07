@@ -16,29 +16,33 @@
     ],
     "copyright": "Copyright © 2019, Ferhat Kurtulmuş",
     "name": "opencvd",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "importPaths": ["source"],
     "sourcePaths": ["source"],
     "dflags-windows": ["-mtriple=x86_64-windows-msvc"],
-    "libs-posix": ["opencv4", "opencvcapi", "opencvcapi_contrib"],
     "lflags-posix": ["-lstdc++"],
-    "libs-windows": [
-        "opencv_world430",
-        "opencv_img_hash430",
-        "opencvcapi",
-        "opencvcapi_contrib"
-    ],
     "configurations": [
         {
-            "name": "library",
+            "name": "default",
             "targetType": "library",
-            "sourcePaths": ["source"]
+            "sourcePaths": ["source"],
+            "libs-windows": [
+                "opencv_world451",
+                "opencv_img_hash451",
+                "opencvcapi",
+                "opencvcapi_contrib"
+            ],
+            "libs-posix": [
+                "opencv4",
+                "opencvcapi",
+                "opencvcapi_contrib"
+            ]
         },
         {
-            "name": "import",
-            "targetType": "sourceLibrary",
-            "sourceFiles-posix": ["libopencvd.a"],
-            "sourceFiles-windows": ["opencvd.lib"]
+            "name": "cuda",
+            "libs": [
+                "opencvcapi_cuda"
+            ]
         }
 
     ]

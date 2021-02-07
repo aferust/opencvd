@@ -44,6 +44,7 @@ Please take a look at examples folder to understand how it looks like and availa
 - No unittests.
 
 ## How to build
+use -D OPENCVD_CUDA:BOOL=ON for cuda support
 ### Ubuntu - Raspbian
 First, compile opencv4 + opencv_contrib for your machine. Clone opencv and opencv_contrib repositories and execute:
 

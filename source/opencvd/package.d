@@ -45,4 +45,7 @@ public {
     import opencvd.contrib.face;
     import opencvd.contrib.ximgproc;
 
+    import opencvd.cuda.cudacore;
+    import opencvd.cuda.imgroc;
+
 }
