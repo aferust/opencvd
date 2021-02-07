@@ -9,9 +9,6 @@ has been highly influenced by it.
 * Found a bug or missing feature? open an issue or it is better you fix/wrap it and make a pull request.
 * If you think that some implementation would be rewritten in a more d-idiomatic way, please implement it and make a pull request.
 
-## GC-free version
-* Experimental gc-free version [opencvdnogc](https://gitlab.com/aferust/opencvdnogc) can be found here.
-
 ## Some notes
 * It does not wrap c++ code directly, it uses a c wrapper around c++ code.
 * All instances of Mat and some types are allocated by C++. They must be free-ed using Destroy(). There may be some examples that I forgot to call Destroy. To be sure please take a look at the cpp files. If there are "new"s or "malloc"s, you have to call Destroy() explicitly.
@@ -36,6 +33,7 @@ Opencvd requires the following packages to build:
 - opencv c++ syntax has been tried to imitate as much as the d language allows.
 - Uses d arrays when it is possible like: uses Point[][] to wrap std::vector<std::vector<cv::Point> >
 Please take a look at examples folder to understand how it looks like and available functionality
+- CUDA support is WIP
 
 ## Current limitations:
 - There may be unwrapped opencv features.
@@ -70,7 +68,7 @@ Then use dub to build the library.
 In your app's dub.json, you may need to set linker flags like:
 ```
 "dependencies": {
-        "opencvd": "~>0.0.6"
+        "opencvd": "~>0.0.7"
 },
 "lflags": ["-L/home/user/.dub/packages/opencvd", "-lopencvcapi", "-lopencvcapi_contrib"]
 ```
@@ -131,11 +129,11 @@ Now you have *.lib files in opencvd folder.
 
 ```
 "dependencies": {
-        "opencvd": "~>0.0.6"
+        "opencvd": "~>0.0.7"
 },
 "libs": [
-    "opencv_world430",
-    "opencv_img_hash430",
+    "opencv_world451",
+    "opencv_img_hash451",
     "opencvcapi",
     "opencvcapi_contrib",
 ]
@@ -158,7 +156,7 @@ Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app
 {
 	"description": "A minimal D application.",
     "dependencies": {
-        "opencvd": "~>0.0.6"
+        "opencvd": "~>0.0.7"
 	},
 	"authors": [
 		"Ferhat Kurtulmuş"
