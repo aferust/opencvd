@@ -16,6 +16,10 @@ private extern (C) {
     int GetCudaEnabledDeviceCount();
 }
 
+alias printCudaDeviceInfo = PrintCudaDeviceInfo;
+alias printShortCudaDeviceInfo = PrintShortCudaDeviceInfo;
+alias getCudaEnabledDeviceCount = GetCudaEnabledDeviceCount;
+
 struct GpuMat {
     void* p;
 

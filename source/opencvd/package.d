@@ -47,5 +47,6 @@ public {
 
     import opencvd.cuda.cudacore;
     import opencvd.cuda.imgroc;
+    import opencvd.cuda.cudawarping;
 
 }
