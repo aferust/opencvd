@@ -27,6 +27,9 @@ Mat testfunction(ref Mat h_original){
 
     d_result.download(h_result);
 
+    Destroy(d_original);
+    Destroy(d_result);
+
     return h_result;
 }
 
@@ -45,6 +48,10 @@ int main()
     imshow("original image", imgray);
     imshow("modified image", newimage);
     waitKey(0);
+
+    Destroy(imrgb);
+    Destroy(imgray);
+    Destroy(newimage);
 
     return 0;
 }
