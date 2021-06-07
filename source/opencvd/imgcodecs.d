@@ -98,8 +98,16 @@ enum: int { // ImwritePNGFlags
     IMWRITE_PNG_STRATEGY_FIXED = 4 
 }
 
+Mat imread(const char* filename, int flags){
+    return Image_IMRead(filename, flags);
+}
+
 Mat imread(string filename, int flags = IMREAD_UNCHANGED) @nogc nothrow {
     return Image_IMRead(filename.ptr, flags);
+}
+
+bool imwrite(const char* filename, Mat img){
+    return Image_IMWrite(filename, img);
 }
 
 bool imwrite(string filename, Mat img) @nogc nothrow {
