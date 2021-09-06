@@ -80,7 +80,7 @@ and add following to dub.json of your test app:
 "libs": [
     "opencv", // this is handled by pkgconfig. You may set it as "opencv4" depending on the name of your pkgconfig file.
     "opencvcapi",
-    "opencvcapi_contrib",
+    "opencvcapi_contrib"
 ]
 ```
 
