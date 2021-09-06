@@ -27,6 +27,7 @@ Opencvd requires the following packages to build:
 - Windows 10 64 bit - ldc2-1.19.0-windows-x64 - Visual Studio 2017 community Ed.
 - Raspberry Pi 3
     (https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/)
+- NVIDIA Jetson Nano
 - OSX Sierra 10.12.5
 
 ## Notable features
@@ -43,7 +44,7 @@ Please take a look at examples folder to understand how it looks like and availa
 
 ## How to build
 use -D OPENCVD_CUDA:BOOL=ON for cuda support
-### Ubuntu - Raspbian
+### Ubuntu - Raspbian - Jetson Nano
 First, compile opencv4 + opencv_contrib for your machine. Clone opencv and opencv_contrib repositories and execute:
 
 ```
@@ -135,7 +136,7 @@ Now you have *.lib files in opencvd folder.
     "opencv_world451",
     "opencv_img_hash451",
     "opencvcapi",
-    "opencvcapi_contrib",
+    "opencvcapi_contrib"
 ]
 ```
 While compiling your test app, you must always run dub or ldc2 commands in x64 Native Tools Command Prompt for VS 2017.
@@ -168,7 +169,7 @@ Copy libopencvcapi_contrib.a and libopencvcapi.a to the root of your example app
     "libs": [
         "opencv4",
         "opencvcapi",
-        "opencvcapi_contrib",
+        "opencvcapi_contrib"
     ]
 }
 ```
